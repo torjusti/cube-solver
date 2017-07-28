@@ -312,8 +312,8 @@ const allMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
 class MoveTable {
   constructor(settings) {
-    this.defaultIndex = defaultIndex;
-    this.solvedIndexes = solvedIndexes || [defaultIndex];
+    this.defaultIndex = settings.defaultIndex || 0;
+    this.solvedIndexes = settings.solvedIndexes || [this.defaultIndex];
 
     const doMove = createMoveHandler(
       settings.getVector,
@@ -354,45 +354,14 @@ class MoveTable {
   }
 }
 
-const createMoveTable = (settings) => {
-  const table = [];
-
-  const doMove = createMoveHandler(
-    settings.getVector,
-    settings.doMove,
-    settings.getIndex
-  );
-
-  const moves = settings.moves || allMoves;
-
-  for (let i = 0; i < settings.size; i += 1) {
-    table.push([]);
-  }
-
-  for (let i = 0; i < settings.size; i += 1) {
-    for (let j = 0; j < moves.length; j += 1) {
-      const move = moves[j];
-
-      if (!table[i][move]) {
-        const result = doMove(i, move);
-        const inverse = move - 2 * (move % 3) + 2;
-        table[i][move] = result;
-        table[result][inverse] = i;
-      }
-    }
-  }
-
-  return table;
-};
-
-const twistMoves = createMoveTable({
+const twistMoves = new MoveTable({
   size: 2187,
   getVector: (index) => getOrientationFromIndex(index, 8, 3),
   doMove: cornerOrientationMove,
   getIndex: (twists) => getIndexFromOrientation(twists, 3),
 });
 
-const flipMoves = createMoveTable({
+const flipMoves = new MoveTable({
   size: 2048,
   getVector: (index) => getOrientationFromIndex(index, 12, 2),
   doMove: edgeOrientationMove,
@@ -404,14 +373,14 @@ const parityMoves = [
   [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
 ];
 
-const FRToBR = createMoveTable({
+const FRToBR = new MoveTable({
   size: 11880,
   getVector: (index) => getPermutationFromIndex(index, [8, 9, 10, 11], 12),
   doMove: edgePermutationMove,
   getIndex: (pieces) => getIndexFromPermutation(pieces, [8, 9, 10, 11], true),
 });
 
-const URFToDLF = createMoveTable({
+const URFToDLF = new MoveTable({
   size: 20160,
   getVector: (index) => getPermutationFromIndex(index, [0, 1, 2, 3, 4, 5], 8),
   doMove: cornerPermutationMove,
@@ -420,7 +389,7 @@ const URFToDLF = createMoveTable({
 
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
 
-const URToDF = createMoveTable({
+const URToDF = new MoveTable({
   size: 20160,
   moves: phaseTwoMoves,
   getVector: (index) => getPermutationFromIndex(index, [0, 1, 2, 3, 4, 5], 12),
@@ -455,14 +424,14 @@ for (let i = 0; i < 1320; i += 1) {
   }
 }
 
-const URToUL = createMoveTable({
+const URToUL = new MoveTable({
   size: 1320,
   getVector: (index) => getPermutationFromIndex(index, [0, 1, 2], 12),
   doMove: edgePermutationMove,
   getIndex: (pieces) => getIndexFromPermutation(pieces, [0, 1, 2]),
 });
 
-const UBToDF = createMoveTable({
+const UBToDF = new MoveTable({
   size: 1320,
   getVector: (index) => getPermutationFromIndex(index, [3, 4, 5], 12),
   doMove: edgePermutationMove,
