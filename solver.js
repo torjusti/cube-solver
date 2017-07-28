@@ -115,48 +115,53 @@ const getParity = (pieces) => {
   return sum % 2;
 };
 
-const getIndexFromPermutation = (pieces, affected, reversed = false) => {
-  let position = 0, k = 1, offset = pieces.length - 1;
+const getIndexFromPosition = (pieces, affected) => {
+  let position = 0, k = 1;
 
-  const edges = [];
 
-  if (reversed) {
-    for (let n = pieces.length - 1; n >= 0; n -= 1) {
-      if (affected.indexOf(pieces[n]) >= 0) {
-        offset = Math.min(offset, pieces[n]);
-        position += choose(pieces.length - 1 - n, k);
-        edges.unshift(pieces[n]);
-        k += 1;
-      }
-    }
-  } else {
-    for (let n = 0; n < pieces.length; n += 1) {
-      if (affected.indexOf(pieces[n]) >= 0) {
-        offset = Math.min(offset, pieces[n]);
-        position += choose(n, k);
-        edges.push(pieces[n]);
-        k += 1;
-      }
+  for (let n = 0; n < pieces.length; n += 1) {
+    if (affected.indexOf(pieces[n]) >= 0) {
+      position += choose(n, k);
+      k += 1;
     }
   }
 
-  let permutation = 0;
+  return position;
+};
 
-  for (let i = edges.length - 1; i > 0; i -= 1) {
+const getIndexFromSubPermutation = (pieces) => {
+  const offset = Math.min.apply(Math, pieces);
+
+  let index = 0;
+
+  for (let i = pieces.length - 1; i > 0; i -= 1) {
     let s = 0;
 
-    while (edges[i] != i + offset) {
-      rotateLeft(edges, 0, i);
+    while (pieces[i] != i + offset) {
+      rotateLeft(pieces, 0, i);
       s += 1;
     }
 
-    permutation = (i + 1) * permutation + s;
+    index = (i + 1) * index + s;
   }
 
-  return factorial(affected.length) * position + permutation;
+  return index;
 };
 
-const getPermutationFromIndex = (index, affected, size, reversed = false) => {
+const getIndexFromPermutation = (vector, affected) => {
+  const edges = [];
+
+  for (let i = 0; i < vector.length; i += 1) {
+    if (affected.indexOf(vector[i]) >= 0) {
+      edges.push(vector[i]);
+    }
+  }
+
+  return factorial(affected.length) * getIndexFromPosition(vector, affected)
+    + getIndexFromSubPermutation(edges);
+};
+
+const getPermutationFromIndex = (index, affected, size) => {
   const base = factorial(affected.length);
 
   let position = Math.floor(index / base);
@@ -180,25 +185,13 @@ const getPermutationFromIndex = (index, affected, size, reversed = false) => {
 
   let k = affected.length - 1;
 
-  if (reversed) {
-    for (let n = 0; n < size; n += 1) {
-      const binomial = choose(size - 1 - n, k + 1);
+  for (let n = size - 1; n >= 0; n -= 1) {
+    const binomial = choose(n, k + 1);
 
-      if (position - binomial >= 0) {
-        pieces[n] = affected[affected.length - 1 - k];
-        position -= binomial;
-        k -= 1;
-      }
-    }
-  } else {
-    for (let n = size - 1; n >= 0; n -= 1) {
-      const binomial = choose(n, k + 1);
-
-      if (position - binomial >= 0) {
-        pieces[n] = affected[k];
-        position -= binomial;
-        k -= 1;
-      }
+    if (position - binomial >= 0) {
+      pieces[n] = affected[k];
+      position -= binomial;
+      k -= 1;
     }
   }
 
@@ -377,7 +370,7 @@ const FRToBR = new MoveTable({
   size: 11880,
   getVector: (index) => getPermutationFromIndex(index, [8, 9, 10, 11], 12),
   doMove: edgePermutationMove,
-  getIndex: (pieces) => getIndexFromPermutation(pieces, [8, 9, 10, 11], true),
+  getIndex: (pieces) => getIndexFromPermutation(pieces, [8, 9, 10, 11]),
 });
 
 const URFToDLF = new MoveTable({
