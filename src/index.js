@@ -214,6 +214,7 @@ const scrambles = [
     "L R2 U F2 L2 D2 F2 D' R2 F2 L2 D2 L' U' B' F2 L D L' U' F",
     "D2 R2 F L2 D2 F L2 U2 B2 U2 F2 R' D2 F' D' R' F' L F2 D F'",
     "U F2 D' R2 U' L2 U R2 U' F2 U L B L' B' L' U B L R",
+    "R U R' U' R' F R F' R U R' U R U2 R'"
 ];
 
 for (let scramble of scrambles) {

@@ -39,19 +39,14 @@ class Search {
   }
 
   search(indexes, depth, lastMove, solution) {
-    let maximumDistance = 0;
+    let minimumDistance = 0;
 
     for (let i = 0; i < this.pruningTables.length; i += 1) {
-      const powers = [1];
+      let index = indexes[this.pruningTables[i].moveTableIndexes[0]], power = 1;
 
       for (let j = 1; j < this.pruningTables[i].moveTableIndexes.length; j += 1) {
-        powers.push(this.moveTables[this.pruningTables[i].moveTableIndexes[j - 1]].size * powers[j - 1]);
-      }
-
-      let index = 0;
-
-      for (let j = 0; j < this.pruningTables[i].moveTableIndexes.length; j += 1) {
-        index += indexes[this.pruningTables[i].moveTableIndexes[j]] * powers[j];
+        power *= this.moveTables[this.pruningTables[i].moveTableIndexes[j - 1]].size;
+        index += indexes[this.pruningTables[i].moveTableIndexes[j]] * power;
       }
 
       const distance = this.pruningTables[i].pruningTable.getPruningValue(index);
@@ -60,12 +55,14 @@ class Search {
         return false;
       }
 
-      if (distance > maximumDistance) {
-        maximumDistance = distance;
+      // The true minimum distance to the solved indexes is
+      // given by the pruning table with the largest distance.
+      if (distance > minimumDistance) {
+        minimumDistance = distance;
       }
     }
 
-    if (maximumDistance === 0) {
+    if (minimumDistance === 0) {
       return this.handleSolution(solution, indexes);
     }
 

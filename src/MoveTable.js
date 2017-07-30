@@ -10,7 +10,7 @@ class MoveTable {
   constructor(settings) {
     // required if using the generic solver
     this.name = settings.name;
-    this.size = settings.size;
+    this.size = settings.size; // hack: some tables override this
 
     this.defaultIndex = settings.defaultIndex || 0;
     this.solvedIndexes = settings.solvedIndexes || [this.defaultIndex];
