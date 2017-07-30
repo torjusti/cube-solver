@@ -527,7 +527,7 @@ class Search {
     }
   }
 
-  * search(indexes, depth, lastMove, solution, startDepth) {
+  search(indexes, depth, lastMove, solution) {
       let maximumDistance = 0;
 
       for (let i = 0; i < this.pruningTables.length; i += 1) {
@@ -555,12 +555,6 @@ class Search {
       }
 
       if (maximumDistance === 0) {
-        if (this.phaseOne) {
-          if (lastMove % 2 == 0 && Math.floor(lastMove / 3) === 6 && Math.floor(lastMove / 3) === 15) {
-            return false;
-          }
-        }
-
         return {
           solution,
           indexes,
@@ -578,10 +572,10 @@ class Search {
               updatedIndexes.push(this.moveTables[j].doMove(indexes[j], move));
             }
 
-            const result = this.search(updatedIndexes, depth - 1, move, solution.concat([move]), startDepth).next().value;
+            const result = this.search(updatedIndexes, depth - 1, move, solution.concat([move]));
 
             if (result) {
-              yield result;
+              return result;
             }
           }
         }
@@ -590,10 +584,10 @@ class Search {
       return false;
     }
 
-    * solve(settings) {
+    solve(settings) {
       settings = Object.assign({
         minDepth: 0,
-        maxDepth: 20,
+        maxDepth: 22,
         lastMove: -1,
       }, settings);
 
@@ -614,14 +608,11 @@ class Search {
         });
       }
 
-      for (let depth = settings.minDepth; depth < settings.maxDepth; depth += 1) {
-        const generator = this.search(indexes, depth, settings.lastMove, [], depth);
+      for (let depth = settings.minDepth; depth <= settings.maxDepth; depth += 1) {
+        const solution = this.search(indexes, depth, settings.lastMove, []);
 
-        let solution = generator.next().value;
-
-        while (solution) {
-          yield solution;
-          solution = generator.next().value;
+        if (solution) {
+          return solution;
         }
       }
 
@@ -772,17 +763,50 @@ const phaseTwoPruningTables = [
 
 const phaseTwo = new Search(phaseTwoMoveTables, phaseTwoPruningTables, phaseTwoMoves);
 
-const scramble  = "D B2 U2 L2 D' L2 B2 F2 U' F2 B' U' L D2 B U R2 D2 L B' L2";
+const solver = scramble => {
+  let maxDepth = 30, solution;
 
-const phaseOneSolution = phaseOne.solve({scramble}).next().value;
+  outer: for (let depth = 0; depth <= maxDepth; depth += 1) {
+    let phaseOneSolution = phaseOne.solve({
+      scramble,
+      minDepth: depth,
+      maxDepth: depth,
+    });
 
-const phaseTwoSolution = phaseTwo.solve({
-  indexes: [
-    phaseOneSolution.indexes[3],
-    phaseOneSolution.indexes[4],
-    phaseOneSolution.indexes[5],
-    merge[phaseOneSolution.indexes[6]][phaseOneSolution.indexes[7]],
-  ],
-}).next().value;
+    if (phaseOneSolution) {
+      let lastMove = phaseOneSolution.solution.slice(-1)[0];
 
-console.log(formatAlgorithm(phaseOneSolution.solution), formatAlgorithm(phaseTwoSolution.solution));
+      if (lastMove % 2 == 0 && Math.floor(lastMove / 3) === 6 && Math.floor(lastMove / 3) === 15) {
+        continue outer;
+      }
+
+      const phaseTwoSolution = phaseTwo.solve({
+        indexes: [
+          phaseOneSolution.indexes[3],
+          phaseOneSolution.indexes[4],
+          phaseOneSolution.indexes[5],
+          merge[phaseOneSolution.indexes[6]][phaseOneSolution.indexes[7]],
+        ],
+
+        lastMove,
+
+        maxDepth: maxDepth - phaseOneSolution.solution.length,
+      });
+
+      if (phaseTwoSolution) {
+        const candidate = phaseOneSolution.solution.concat(phaseTwoSolution.solution);
+
+        if (candidate.length < maxDepth) {
+          maxDepth = candidate.length - 1;
+          solution = candidate;
+        }
+      }
+    }
+  }
+
+  return formatAlgorithm(solution);
+}
+
+console.log('Solver initialized');
+
+console.log(solver("U L2 F2 L2 B2 U B2 U2 B2 R2 D F U F2 U' B' L2 D L B' D2 L2"));
