@@ -31,6 +31,13 @@ class Search {
     }
   }
 
+  handleSolution(solution, indexes) {
+    return {
+      solution,
+      indexes,
+    };
+  }
+
   search(indexes, depth, lastMove, solution) {
     let maximumDistance = 0;
 
@@ -59,10 +66,7 @@ class Search {
     }
 
     if (maximumDistance === 0) {
-      return {
-        solution,
-        indexes,
-      };
+      return this.handleSolution(solution, indexes);
     }
 
     if (depth > 0) {
@@ -89,16 +93,15 @@ class Search {
   }
 
   solve(settings) {
-    settings = Object.assign({
-      minDepth: 0,
-      maxDepth: 20,
+    this.settings = Object.assign({
+      maxDepth: 22, // For the Kociemba solver
       lastMove: null,
     }, settings);
 
-    const indexes = settings.indexes || [];
+    const indexes = this.settings.indexes || [];
 
-    if (settings.scramble) {
-      const moves = parseAlgorithm(settings.scramble);
+    if (this.settings.scramble) {
+      const moves = parseAlgorithm(this.settings.scramble);
 
       for (let i = 0; i < this.moveTables.length; i += 1) {
         indexes.push(this.moveTables[i].defaultIndex);
@@ -111,8 +114,8 @@ class Search {
       });
     }
 
-    for (let depth = settings.minDepth; depth <= settings.maxDepth; depth += 1) {
-      const solution = this.search(indexes, depth, settings.lastMove, []);
+    for (let depth = 0; depth <= this.settings.maxDepth; depth += 1) {
+      const solution = this.search(indexes, depth, this.settings.lastMove, []);
 
       if (solution) {
         return solution;
