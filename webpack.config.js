@@ -25,7 +25,7 @@ const config = {
   plugins: production ? [
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false }
-    })
+    }),
   ] : [],
 };
 
