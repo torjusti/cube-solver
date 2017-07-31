@@ -1,11 +1,17 @@
-export const factorial = (n) => {
-  let res = 1;
+const factorials = [];
 
-  for (let i = 2; i <= n; i += 1) {
-    res *= i;
+export const factorial = n => {
+  if (n === 0 || n == 1) {
+    return 1;
   }
 
-  return res;
+  if (factorials[n] > 0) {
+    return factorials[n];
+  }
+
+  factorials[n] = factorial(n - 1) * n;
+
+  return factorials[n];
 };
 
 const binomials = [];

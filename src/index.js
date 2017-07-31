@@ -1,3 +1,5 @@
+console.time('init');
+
 import {
   getIndexFromOrientation,
   getOrientationFromIndex,
@@ -202,7 +204,7 @@ const kociemba = (scramble, maxDepth = 22) => {
   }).solution);
 };
 
-console.log('All tables initialized')
+console.timeEnd('init');
 
 const scrambles = [
     "U L2 U2 R2 B2 L2 U2 B U2 B L2 R2 U' F' L' B2 R2 F D B'",
