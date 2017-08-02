@@ -34,7 +34,4 @@ const getRandomScramble = () => {
   return kociemba(indexes);
 };
 
-console.time('rand');
-for (let i = 0; i < 1000; i++)
-  console.log(getRandomScramble());
-console.timeEnd('rand')
+export default getRandomScramble;

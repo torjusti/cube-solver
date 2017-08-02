@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const production = process.env.NODE_ENV === 'production';
 
-const LIBRARY_NAME = 'solvers';
+const LIBRARY_NAME = 'cube-solver';
 
 const config = {
   entry: __dirname + '/src/index.js',
@@ -10,6 +10,10 @@ const config = {
   output: {
     path: __dirname + '/lib',
     filename: 'bundle.js',
+    path: __dirname + '/lib',
+    library: LIBRARY_NAME,
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
 
   module: {

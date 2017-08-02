@@ -1,2 +1,7 @@
 import kociemba from './kociemba';
-import './scramble';
+import getRandomScramble from './scramble';
+
+module.exports = {
+  solve: kociemba,
+  getRandomScramble,
+};
