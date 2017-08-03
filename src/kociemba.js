@@ -14,8 +14,14 @@ import {
 
 import { cartesian, factorial, choose } from './tools';
 import { formatAlgorithm } from './algorithms';
-import PruningTable from './PruningTable';
-import MoveTable from './MoveTable';
+
+import MoveTable, {
+  createEdgePermutationTable,
+  createCornerPermutationTable,
+  createEdgeOrientationTable,
+  createCornerOrientationTable,
+} from './MoveTable';
+
 import Search from './Search';
 
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
@@ -31,20 +37,15 @@ const parity = new MoveTable({
   ],
 });
 
-const URFToDLF = new MoveTable({
+const URFToDLF = createCornerPermutationTable({
   name: 'URFToDLF',
-  size: 20160,
-  getVector: (index) => getPermutationFromIndex(index, [0, 1, 2, 3, 4, 5], 8),
-  cubieMove: cornerPermutationMove,
-  getIndex: (pieces) => getIndexFromPermutation(pieces, [0, 1, 2, 3, 4, 5]),
+  affected: [0, 1, 2, 3, 4, 5],
 });
 
-const slice = new MoveTable({
+const slice = createEdgePermutationTable({
   name: 'slice',
-  size: 11880,
-  getVector: (index) => getPermutationFromIndex(index, [8, 9, 10, 11], 12, true),
-  cubieMove: edgePermutationMove,
-  getIndex: (pieces) => getIndexFromPermutation(pieces, [8, 9, 10, 11], true),
+  affected: [8, 9, 10, 11],
+  reversed: true,
 });
 
 const phaseOneMoveTables = [
@@ -55,44 +56,30 @@ const phaseOneMoveTables = [
     doMove: (table, index, move) => Math.floor(table[index * 24][move] / 24),
   }),
 
-  new MoveTable({
+  createCornerOrientationTable({
     name: 'twist',
-    size: 2187,
-    getVector: (index) => getOrientationFromIndex(index, 8, 3),
-    cubieMove: cornerOrientationMove,
-    getIndex: (twists) => getIndexFromOrientation(twists, 3),
+    affected: [0, 1, 2, 3, 4, 5, 6, 7]
   }),
 
-  new MoveTable({
+  createEdgeOrientationTable({
     name: 'flip',
-    size: 2048,
-    getVector: (index) => getOrientationFromIndex(index, 12, 2),
-    cubieMove: edgeOrientationMove,
-    getIndex: (flips) => getIndexFromOrientation(flips, 2),
+    affected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   }),
 
   slice, parity, URFToDLF,
 
-  new MoveTable({
+  createEdgePermutationTable({
     name: 'URToUL',
-    size: 1320,
-    getVector: (index) => getPermutationFromIndex(index, [0, 1, 2], 12),
-    cubieMove: edgePermutationMove,
-    getIndex: (pieces) => getIndexFromPermutation(pieces, [0, 1, 2]),
+    affected: [0, 1, 2],
   }),
 
-  new MoveTable({
+  createEdgePermutationTable({
     name: 'UBToDF',
-    defaultIndex: 114,
-    size: 1320,
-    getVector: (index) => getPermutationFromIndex(index, [3, 4, 5], 12),
-    cubieMove: edgePermutationMove,
-    getIndex: (pieces) => getIndexFromPermutation(pieces, [3, 4, 5]),
+    affected: [3, 4, 5],
   }),
 ];
 
 const phaseOnePruningTables = [
-  ['slicePosition'],
   ['slicePosition', 'flip'],
   ['slicePosition', 'twist'],
 ];
@@ -133,13 +120,11 @@ const phaseTwoMoveTables = [
 
   parity, URFToDLF,
 
-  new MoveTable({
+  createEdgePermutationTable({
     name: 'URToDF',
     size: 20160,
     moves: phaseTwoMoves,
-    getVector: (index) => getPermutationFromIndex(index, [0, 1, 2, 3, 4, 5], 12),
-    cubieMove: edgePermutationMove,
-    getIndex: (vector) => getIndexFromPermutation(vector, [0, 1, 2, 3, 4, 5]),
+    affected: [0, 1, 2, 3, 4, 5],
   }),
 ];
 

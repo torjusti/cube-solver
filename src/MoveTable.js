@@ -1,3 +1,19 @@
+import {
+  getPermutationFromIndex,
+  getIndexFromPermutation,
+  getOrientationFromIndex,
+  getIndexFromOrientation,
+} from './coordinates';
+
+import {
+  edgePermutationMove,
+  cornerPermutationMove,
+  edgeOrientationMove,
+  cornerOrientationMove,
+} from './cube';
+
+import { factorial } from './tools';
+
 const createMoveHandler = (getVector, doMove, getIndex) => (index, move) => {
   let vector = getVector(index);
   vector = doMove(vector, move);
@@ -58,5 +74,60 @@ class MoveTable {
     }
   }
 }
+
+export const createCornerPermutationTable = settings => new MoveTable({
+  name: settings.name,
+  moves: settings.moves,
+  size: settings.size || factorial(8) / factorial(8 - settings.affected.length),
+  getVector: (index) => getPermutationFromIndex(index, settings.affected.slice(), 8, settings.reversed),
+  cubieMove: cornerPermutationMove,
+  getIndex: (pieces) => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
+});
+
+export const createEdgePermutationTable = settings => new MoveTable({
+  name: settings.name,
+  moves: settings.moves,
+  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], settings.affected),
+  size: settings.size || factorial(12) / factorial(12 - settings.affected.length),
+  getVector: index => getPermutationFromIndex(index, settings.affected.slice(), 12, settings.reversed),
+  cubieMove: edgePermutationMove,
+  getIndex: pieces => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
+});
+
+const getCorrectOrientations = (affected, numPieces, numStates) => {
+  const indexes = [];
+
+  const size = Math.pow(numStates, numPieces - 1);
+
+  const target = Math.pow(numStates, numPieces - affected.length - 1);
+
+  for (let i = 0; i < size && indexes.length < target; i += 1) {
+    const orientation = getOrientationFromIndex(i, numPieces, numStates);
+
+    if (affected.every(piece => orientation[piece] === 0)) {
+      indexes.push(i);
+    }
+  }
+
+  return indexes;
+};
+
+export const createEdgeOrientationTable = settings => new MoveTable({
+  name: settings.name,
+  size: 2048,
+  solvedIndexes: getCorrectOrientations(settings.affected, 12, 2),
+  getVector: index => getOrientationFromIndex(index, 12, 2),
+  cubieMove: edgeOrientationMove,
+  getIndex: pieces => getIndexFromOrientation(pieces, 2),
+});
+
+export const createCornerOrientationTable = settings => new MoveTable({
+  name: settings.name,
+  size: 2187,
+  solvedIndexes: getCorrectOrientations(settings.affected, 8, 3),
+  getVector: index => getOrientationFromIndex(index, 8, 3),
+  cubieMove: cornerOrientationMove,
+  getIndex: pieces => getIndexFromOrientation(pieces, 3),
+});
 
 export default MoveTable;
