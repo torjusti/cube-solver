@@ -78,6 +78,7 @@ class MoveTable {
 export const createCornerPermutationTable = settings => new MoveTable({
   name: settings.name,
   moves: settings.moves,
+  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7], settings.affected),
   size: settings.size || factorial(8) / factorial(8 - settings.affected.length),
   getVector: (index) => getPermutationFromIndex(index, settings.affected.slice(), 8, settings.reversed),
   cubieMove: cornerPermutationMove,

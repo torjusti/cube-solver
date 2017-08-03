@@ -93,6 +93,7 @@ class Search {
     this.settings = Object.assign({
       maxDepth: 22, // For the Kociemba solver
       lastMove: null,
+      format: true,
     }, settings);
 
     const indexes = this.settings.indexes || [];
@@ -115,7 +116,7 @@ class Search {
       const solution = this.search(indexes, depth, this.settings.lastMove, []);
 
       if (solution) {
-        return solution;
+        return this.settings.format ? formatAlgorithm(solution.solution) : solution;
       }
     }
 

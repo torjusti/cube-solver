@@ -161,6 +161,8 @@ class PhaseOneSearch extends Search {
       maxDepth: this.maxDepth - solution.length,
 
       lastMove,
+
+      format: false,
     });
 
     if (phaseTwoSolution) {
@@ -184,6 +186,7 @@ const kociemba = (scramble, maxDepth = 22) => {
   if (Array.isArray(scramble)) {
     return formatAlgorithm(phaseOne.solve({
       indexes: scramble,
+      format: false,
       maxDepth,
     }).solution);
   }

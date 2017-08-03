@@ -91,7 +91,7 @@ export const getIndexFromPermutation = (pieces, affected, reversed = false) => {
   for (let i = edges.length - 1; i > 0; i -= 1) {
     let s = 0;
 
-    while (edges[i] != i + offset) {
+    while (edges[i] != affected[i]) {
       rotateLeft(edges, 0, i);
       s += 1;
     }
