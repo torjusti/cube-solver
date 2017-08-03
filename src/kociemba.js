@@ -42,6 +42,7 @@ const URFToDLF = createCornerPermutationTable({
   affected: [0, 1, 2, 3, 4, 5],
 });
 
+
 const slice = createEdgePermutationTable({
   name: 'slice',
   affected: [8, 9, 10, 11],
@@ -193,6 +194,7 @@ const kociemba = (scramble, maxDepth = 22) => {
 
   return formatAlgorithm(phaseOne.solve({
     scramble,
+    format: false,
     maxDepth,
   }).solution);
 };
