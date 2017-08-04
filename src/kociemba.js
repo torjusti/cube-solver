@@ -26,121 +26,131 @@ import Search from './Search';
 
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
 
-const parity = new MoveTable({
-  name: 'parity',
+let parity, URFToDLF, slice, merge;
 
-  size: 2,
+const phaseOneTables = () => {
+  parity = new MoveTable({
+    name: 'parity',
 
-  table: [
-    [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
-    [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
-  ],
-});
+    size: 2,
 
-const URFToDLF = createCornerPermutationTable({
-  name: 'URFToDLF',
-  affected: [0, 1, 2, 3, 4, 5],
-});
+    table: [
+      [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
+      [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
+    ],
+  });
+
+  URFToDLF = createCornerPermutationTable({
+    name: 'URFToDLF',
+    affected: [0, 1, 2, 3, 4, 5],
+  });
 
 
-const slice = createEdgePermutationTable({
-  name: 'slice',
-  affected: [8, 9, 10, 11],
-  reversed: true,
-});
+  slice = createEdgePermutationTable({
+    name: 'slice',
+    affected: [8, 9, 10, 11],
+    reversed: true,
+  });
 
-const phaseOneMoveTables = [
-  new MoveTable({
-    name: 'slicePosition',
-    size: 495,
-    table: slice.table,
-    doMove: (table, index, move) => Math.floor(table[index * 24][move] / 24),
-  }),
+  phaseTwo.initialize();
 
-  createCornerOrientationTable({
-    name: 'twist',
-    affected: [0, 1, 2, 3, 4, 5, 6, 7]
-  }),
+  return {
+    moveTables: [
+      new MoveTable({
+        name: 'slicePosition',
+        size: 495,
+        table: slice.table,
+        doMove: (table, index, move) => Math.floor(table[index * 24][move] / 24),
+      }),
 
-  createEdgeOrientationTable({
-    name: 'flip',
-    affected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-  }),
+      createCornerOrientationTable({
+        name: 'twist',
+        affected: [0, 1, 2, 3, 4, 5, 6, 7]
+      }),
 
-  slice, parity, URFToDLF,
+      createEdgeOrientationTable({
+        name: 'flip',
+        affected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      }),
 
-  createEdgePermutationTable({
-    name: 'URToUL',
-    affected: [0, 1, 2],
-  }),
+      slice, parity, URFToDLF,
 
-  createEdgePermutationTable({
-    name: 'UBToDF',
-    affected: [3, 4, 5],
-  }),
-];
+      createEdgePermutationTable({
+        name: 'URToUL',
+        affected: [0, 1, 2],
+      }),
 
-const phaseOnePruningTables = [
-  ['slicePosition', 'flip'],
-  ['slicePosition', 'twist'],
-];
+      createEdgePermutationTable({
+        name: 'UBToDF',
+        affected: [3, 4, 5],
+      }),
+    ],
 
-const getMergeCoord = (x, y) => {
-  let a = getPermutationFromIndex(x, [0, 1, 2], 12);
-  let b = getPermutationFromIndex(y, [3, 4, 5], 12);
+    pruningTables: [
+      ['slicePosition', 'flip'],
+      ['slicePosition', 'twist'],
+    ]
+  };
+};
 
-  for (let i = 0; i < 8; i += 1) {
-    if (a[i] !== -1) {
-      if (b[i] !== -1) {
-        return -1;
-      } else {
-        b[i] = a[i];
+const phaseTwoTables = () => {
+  const getMergeCoord = (x, y) => {
+    let a = getPermutationFromIndex(x, [0, 1, 2], 12);
+    let b = getPermutationFromIndex(y, [3, 4, 5], 12);
+
+    for (let i = 0; i < 8; i += 1) {
+      if (a[i] !== -1) {
+        if (b[i] !== -1) {
+          return -1;
+        } else {
+          b[i] = a[i];
+        }
       }
+    }
+
+    return getIndexFromPermutation(b, [0, 1, 2, 3, 4, 5]);
+  };
+
+  merge = [];
+
+  for (let i = 0; i < 336; i += 1) {
+    merge.push([]);
+
+    for (let j = 0; j < 336; j += 1) {
+      merge[i][j] = getMergeCoord(i, j);
     }
   }
 
-  return getIndexFromPermutation(b, [0, 1, 2, 3, 4, 5]);
+  return {
+    moveTables: [
+      new MoveTable({
+        name: 'slicePermutation',
+        size: 24,
+        table: slice.table,
+      }),
+
+      parity, URFToDLF,
+
+      createEdgePermutationTable({
+        name: 'URToDF',
+        size: 20160,
+        moves: phaseTwoMoves,
+        affected: [0, 1, 2, 3, 4, 5],
+      }),
+    ],
+
+    pruningTables: [
+      ['slicePermutation', 'parity', 'URFToDLF'],
+      ['slicePermutation', 'parity', 'URToDF'],
+    ]
+  };
 };
-
-const merge = [];
-
-for (let i = 0; i < 336; i += 1) {
-  merge.push([]);
-
-  for (let j = 0; j < 336; j += 1) {
-    merge[i][j] = getMergeCoord(i, j);
-  }
-}
-
-const phaseTwoMoveTables = [
-  new MoveTable({
-    name: 'slicePermutation',
-    size: 24,
-    table: slice.table,
-  }),
-
-  parity, URFToDLF,
-
-  createEdgePermutationTable({
-    name: 'URToDF',
-    size: 20160,
-    moves: phaseTwoMoves,
-    affected: [0, 1, 2, 3, 4, 5],
-  }),
-];
-
-const phaseTwoPruningTables = [
-  ['slicePermutation', 'parity', 'URFToDLF'],
-  ['slicePermutation', 'parity', 'URToDF'],
-];
-
-const phaseTwo = new Search(phaseTwoMoveTables, phaseTwoPruningTables, phaseTwoMoves);
 
 class PhaseOneSearch extends Search {
   constructor() {
     super(...arguments);
 
-    this.maxDepth = arguments[0].maxDepth || 22;
+    this.maxDepth = 22;
     this.solution = null;
   }
 
@@ -181,7 +191,9 @@ class PhaseOneSearch extends Search {
   }
 }
 
-const phaseOne = new PhaseOneSearch(phaseOneMoveTables, phaseOnePruningTables);
+const phaseOne = new PhaseOneSearch(phaseOneTables);
+
+const phaseTwo = new Search(phaseTwoTables, phaseTwoMoves);
 
 const kociemba = (scramble, maxDepth = 22) => {
   if (Array.isArray(scramble)) {

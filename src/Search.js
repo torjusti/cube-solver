@@ -4,12 +4,20 @@ import PruningTable from './PruningTable';
 const allMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
 class Search {
-  constructor(moveTables, pruningTables, moves = allMoves) {
+  constructor(createTables, moves = allMoves) {
+    this.createTables = createTables;
+    this.moves = moves;
+  }
+
+  initialize() {
+    this.initialized = true;
+    
+    let { moveTables, pruningTables } = this.createTables();
+
     this.moveTables = moveTables;
 
     this.pruningTables = [];
 
-    this.moves = moves;
 
     for (let moveTableNames of pruningTables) {
       const moveTableIndexes = moveTableNames.map(name =>
@@ -90,6 +98,10 @@ class Search {
   }
 
   solve(settings) {
+    if (!this.initialized) {
+      this.initialize();
+    }
+
     this.settings = Object.assign({
       maxDepth: 22, // For the Kociemba solver
       lastMove: null,
