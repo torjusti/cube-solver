@@ -1,5 +1,9 @@
 const factorials = [];
 
+/**
+ * Calculates n factorial and attempts to cache
+ * as much information as possible.
+ */
 export const factorial = n => {
   if (n === 0 || n == 1) {
     return 1;
@@ -16,6 +20,9 @@ export const factorial = n => {
 
 const binomials = [];
 
+/**
+ * Calculates n choose k using cached binomial numbers.
+ */
 export const choose = (n, k) => {
   if (k > n) {
     return 0;
@@ -38,6 +45,9 @@ export const choose = (n, k) => {
   return binomials[n][k];
 };
 
+/**
+ * Cartesian product of a given nested array.
+ */
 export const cartesian = arg => {
   const result = [], max = arg.length - 1;
 
