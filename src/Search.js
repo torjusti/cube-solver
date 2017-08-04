@@ -11,13 +11,12 @@ class Search {
 
   initialize() {
     this.initialized = true;
-    
+
     let { moveTables, pruningTables } = this.createTables();
 
     this.moveTables = moveTables;
 
     this.pruningTables = [];
-
 
     for (let moveTableNames of pruningTables) {
       const moveTableIndexes = moveTableNames.map(name =>
