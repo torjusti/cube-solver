@@ -51,8 +51,6 @@ class PruningTable {
 
       depth += 1;
 
-      let value = 0;
-
       for (let index = 0; index < size; index += 1) {
         if (this.getPruningValue(index) !== find) {
           continue;

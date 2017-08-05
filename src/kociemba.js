@@ -24,11 +24,19 @@ import MoveTable, {
 
 import Search from './Search';
 
+// In phase two, only quarter moves of U and D and double turns of
+// all the other faces are allowed, in order to keep the cube in
+//  the phase two group G1.
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
 
 let parity, URFToDLF, slice, merge;
 
 const phaseOneTables = () => {
+  // The parity move table is so small that we inline it. It
+  // describes the parity of both the edge and corner pieces,
+  // which must be equal for the cube to be solvable. The
+  // coordinate is included in both phases, but only used
+  // in phase two.
   parity = new MoveTable({
     name: 'parity',
 
@@ -40,18 +48,27 @@ const phaseOneTables = () => {
     ],
   });
 
+  //
   URFToDLF = createCornerPermutationTable({
     name: 'URFToDLF',
     affected: [0, 1, 2, 3, 4, 5],
   });
 
-
+  // This table is not used directly. This coordinate modulo 24 gives the
+  // permutation of the subarray containing the UD-slice pieces, while this
+  // coordinate divided by 24 gives the position of the UD-slice pieces.
+  // Two smaller move tables are created using this table, one to solve the
+  // position of the UD-slice pieces in phase one, and one to solve the
+  // pieces in phase two. Due to the reduced move set in phase two, the pruning
+  // table for this coordinate is smaller than it would normally be.
   slice = createEdgePermutationTable({
     name: 'slice',
     affected: [8, 9, 10, 11],
     reversed: true,
   });
 
+  // Initialize phase two, since it now is guaranteed that the
+  // heper move tables have finished generating.
   phaseTwo.initialize();
 
   return {
@@ -157,7 +174,7 @@ class PhaseOneSearch extends Search {
   handleSolution(solution, indexes) {
     const lastMove = solution.slice(-1)[0];
 
-    if (lastMove % 2 == 0 && Math.floor(lastMove / 3) === 6 && Math.floor(lastMove / 3) === 15) {
+    if (lastMove % 2 === 0 && Math.floor(lastMove / 3) === 6 && Math.floor(lastMove / 3) === 15) {
       return;
     }
 
