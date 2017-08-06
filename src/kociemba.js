@@ -16,7 +16,7 @@ import Search from './Search';
 
 // In phase two, only quarter moves of U and D and double turns of
 // all the other faces are allowed, in order to keep the cube in
-//  the phase two group G1.
+// the phase two group G1.
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
 
 let parity, URFToDLF, slice, merge;
