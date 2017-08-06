@@ -7,38 +7,29 @@ const edgeMoves =  [
   [5, 4, 7, 6],
 ];
 
-const cornerPermutationMoves = [
-  [1, 5, 2, 3, 0, 4, 6, 7],
-  [4, 1, 2, 0, 7, 5, 6, 3],
-  [3, 0, 1, 2, 4, 5, 6, 7],
-  [0, 1, 3, 7, 4, 5, 2, 6],
-  [0, 2, 6, 3, 4, 1, 5, 7],
-  [0, 1, 2, 3, 5, 6, 7, 4],
+const cornerMoves = [
+  [1, 0, 4, 5],
+  [0, 3, 7, 4],
+  [0, 1, 2, 3],
+  [3, 2, 6, 7],
+  [2, 1, 5, 6],
+  [5, 4, 7, 6],
 ];
 
-const cornerOrientationMoves = [
-  [1, 2, 0, 0, 2, 1, 0, 0],
-  [2, 0, 0, 1, 1, 0, 0, 2],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 2, 0, 0, 2, 1],
-  [0, 1, 2, 0, 0, 2, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-];
+const rotateParts = (pieces, affected) => {
+  const updatedPieces = pieces.slice(0);
 
-const rotateParts = (edges, elems) => {
-  const updatedPieces = edges.slice(0);
+  updatedPieces[affected[0]] = pieces[affected[affected.length - 1]];
 
-  updatedPieces[elems[0]] = edges[elems[elems.length - 1]];
-
-  for (let i = 1; i < elems.length; i += 1) {
-    updatedPieces[elems[i]] = edges[elems[i - 1]];
+  for (let i = 1; i < affected.length; i += 1) {
+    updatedPieces[affected[i]] = pieces[affected[i - 1]];
   }
 
   return updatedPieces;
 };
 
-export const edgePermutationMove = (pieces, moveIndex) => {
-  const move = edgeMoves[Math.floor(moveIndex / 3)];
+const permutationMove = (pieces, moveIndex, moves) => {
+  const move = moves[Math.floor(moveIndex / 3)];
   const pow = moveIndex % 3;
 
   for (let i = 0; i <= pow; i += 1) {
@@ -47,6 +38,12 @@ export const edgePermutationMove = (pieces, moveIndex) => {
 
   return pieces;
 };
+
+export const edgePermutationMove = (pieces, moveIndex) =>
+  permutationMove(pieces, moveIndex, edgeMoves);
+
+export const cornerPermutationMove = (pieces, moveIndex) =>
+  permutationMove(pieces, moveIndex, cornerMoves);
 
 export const edgeOrientationMove = (pieces, moveIndex) => {
   const moveNumber = Math.floor(moveIndex / 3);
@@ -64,33 +61,18 @@ export const edgeOrientationMove = (pieces, moveIndex) => {
   return updatedPieces;
 };
 
-export const cornerPermutationMove = (pieces, moveIndex) => {
-  const move = cornerPermutationMoves[Math.floor(moveIndex / 3)];
-  const pow = moveIndex % 3;
-
-  for (let i = 0; i <= pow; i += 1) {
-    const round = pieces.slice(0);
-
-    for (let j = 0; j < 8; j += 1) {
-      pieces[j] = round[move[j]];
-    }
-  }
-
-  return pieces;
-};
-
 export const cornerOrientationMove = (pieces, moveIndex) => {
-  const move = Math.floor(moveIndex / 3);
+  const moveNumber = Math.floor(moveIndex / 3);
+  const move = cornerMoves[moveNumber];
   const pow = moveIndex % 3;
 
-  for (let i = 0; i <= pow; i += 1) {
-    const round = pieces.slice(0);
+  let updatedPieces = cornerPermutationMove(pieces, moveIndex);
 
-    for (let j = 0; j < 8; j += 1) {
-      const from = cornerPermutationMoves[move][j];
-      pieces[j] = (round[from] + cornerOrientationMoves[move][j]) % 3;
+  if (moveNumber !== 2 && moveNumber !== 5 && pow % 2 === 0) {
+    for (let i = 0; i < 4; i += 1) {
+      updatedPieces[move[i]] = (updatedPieces[move[i]] + ((i + 1) % 2) + 1) % 3;
     }
   }
 
-  return pieces;
+  return updatedPieces;
 };
