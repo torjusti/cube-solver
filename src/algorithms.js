@@ -1,10 +1,23 @@
+// Numeric representations of powers.
 const powers = {
   '': 0,
   '2': 1,
   '\'': 2,
 };
 
+/**
+ * Check whether or not we are able to parse the given algorithm string.
+ */
+export const validateAlgorithm = algorithm => /^([FRUBLD][2']?\s*)+$/.test(algorithm);
+
+/**
+ * Parses a scramble, returning an array of integers describing the moves.
+ */
 export const parseAlgorithm = algorithm => {
+  if (!validateAlgorithm(algorithm)) {
+    throw new Error('Invalid algorithm provided to algorithm parser');
+  }
+
   const result = [];
 
   const moves = algorithm.match(/[FRUBLD][2']?/g);
@@ -18,6 +31,9 @@ export const parseAlgorithm = algorithm => {
   return result;
 };
 
+/**
+ * Convert an array of integers to a human-readable representation.
+ */
 export const formatAlgorithm = moves => {
   let sequence = '';
 
@@ -38,5 +54,6 @@ export const formatAlgorithm = moves => {
     }
   });
 
-  return sequence;
+  // Trim extra spaces.
+  return sequence.trim();
 };
