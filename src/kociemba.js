@@ -1,18 +1,8 @@
 import {
-  getIndexFromOrientation,
-  getOrientationFromIndex,
   getIndexFromPermutation,
   getPermutationFromIndex,
 } from './coordinates';
 
-import {
-  edgeOrientationMove,
-  cornerOrientationMove,
-  edgePermutationMove,
-  cornerPermutationMove,
-} from './cube';
-
-import { cartesian, factorial, choose } from './tools';
 import { formatAlgorithm } from './algorithms';
 
 import MoveTable, {
