@@ -1,4 +1,5 @@
 {
   "presets": ["es2015"],
-  "plugins": ["transform-exponentiation-operator"]
+  "plugins": ["transform-exponentiation-operator"],
+  "ignore": "node_modules/**/*.js",
 }

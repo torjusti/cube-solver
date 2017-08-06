@@ -1,8 +1,14 @@
 {
     "extends": "airbnb-base",
+
     "plugins": [
-        "import"
+        "import",
+        "jest"
     ],
+
+    "env": {
+      "jest": true
+    },
 
     "rules": {
       "no-bitwise": "off",
