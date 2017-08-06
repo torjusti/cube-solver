@@ -1,19 +1,19 @@
 const webpack = require('webpack');
 const path = require('path');
+
 const production = process.env.NODE_ENV === 'production';
 
 const LIBRARY_NAME = 'cube-solver';
 
 const config = {
-  entry: __dirname + '/src/index.js',
+  entry: path.join(__dirname, '/src/index.js'),
 
   output: {
-    path: __dirname + '/lib',
+    path: path.join(__dirname, '/lib'),
     filename: 'bundle.js',
-    path: __dirname + '/lib',
     library: LIBRARY_NAME,
     libraryTarget: 'umd',
-    umdNamedDefine: true
+    umdNamedDefine: true,
   },
 
   module: {
@@ -27,14 +27,14 @@ const config = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "eslint-loader",
-      }
+        loader: 'eslint-loader',
+      },
     ],
   },
 
   plugins: production ? [
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+      compress: { warnings: false },
     }),
   ] : [],
 };

@@ -4,3 +4,9 @@ node_js:
   - "node"
 
 cache: yarn
+
+before_script:
+  - "yarn build"
+
+script:
+  - "yarn lint"

@@ -1,8 +1,10 @@
 {
   "scripts": {
-    "build": "NODE_ENV=production webpack",
-    "dev": "webpack --progress --colors --watch"
+    "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
+    "dev": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
+    "lint": "node ./node_modules/eslint/bin/eslint.js ./src"
   },
+
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
