@@ -1,0 +1,13 @@
+{
+    "extends": "airbnb-base",
+    "plugins": [
+        "import"
+    ],
+
+    "rules": {
+      "no-bitwise": "off",
+      "no-mixed-operators": "off",
+      "no-param-reassign": "off",
+      "class-methods-use-this": ["error", { "exceptMethods": ["handleSolution"] }]
+    }
+}

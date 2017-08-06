@@ -23,7 +23,13 @@ const config = {
         loader: 'babel-loader',
         exclude: /(node_modules|bower_components)/,
       },
-    ]
+
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "eslint-loader",
+      }
+    ],
   },
 
   plugins: production ? [

@@ -1,6 +1,6 @@
 // We define moves as the four pieces which are
 // rotated in a circular fashion.
-const edgeMoves =  [
+const edgeMoves = [
   [1, 8, 5, 9],
   [0, 11, 4, 8],
   [1, 2, 3, 0],
@@ -41,14 +41,15 @@ const rotateParts = (pieces, affected) => {
  * to the given permutation vector.
  */
 const permutationMove = (pieces, moveIndex, moves) => {
+  let updated = pieces;
   const move = moves[Math.floor(moveIndex / 3)];
   const pow = moveIndex % 3;
 
   for (let i = 0; i <= pow; i += 1) {
-    pieces = rotateParts(pieces, move);
+    updated = rotateParts(updated, move);
   }
 
-  return pieces;
+  return updated;
 };
 
 /**
@@ -71,7 +72,7 @@ export const edgeOrientationMove = (pieces, moveIndex) => {
   const move = edgeMoves[moveNumber];
   const pow = moveIndex % 3;
 
-  let updatedPieces = edgePermutationMove(pieces, moveIndex);
+  const updatedPieces = edgePermutationMove(pieces, moveIndex);
 
   // Only quarter moves of the F and B faces affect the edge orientation.
   if ((moveNumber === 0 || moveNumber === 3) && pow % 2 === 0) {
@@ -91,7 +92,7 @@ export const cornerOrientationMove = (pieces, moveIndex) => {
   const move = cornerMoves[moveNumber];
   const pow = moveIndex % 3;
 
-  let updatedPieces = cornerPermutationMove(pieces, moveIndex);
+  const updatedPieces = cornerPermutationMove(pieces, moveIndex);
 
   // Only quarter moves of any slice but the U and D slices
   // affect the corner orientation.

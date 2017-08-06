@@ -18,12 +18,19 @@ import kociemba from './kociemba';
  * ensure the parity of the generated cube is valid.
  */
 const getRandomScramble = () => {
-  let eo, ep, co, cp;
+  let eo;
+  let ep;
+  let co;
+  let cp;
 
   do {
     eo = getOrientationFromIndex(getRandomInt(0, 2048), 12, 2);
+
     co = getOrientationFromIndex(getRandomInt(0, 2187), 8, 3);
-    ep = getPermutationFromIndex(getRandomInt(0, 479001600), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 12);
+
+    ep = getPermutationFromIndex(getRandomInt(0, 479001600),
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 12);
+
     cp = getPermutationFromIndex(getRandomInt(0, 40320), [0, 1, 2, 3, 4, 5, 6, 7], 8);
   } while (getParity(ep) !== getParity(cp));
 

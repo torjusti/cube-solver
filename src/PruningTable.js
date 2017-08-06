@@ -1,20 +1,20 @@
-import { cartesian } from './tools';
+import { cartesian } from './tools';
 
 class PruningTable {
-  constructor(moveTables, moves = allMoves) {
+  constructor(moveTables, moves) {
     this.computePruningTable(moveTables, moves);
   }
 
   setPruningValue(index, value) {
-     this.table[index >> 3] ^= (0xf ^ value) << ((index & 7) << 2);
+    this.table[index >> 3] ^= (0xf ^ value) << ((index & 7) << 2);
   }
 
   getPruningValue(index) {
-    return this.table[index >> 3] >> ((index & 7) << 2) & 0xf;
+    return (this.table[index >> 3] >> ((index & 7) << 2)) & 0xf;
   }
 
   computePruningTable(moveTables, moves) {
-    let size = moveTables.reduce((acc, obj) => acc * obj.size, 1);
+    const size = moveTables.reduce((acc, obj) => acc * obj.size, 1);
 
     this.table = [];
 
@@ -22,7 +22,8 @@ class PruningTable {
       this.table.push(-1);
     }
 
-    let depth = 0, done = 0;
+    let depth = 0;
+    let done = 0;
 
     const powers = [1];
 
@@ -52,32 +53,31 @@ class PruningTable {
       depth += 1;
 
       for (let index = 0; index < size; index += 1) {
-        if (this.getPruningValue(index) !== find) {
-          continue;
-        }
+        if (this.getPruningValue(index) === find) {
+          for (let moveIndex = 0; moveIndex < moves.length; moveIndex += 1) {
+            const move = moves[moveIndex];
 
-        for (let moveIndex = 0; moveIndex < moves.length; moveIndex += 1) {
-          const move = moves[moveIndex];
+            let currentIndex = index;
+            let position = 0;
 
-          let currentIndex = index, position = 0;
+            for (let i = powers.length - 1; i >= 0; i -= 1) {
+              position += powers[i] * moveTables[i]
+                .doMove(Math.floor(currentIndex / powers[i]), move);
 
-          for (let i = powers.length - 1; i >= 0; i -= 1) {
-            position += powers[i] * moveTables[i].doMove(Math.floor(currentIndex / powers[i]), move);
-            currentIndex = currentIndex % powers[i];
+              currentIndex %= powers[i];
+            }
+
+            if (this.getPruningValue(position) === check) {
+              done += 1;
+
+              if (inverse) {
+                this.setPruningValue(index, depth);
+                break;
+              }
+
+              this.setPruningValue(position, depth);
+            }
           }
-
-          if (this.getPruningValue(position) !== check) {
-            continue;
-          }
-
-          done += 1;
-
-          if (inverse) {
-            this.setPruningValue(index, depth);
-            break;
-          }
-
-          this.setPruningValue(position, depth);
         }
       }
     }

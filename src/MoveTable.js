@@ -47,7 +47,7 @@ class MoveTable {
     const cubieMove = createMoveHandler(
       settings.getVector,
       settings.cubieMove,
-      settings.getIndex
+      settings.getIndex,
     );
 
     this.createMoveTable(settings.size, cubieMove, settings.moves);
@@ -78,19 +78,23 @@ class MoveTable {
 export const createCornerPermutationTable = settings => new MoveTable({
   name: settings.name,
   moves: settings.moves,
-  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7], settings.affected, settings.reversed),
+  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7],
+    settings.affected, settings.reversed),
   size: settings.size || factorial(8) / factorial(8 - settings.affected.length),
-  getVector: (index) => getPermutationFromIndex(index, settings.affected.slice(), 8, settings.reversed),
+  getVector: index => getPermutationFromIndex(index, settings.affected.slice(),
+    8, settings.reversed),
   cubieMove: cornerPermutationMove,
-  getIndex: (pieces) => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
+  getIndex: pieces => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
 });
 
 export const createEdgePermutationTable = settings => new MoveTable({
   name: settings.name,
   moves: settings.moves,
-  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], settings.affected, settings.reversed),
+  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    settings.affected, settings.reversed),
   size: settings.size || factorial(12) / factorial(12 - settings.affected.length),
-  getVector: index => getPermutationFromIndex(index, settings.affected.slice(), 12, settings.reversed),
+  getVector: index => getPermutationFromIndex(index, settings.affected.slice(), 12,
+    settings.reversed),
   cubieMove: edgePermutationMove,
   getIndex: pieces => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
 });
@@ -98,9 +102,9 @@ export const createEdgePermutationTable = settings => new MoveTable({
 const getCorrectOrientations = (affected, numPieces, numStates) => {
   const indexes = [];
 
-  const size = Math.pow(numStates, numPieces - 1);
+  const size = numStates ** (numPieces - 1);
 
-  const target = Math.pow(numStates, numPieces - affected.length - 1);
+  const target = numStates ** (numPieces - affected.length - 1);
 
   for (let i = 0; i < size && indexes.length < target; i += 1) {
     const orientation = getOrientationFromIndex(i, numPieces, numStates);

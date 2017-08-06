@@ -1,4 +1,4 @@
-import { factorial, choose } from './tools';
+import { factorial, choose } from './tools';
 
 /**
  * In-place rotation of the subarray determined by the two
@@ -107,7 +107,9 @@ export const getParity = (pieces) => {
  * table describing the UD-slice edges.
  */
 export const getIndexFromPermutation = (pieces, affected, reversed = false) => {
-  let position = 0, k = 1, offset = pieces.length - 1;
+  let offset = pieces.length - 1;
+  let position = 0;
+  let k = 1;
 
   // Store the permutation of the subarray containing
   // only the affected pieces.
@@ -143,7 +145,7 @@ export const getIndexFromPermutation = (pieces, affected, reversed = false) => {
   for (let i = edges.length - 1; i > 0; i -= 1) {
     let s = 0;
 
-    while (edges[i] != affected[i]) {
+    while (edges[i] !== affected[i]) {
       rotateLeft(edges, 0, i);
       s += 1;
     }

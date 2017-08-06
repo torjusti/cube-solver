@@ -1,4 +1,4 @@
-import MoveTable, {
+import {
   createEdgePermutationTable,
   createCornerPermutationTable,
   createEdgeOrientationTable,

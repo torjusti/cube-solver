@@ -4,8 +4,8 @@ const factorials = [];
  * Calculates n factorial and attempts to cache
  * as much information as possible.
  */
-export const factorial = n => {
-  if (n === 0 || n == 1) {
+export const factorial = (n) => {
+  if (n === 0 || n === 1) {
     return 1;
   }
 
@@ -29,12 +29,13 @@ export const choose = (n, k) => {
   }
 
   while (n >= binomials.length) {
-    let s = binomials.length, nextRow = [];
+    const s = binomials.length;
+    const nextRow = [];
 
     nextRow[0] = 1;
 
-    for (let i = 1, prev= s - 1; i < s; i += 1) {
-      nextRow[i] = binomials[prev][i-1] + binomials[prev][i];
+    for (let i = 1, prev = s - 1; i < s; i += 1) {
+      nextRow[i] = binomials[prev][i - 1] + binomials[prev][i];
     }
 
     nextRow[s] = 1;
@@ -48,8 +49,9 @@ export const choose = (n, k) => {
 /**
  * Cartesian product of a given nested array.
  */
-export const cartesian = arg => {
-  const result = [], max = arg.length - 1;
+export const cartesian = (arg) => {
+  const result = [];
+  const max = arg.length - 1;
 
   const helper = (arr, i) => {
     for (let j = 0; j < arg[i].length; j += 1) {
@@ -71,4 +73,4 @@ export const cartesian = arg => {
 };
 
 export const getRandomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
+  Math.floor(Math.random() * (max - min) + 1) + min;

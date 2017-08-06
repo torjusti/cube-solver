@@ -12,30 +12,30 @@ class Search {
   initialize() {
     this.initialized = true;
 
-    let { moveTables, pruningTables } = this.createTables();
+    const { moveTables, pruningTables } = this.createTables();
 
     this.moveTables = moveTables;
 
     this.pruningTables = [];
 
-    for (let moveTableNames of pruningTables) {
+    pruningTables.forEach((moveTableNames) => {
       const moveTableIndexes = moveTableNames.map(name =>
         this.moveTables.map(table => table.name).indexOf(name));
 
       moveTableIndexes.sort((a, b) =>
         this.moveTables[a].size - this.moveTables[b].size);
 
-      const moveTables = [];
+      const mappedTables = [];
 
-      moveTableIndexes.forEach(i => moveTables.push(this.moveTables[i]));
+      moveTableIndexes.forEach(i => mappedTables.push(this.moveTables[i]));
 
-      const pruningTable = new PruningTable(moveTables, this.moves);
+      const pruningTable = new PruningTable(mappedTables, this.moves);
 
       this.pruningTables.push({
         pruningTable,
         moveTableIndexes,
       });
-    }
+    });
   }
 
   handleSolution(solution, indexes) {
@@ -49,7 +49,8 @@ class Search {
     let minimumDistance = 0;
 
     for (let i = 0; i < this.pruningTables.length; i += 1) {
-      let index = indexes[this.pruningTables[i].moveTableIndexes[0]], power = 1;
+      let index = indexes[this.pruningTables[i].moveTableIndexes[0]];
+      let power = 1;
 
       for (let j = 1; j < this.pruningTables[i].moveTableIndexes.length; j += 1) {
         power *= this.moveTables[this.pruningTables[i].moveTableIndexes[j - 1]].size;
@@ -77,7 +78,8 @@ class Search {
       for (let i = 0; i < this.moves.length; i += 1) {
         const move = this.moves[i];
 
-        if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
+        if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3)
+            !== Math.floor(lastMove / 3) - 3) {
           const updatedIndexes = [];
 
           for (let j = 0; j < indexes.length; j += 1) {
@@ -116,7 +118,7 @@ class Search {
         indexes.push(this.moveTables[i].defaultIndex);
       }
 
-      moves.forEach(move => {
+      moves.forEach((move) => {
         for (let i = 0; i < indexes.length; i += 1) {
           indexes[i] = this.moveTables[i].doMove(indexes[i], move);
         }
@@ -131,7 +133,7 @@ class Search {
       }
     }
 
-    return;
+    return false;
   }
 }
 
