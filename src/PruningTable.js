@@ -45,7 +45,6 @@ class PruningTable {
       done += 1;
     }
 
-    console.log(powers)
     while (done !== size) {
       const inverse = done > size / 2;
       const find = inverse ? 0xf : depth;
