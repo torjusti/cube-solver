@@ -14,6 +14,9 @@ import {
 
 import { factorial } from './tools';
 
+/**
+ * Create a function which performs a move on a coordinate.
+ */
 const createMoveHandler = (getVector, doMove, getIndex) => (index, move) => {
   let vector = getVector(index);
   vector = doMove(vector, move);
@@ -24,13 +27,20 @@ const allMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
 class MoveTable {
   constructor(settings) {
-    // required if using the generic solver
+    // A name must be provided if the generic solver is being used, as
+    // we use them to create the pruning tables.
     this.name = settings.name;
-    this.size = settings.size; // hack: some tables override this
+
+    // Some tables in the Kociemba solver define their own size, as
+    // they are a subset of another already generated helper table.
+    this.size = settings.size;
 
     this.defaultIndex = settings.defaultIndex || 0;
     this.solvedIndexes = settings.solvedIndexes || [this.defaultIndex];
 
+    // We allow defining a custom function that returns the updated
+    // index. This is useful for helper tables which are subsets
+    // of already generated tables.
     this.doMove = (index, move) => {
       if (settings.doMove) {
         return settings.doMove(this.table, index, move);
@@ -41,6 +51,8 @@ class MoveTable {
 
     if (settings.table) {
       this.table = settings.table;
+
+      // If a pre-generated table is provide, do not generate another one.
       return;
     }
 
@@ -60,11 +72,15 @@ class MoveTable {
       this.table.push([]);
     }
 
+    // Create a matrix which stores the result after
+    // applying a move to a coordinate.
     for (let i = 0; i < size; i += 1) {
       for (let j = 0; j < moves.length; j += 1) {
         const move = moves[j];
 
         if (!this.table[i][move]) {
+          // Assign both the value and its inverse at once
+          // to avoid exess computing on the cubie level.
           const result = cubieMove(i, move);
           const inverse = move - 2 * (move % 3) + 2;
           this.table[i][move] = result;
