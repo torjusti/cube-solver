@@ -3,8 +3,6 @@ import {
   getPermutationFromIndex,
 } from './coordinates';
 
-import { formatAlgorithm } from './algorithms';
-
 import MoveTable, {
   createEdgePermutationTable,
   createCornerPermutationTable,
@@ -208,18 +206,16 @@ const phaseOne = new PhaseOneSearch(phaseOneTables);
 
 const kociemba = (scramble, maxDepth = 22) => {
   if (Array.isArray(scramble)) {
-    return formatAlgorithm(phaseOne.solve({
+    return phaseOne.solve({
       indexes: scramble,
-      format: false,
       maxDepth,
-    }).solution);
+    });
   }
 
-  return formatAlgorithm(phaseOne.solve({
+  return phaseOne.solve({
     scramble,
-    format: false,
     maxDepth,
-  }).solution);
+  });
 };
 
 export default kociemba;

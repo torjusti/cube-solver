@@ -1,3 +1,5 @@
+import { parseAlgorithm } from './algorithms';
+
 // We define moves as the four pieces which are
 // rotated in a circular fashion.
 const edgeMoves = [
@@ -103,4 +105,31 @@ export const cornerOrientationMove = (pieces, moveIndex) => {
   }
 
   return updatedPieces;
+};
+
+// The identity cube.
+export const identity = {
+  ep: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  eo: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  cp: [0, 1, 2, 3, 4, 5, 6, 7],
+  co: [0, 0, 0, 0, 0, 0, 0, 0],
+};
+
+/**
+ * Performs an algorithm to a cube on the cubie level.
+ */
+export const doAlgorithm = (algorithm, cube = identity) => {
+  let ep = cube.ep.slice();
+  let eo = cube.eo.slice();
+  let cp = cube.cp.slice();
+  let co = cube.co.slice();
+
+  parseAlgorithm(algorithm).forEach((move) => {
+    ep = edgePermutationMove(ep, move);
+    eo = edgeOrientationMove(eo, move);
+    cp = cornerPermutationMove(cp, move);
+    co = cornerOrientationMove(co, move);
+  });
+
+  return { ep, eo, cp, co };
 };
