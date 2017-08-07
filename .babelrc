@@ -1,5 +1,19 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["transform-exponentiation-operator"],
-  "ignore": "node_modules/**/*.js",
+  "env": {
+    "development": {
+      "presets": [
+        ["latest", {
+          "es2015": {
+            "modules": false
+          }
+        }]
+      ],
+
+      "plugins": ["external-helpers"],
+    },
+
+    "test": {
+      "presets": ["latest"]
+    }
+  },
 }
