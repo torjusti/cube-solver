@@ -1,5 +1,9 @@
 import { cartesian } from './tools';
 
+/**
+ * A pruning table gives a lower bound on the number of moves
+ * required to reach a target state.
+ */
 class PruningTable {
   constructor(moveTables, moves) {
     this.computePruningTable(moveTables, moves);
@@ -45,7 +49,16 @@ class PruningTable {
       done += 1;
     }
 
+
+    // We generate the table using a BFS. Depth 0 contains all positions which
+    // are solved, and we loop through the correct indexes and apply all 18 moves
+    // to the correct states. Then we visit all positions at depth 2, and apply
+    // the 18 moves, and so on.
     while (done !== size) {
+      // When half the table is generated, we switch to a backward search
+      // where we apply the 18 moves to all empty entries. If the result
+      // is a position which corresponds to the previous depth, we set the
+      // index to the current depth.
       const inverse = done > size / 2;
       const find = inverse ? 0xf : depth;
       const check = inverse ? depth : 0xf;
