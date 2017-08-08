@@ -11,3 +11,6 @@ before_script:
 script:
   - "yarn lint"
   - "yarn test"
+
+notifications:
+  email: false
