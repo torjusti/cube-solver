@@ -17,12 +17,21 @@ import Search from './Search';
 // the phase two group G1.
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
 
+// The following tables are being used in both phases.
 let parity;
 let URFToDLF;
 let slice;
 let merge;
 
+/**
+ * Initialize the tables used in phase one of the solver.
+ */
 const phaseTwoTables = () => {
+  // In order to start phase two, we need to know the positions
+  // in which the pieces landed after solving the cube into G1.
+  // Since returning to the cubie level to perform the solution
+  // would be slow, we use two helper tables in phase one which
+  // later are merged into the final phase two coordinate.
   const getMergeCoord = (x, y) => {
     const a = getPermutationFromIndex(x, [0, 1, 2], 12);
     const b = getPermutationFromIndex(y, [3, 4, 5], 12);
@@ -41,6 +50,9 @@ const phaseTwoTables = () => {
 
   merge = [];
 
+  // Due to the sorted nature of our coordinate definitions, the
+  // index of both the coordinates will be less than 336 when phase
+  // one is finished. This allows for a pretty small merging table.
   for (let i = 0; i < 336; i += 1) {
     merge.push([]);
 
@@ -51,6 +63,8 @@ const phaseTwoTables = () => {
 
   return {
     moveTables: [
+      // The permutation of the slice pices, which already
+      // are in the correct positions on the cube.
       new MoveTable({
         name: 'slicePermutation',
         size: 24,
@@ -119,6 +133,9 @@ const phaseOneTables = () => {
   return {
     moveTables: [
       new MoveTable({
+        // The position of the slice edges. When this coordinate is
+        // solved, the UD-slice pieces are in the UD-slice, but they
+        // are not necessarily permuted.
         name: 'slicePosition',
         size: 495,
         table: slice.table,
@@ -166,6 +183,8 @@ class PhaseOneSearch extends Search {
   handleSolution(solution, indexes) {
     const lastMove = solution.slice(-1)[0];
 
+    // We do not allow solutions which end in a phase two move, as we then
+    // would end up duplicating work.
     if (lastMove % 2 === 0 && Math.floor(lastMove / 3) === 6 && Math.floor(lastMove / 3) === 15) {
       return false;
     }
