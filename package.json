@@ -11,7 +11,11 @@
   "bugs": {
     "url": "https://github.com/torjusti/cube-solver/issues"
   },
-  "keywords": ["rubiks", "cube", "solver"],
+  "keywords": [
+    "rubiks",
+    "cube",
+    "solver"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
@@ -34,5 +38,8 @@
     "rollup": "^0.45.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-uglify": "^2.0.1"
+  },
+  "dependencies": {
+    "rollup-watch": "^4.3.1"
   }
 }
