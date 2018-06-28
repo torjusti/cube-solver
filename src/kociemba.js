@@ -3,7 +3,8 @@ import {
   getPermutationFromIndex,
 } from './coordinates';
 
-import MoveTable, {
+import {
+  MoveTable,
   createEdgePermutationTable,
   createCornerPermutationTable,
   createEdgeOrientationTable,

@@ -10,6 +10,7 @@ import {
   cornerPermutationMove,
   edgeOrientationMove,
   cornerOrientationMove,
+  allMoves,
 } from './cube';
 
 import { factorial } from './tools';
@@ -23,9 +24,7 @@ const createMoveHandler = (getVector, doMove, getIndex) => (index, move) => {
   return getIndex(vector);
 };
 
-const allMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-
-class MoveTable {
+export class MoveTable {
   constructor(settings) {
     // A name must be provided if the generic solver is being used, as
     // we use them to create the pruning tables.
@@ -150,5 +149,3 @@ export const createCornerOrientationTable = settings => new MoveTable({
   cubieMove: cornerOrientationMove,
   getIndex: pieces => getIndexFromOrientation(pieces, 3),
 });
-
-export default MoveTable;
