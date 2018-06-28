@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for kociemba.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="index.html">All files</a> kociemba.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.35% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>41/43</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">81.25% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>13/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.35% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>41/43</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">225792x</span>
+<span class="cline-any cline-yes">225792x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">225792x</span>
+<span class="cline-any cline-yes">1057392x</span>
+<span class="cline-any cline-yes">447552x</span>
+<span class="cline-any cline-yes">185472x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">262080x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40320x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">672x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">672x</span>
+<span class="cline-any cline-yes">225792x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24620856x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+  getIndexFromPermutation,
+  getPermutationFromIndex,
+} from './coordinates';
+&nbsp;
+import {
+  MoveTable,
+  createEdgePermutationTable,
+  createCornerPermutationTable,
+  createEdgeOrientationTable,
+  createCornerOrientationTable,
+} from './MoveTable';
+&nbsp;
+import Search from './Search';
+&nbsp;
+// In phase two, only quarter moves of U and D and double turns of
+// all the other faces are allowed, in order to keep the cube in
+// the phase two group G1.
+const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
+&nbsp;
+// The following tables are being used in both phases.
+let parity;
+let URFToDLF;
+let slice;
+let merge;
+&nbsp;
+/**
+ * Initialize the tables used in phase one of the solver.
+ */
+const phaseTwoTables = () =&gt; {
+  // In order to start phase two, we need to know the positions
+  // in which the pieces landed after solving the cube into G1.
+  // Since returning to the cubie level to perform the solution
+  // would be slow, we use two helper tables in phase one which
+  // later are merged into the final phase two coordinate.
+  const getMergeCoord = (x, y) =&gt; {
+    const a = getPermutationFromIndex(x, [0, 1, 2], 12);
+    const b = getPermutationFromIndex(y, [3, 4, 5], 12);
+&nbsp;
+    for (let i = 0; i &lt; 8; i += 1) {
+      if (a[i] !== -1) {
+        if (b[i] !== -1) {
+          return -1;
+        }
+        b[i] = a[i];
+      }
+    }
+&nbsp;
+    return getIndexFromPermutation(b, [0, 1, 2, 3, 4, 5]);
+  };
+&nbsp;
+  merge = [];
+&nbsp;
+  // Due to the sorted nature of our coordinate definitions, the
+  // index of both the coordinates will be less than 336 when phase
+  // one is finished. This allows for a pretty small merging table.
+  for (let i = 0; i &lt; 336; i += 1) {
+    merge.push([]);
+&nbsp;
+    for (let j = 0; j &lt; 336; j += 1) {
+      merge[i][j] = getMergeCoord(i, j);
+    }
+  }
+&nbsp;
+  return {
+    moveTables: [
+      // The permutation of the slice pices, which already
+      // are in the correct positions on the cube.
+      new MoveTable({
+        name: 'slicePermutation',
+        size: 24,
+        table: slice.table,
+      }),
+&nbsp;
+      parity, URFToDLF,
+&nbsp;
+      createEdgePermutationTable({
+        name: 'URToDF',
+        size: 20160,
+        moves: phaseTwoMoves,
+        affected: [0, 1, 2, 3, 4, 5],
+      }),
+    ],
+&nbsp;
+    pruningTables: [
+      ['slicePermutation', 'parity', 'URFToDLF'],
+      ['slicePermutation', 'parity', 'URToDF'],
+    ],
+  };
+};
+&nbsp;
+const phaseTwo = new Search(phaseTwoTables, phaseTwoMoves);
+&nbsp;
+const phaseOneTables = () =&gt; {
+  // The parity move table is so small that we inline it. It
+  // describes the parity of both the edge and corner pieces,
+  // which must be equal for the cube to be solvable. The
+  // coordinate is included in both phases, but only used
+  // in phase two.
+  parity = new MoveTable({
+    name: 'parity',
+&nbsp;
+    size: 2,
+&nbsp;
+    table: [
+      [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
+      [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
+    ],
+  });
+&nbsp;
+  //
+  URFToDLF = createCornerPermutationTable({
+    name: 'URFToDLF',
+    affected: [0, 1, 2, 3, 4, 5],
+  });
+&nbsp;
+  // This table is not used directly. This coordinate modulo 24 gives the
+  // permutation of the subarray containing the UD-slice pieces, while this
+  // coordinate divided by 24 gives the position of the UD-slice pieces.
+  // Two smaller move tables are created using this table, one to solve the
+  // position of the UD-slice pieces in phase one, and one to solve the
+  // pieces in phase two. Due to the reduced move set in phase two, the pruning
+  // table for this coordinate is smaller than it would normally be.
+  slice = createEdgePermutationTable({
+    name: 'slice',
+    affected: [8, 9, 10, 11],
+    reversed: true,
+  });
+&nbsp;
+  // Initialize phase two, since it now is guaranteed that the
+  // heper move tables have finished generating.
+  phaseTwo.initialize();
+&nbsp;
+  return {
+    moveTables: [
+      new MoveTable({
+        // The position of the slice edges. When this coordinate is
+        // solved, the UD-slice pieces are in the UD-slice, but they
+        // are not necessarily permuted.
+        name: 'slicePosition',
+        size: 495,
+        table: slice.table,
+        doMove: (table, index, move) =&gt; Math.floor(table[index * 24][move] / 24),
+      }),
+&nbsp;
+      createCornerOrientationTable({
+        name: 'twist',
+        affected: [0, 1, 2, 3, 4, 5, 6, 7],
+      }),
+&nbsp;
+      createEdgeOrientationTable({
+        name: 'flip',
+        affected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      }),
+&nbsp;
+      slice, parity, URFToDLF,
+&nbsp;
+      createEdgePermutationTable({
+        name: 'URToUL',
+        affected: [0, 1, 2],
+      }),
+&nbsp;
+      createEdgePermutationTable({
+        name: 'UBToDF',
+        affected: [3, 4, 5],
+      }),
+    ],
+&nbsp;
+    pruningTables: [
+      ['slicePosition', 'flip'],
+      ['slicePosition', 'twist'],
+    ],
+  };
+};
+&nbsp;
+class PhaseOneSearch extends Search {
+  constructor(...args) {
+    super(...args);
+&nbsp;
+    this.maxDepth = 22;
+    this.solution = null;
+  }
+&nbsp;
+  handleSolution(solution, indexes) {
+    const lastMove = solution.slice(-1)[0];
+&nbsp;
+    // We do not allow solutions which end in a phase two move, as we then
+    // would end up duplicating work.
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (lastMove % 2 === 0 &amp;&amp; Math.floor(lastMove / 3) === 6 &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >Math.floor(lastMove / 3) === 15)</span> {
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+&nbsp;
+    const phaseTwoSolution = phaseTwo.solve({
+      indexes: [
+        indexes[3],
+        indexes[4],
+        indexes[5],
+        merge[indexes[6]][indexes[7]],
+      ],
+&nbsp;
+      maxDepth: this.maxDepth - solution.length,
+&nbsp;
+      lastMove,
+&nbsp;
+      format: false,
+    });
+&nbsp;
+    if (phaseTwoSolution) {
+      this.solution = solution.concat(phaseTwoSolution.solution);
+&nbsp;
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (this.maxDepth &lt;= this.settings.maxDepth) {
+        return {
+          solution: this.solution,
+          indexes,
+        };
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.maxDepth = this.solution.length - 1;</span>
+    }
+&nbsp;
+    return false;
+  }
+}
+&nbsp;
+const phaseOne = new PhaseOneSearch(phaseOneTables);
+&nbsp;
+const kociemba = (scramble, maxDepth = 22) =&gt; {
+  if (Array.isArray(scramble)) {
+    return phaseOne.solve({
+      indexes: scramble,
+      maxDepth,
+    });
+  }
+&nbsp;
+  return phaseOne.solve({
+    scramble,
+    maxDepth,
+  });
+};
+&nbsp;
+export default kociemba;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jun 28 2018 22:26:35 GMT+0200 (CEST)
+</div>
+</div>
+<script src="prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="sorter.js"></script>
+</body>
+</html>

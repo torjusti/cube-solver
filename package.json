@@ -21,7 +21,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "codecov": "codecov"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -40,6 +41,7 @@
     "rollup-plugin-uglify": "^2.0.1"
   },
   "dependencies": {
+    "codecov": "^3.0.2",
     "rollup-watch": "^4.3.1"
   }
 }

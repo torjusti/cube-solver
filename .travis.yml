@@ -11,6 +11,7 @@ before_script:
 script:
   - "yarn lint"
   - "yarn test"
+  - "yarn codecov"
 
 notifications:
   email: false

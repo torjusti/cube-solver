@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for Search.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="index.html">All files</a> Search.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>59/59</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>24/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>11/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>57/57</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">679510x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">679510x</span>
+<span class="cline-any cline-yes">898499x</span>
+<span class="cline-any cline-yes">898499x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">898499x</span>
+<span class="cline-any cline-yes">1607702x</span>
+<span class="cline-any cline-yes">1607702x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">898499x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">898499x</span>
+<span class="cline-any cline-yes">591111x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">307388x</span>
+<span class="cline-any cline-yes">237831x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88399x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88367x</span>
+<span class="cline-any cline-yes">88367x</span>
+<span class="cline-any cline-yes">977231x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">977231x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">679103x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">679103x</span>
+<span class="cline-any cline-yes">3341944x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">679103x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">679103x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88308x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">232x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">407x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">407x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { parseAlgorithm, formatAlgorithm } from './algorithms';
+import PruningTable from './PruningTable';
+import { allMoves } from './cube';
+&nbsp;
+class Search {
+  constructor(createTables, moves = allMoves) {
+    this.createTables = createTables;
+    this.moves = moves;
+  }
+&nbsp;
+  initialize() {
+    this.initialized = true;
+&nbsp;
+    const { moveTables, pruningTables } = this.createTables();
+&nbsp;
+    this.moveTables = moveTables;
+&nbsp;
+    this.pruningTables = [];
+&nbsp;
+    pruningTables.forEach((moveTableNames) =&gt; {
+      const moveTableIndexes = moveTableNames.map(name =&gt;
+        this.moveTables.map(table =&gt; table.name).indexOf(name));
+&nbsp;
+      moveTableIndexes.sort((a, b) =&gt;
+        this.moveTables[a].size - this.moveTables[b].size);
+&nbsp;
+      const mappedTables = [];
+&nbsp;
+      moveTableIndexes.forEach(i =&gt; mappedTables.push(this.moveTables[i]));
+&nbsp;
+      const pruningTable = new PruningTable(mappedTables, this.moves);
+&nbsp;
+      this.pruningTables.push({
+        pruningTable,
+        moveTableIndexes,
+      });
+    });
+  }
+&nbsp;
+  handleSolution(solution, indexes) {
+    return {
+      solution,
+      indexes,
+    };
+  }
+&nbsp;
+  search(indexes, depth, lastMove, solution) {
+    let minimumDistance = 0;
+&nbsp;
+    for (let i = 0; i &lt; this.pruningTables.length; i += 1) {
+      let index = indexes[this.pruningTables[i].moveTableIndexes[0]];
+      let power = 1;
+&nbsp;
+      for (let j = 1; j &lt; this.pruningTables[i].moveTableIndexes.length; j += 1) {
+        power *= this.moveTables[this.pruningTables[i].moveTableIndexes[j - 1]].size;
+        index += indexes[this.pruningTables[i].moveTableIndexes[j]] * power;
+      }
+&nbsp;
+      const distance = this.pruningTables[i].pruningTable.getPruningValue(index);
+&nbsp;
+      if (distance &gt; depth) {
+        return false;
+      }
+&nbsp;
+      // The true minimum distance to the solved indexes is
+      // given by the pruning table with the largest distance.
+      if (distance &gt; minimumDistance) {
+        minimumDistance = distance;
+      }
+    }
+&nbsp;
+    if (minimumDistance === 0) {
+      return this.handleSolution(solution, indexes);
+    }
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (depth &gt; 0) {
+      for (let i = 0; i &lt; this.moves.length; i += 1) {
+        const move = this.moves[i];
+&nbsp;
+        // Do not use moves that cancels. Note that R L is the same as L R.
+        // We therfore also disallow moves which are parallel to the last move.
+        if (Math.floor(move / 3) !== Math.floor(lastMove / 3) &amp;&amp; Math.floor(move / 3)
+            !== Math.floor(lastMove / 3) - 3) {
+          const updatedIndexes = [];
+&nbsp;
+          for (let j = 0; j &lt; indexes.length; j += 1) {
+            updatedIndexes.push(this.moveTables[j].doMove(indexes[j], move));
+          }
+&nbsp;
+          const result = this.search(updatedIndexes, depth - 1, move, solution.concat([move]));
+&nbsp;
+          if (result) {
+            return result;
+          }
+        }
+      }
+    }
+&nbsp;
+    return false;
+  }
+&nbsp;
+  solve(settings) {
+    if (!this.initialized) {
+      this.initialize();
+    }
+&nbsp;
+    this.settings = Object.assign({
+      maxDepth: 22, // For the Kociemba solver
+      lastMove: null,
+      format: true,
+    }, settings);
+&nbsp;
+    const indexes = this.settings.indexes || [];
+&nbsp;
+    if (this.settings.scramble) {
+      const moves = parseAlgorithm(this.settings.scramble);
+&nbsp;
+      for (let i = 0; i &lt; this.moveTables.length; i += 1) {
+        indexes.push(this.moveTables[i].defaultIndex);
+      }
+&nbsp;
+      moves.forEach((move) =&gt; {
+        for (let i = 0; i &lt; indexes.length; i += 1) {
+          indexes[i] = this.moveTables[i].doMove(indexes[i], move);
+        }
+      });
+    }
+&nbsp;
+    for (let depth = 0; depth &lt;= this.settings.maxDepth; depth += 1) {
+      const solution = this.search(indexes, depth, this.settings.lastMove, []);
+&nbsp;
+      if (solution) {
+        return this.settings.format ? formatAlgorithm(solution.solution) : solution;
+      }
+    }
+&nbsp;
+    return false;
+  }
+}
+&nbsp;
+export default Search;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jun 28 2018 22:26:35 GMT+0200 (CEST)
+</div>
+</div>
+<script src="prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="sorter.js"></script>
+</body>
+</html>

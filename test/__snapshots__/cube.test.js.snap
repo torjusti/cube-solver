@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cube performs a corner orientation move 1`] = `
+Array [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`cube performs a corner permutation move 1`] = `
+Array [
+  1,
+  5,
+  2,
+  3,
+  0,
+  4,
+  6,
+  7,
+]
+`;
+
+exports[`cube performs an edge orientation move 1`] = `
+Array [
+  0,
+  1,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  1,
+  1,
+  0,
+  0,
+]
+`;
+
+exports[`cube performs an edge permutation move 1`] = `
+Array [
+  0,
+  9,
+  2,
+  3,
+  4,
+  8,
+  6,
+  7,
+  1,
+  5,
+  10,
+  11,
+]
+`;
+
+exports[`cube resets the edge orientation when doing a move twice 1`] = `
+Array [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;

@@ -1,11 +1,7 @@
-import {
-  doAlgorithm,
-  identity,
-} from '../src/cube';
-
+import { doAlgorithm, identity } from '../src/cube';
 import kociemba from '../src/kociemba';
 
-test('solve a cube and return an algorithm', () => {
+test('solve a random cube and return a valid algorithm', () => {
   expect(kociemba("R U R' U' R' F R F"))
     .toEqual(expect.stringMatching(/^([FRUBLD][2']?\s*)+$/));
 });
