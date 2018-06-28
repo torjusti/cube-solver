@@ -1,6 +1,6 @@
 {
   "name": "cube-solver",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Solve Rubiks cubes using the Kociemba algorithm",
   "author": "Torjus Iveland <torjusti@gmail.com>",
   "main": "lib/bundle.js",
