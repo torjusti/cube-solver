@@ -7,7 +7,7 @@ This module contains a collection of Rubiks cube solvers implemented in JavaScri
 
 ## Installation
 
-To install, simply run `yarn install cube-solver`, and require the `cube-solver` module. You can also manually add the `bundle.js` file to your webpage, in which case the solver will be available globally as `cubeSolver`.
+To install, simply run `yarn install cube-solver`, and require the `cube-solver` module. You can also manually add the bundle file to your webpage, in which case the solver will be available globally as `cubeSolver`.
 
 ## Example
 
