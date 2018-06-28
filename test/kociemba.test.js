@@ -7,7 +7,11 @@ test('solve a random cube and return a valid algorithm', () => {
 });
 
 test('solve a cube and verify the solution', () => {
-  const cube = doAlgorithm("L F2 U2 R2 D2 L U2 R2 D2 U2 B2 F' L B L R2 D U L' B U'");
-  const solution = kociemba("L F2 U2 R2 D2 L U2 R2 D2 U2 B2 F' L B L R2 D U L' B U'");
+  const scramble = "L F2 U2 R2 D2 L U2 R2 D2 U2 B2 F' L B L R2 D U L' B U'";
+
+  const solution = kociemba(scramble);
+  
+  const cube = doAlgorithm(scramble);
+
   expect(doAlgorithm(solution, cube)).toEqual(identity);
 });
