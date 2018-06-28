@@ -34,3 +34,6 @@ node_modules/
 
 # Generated files
 lib/
+
+# Test coverage
+coverage/
