@@ -27,4 +27,9 @@ describe('cube', () => {
   it('performs a corner permutation move', () => {
     expect(cube.cornerPermutationMove([0, 1, 2, 3, 4, 5, 6, 7], 0)).toMatchSnapshot();
   });
+
+
+  it('performs an algorithm correctly', () => {
+    expect(cube.doAlgorithm("R U R' U' R' F R F'")).toMatchSnapshot();
+  });
 });
