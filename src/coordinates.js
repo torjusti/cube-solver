@@ -54,7 +54,6 @@ export const getIndexFromOrientation = (pieces, flipCount) => {
  * describes it, the number of pieces in the vector, and the number
  * of ways in which an individual piece may be oriented.
  */
-
 export const getOrientationFromIndex = (index, numPieces, numFlips) => {
   const orientation = [];
 

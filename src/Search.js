@@ -9,6 +9,10 @@ class Search {
   }
 
   initialize() {
+    if (this.initialized) {
+      return;
+    }
+
     this.initialized = true;
 
     const { moveTables, pruningTables } = this.createTables();
@@ -100,9 +104,7 @@ class Search {
   }
 
   solve(settings) {
-    if (!this.initialized) {
-      this.initialize();
-    }
+    this.initialize();
 
     this.settings = Object.assign({
       maxDepth: 22, // For the Kociemba solver

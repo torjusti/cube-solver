@@ -1,7 +1,9 @@
 import { parseAlgorithm } from './algorithms';
 
-// We define moves as the four pieces which are
-// rotated in a circular fashion.
+/**
+ * We define moves as the four pieces which are
+ * rotated in a circular fashion.
+ */
 const edgeMoves = [
   [1, 8, 5, 9],
   [0, 11, 4, 8],
@@ -11,8 +13,10 @@ const edgeMoves = [
   [5, 4, 7, 6],
 ];
 
-// Corner moves are defined in the same way as
-// the edge moves are defined.
+/**
+ * Corner moves are defined in the same way as
+ * the edge moves are defined.
+ */
 const cornerMoves = [
   [1, 0, 4, 5],
   [0, 3, 7, 4],
@@ -134,6 +138,7 @@ export const doAlgorithm = (algorithm, cube = identity) => {
   return { ep, eo, cp, co };
 };
 
-
-// All legal moves.
+/**
+ * All the moves which can be performed on a cube.
+ */
 export const allMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];

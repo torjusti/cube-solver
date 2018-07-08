@@ -1,4 +1,6 @@
-// Numeric representations of powers.
+/**
+ * Numeric representation of the different powers of moves.
+ */
 const powers = {
   '': 0,
   2: 1,
