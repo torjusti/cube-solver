@@ -1,4 +1,4 @@
-import getRandomScramble from '../src/scramble';
+import getRandomScramble from '../src/scramblers/randomScramble';
 
 test('solve a random state cube', () => {
   expect(getRandomScramble())

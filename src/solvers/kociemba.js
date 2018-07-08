@@ -1,7 +1,7 @@
 import {
   getIndexFromPermutation,
   getPermutationFromIndex,
-} from './coordinates';
+} from '../coordinates';
 
 import {
   MoveTable,
@@ -9,9 +9,9 @@ import {
   createCornerPermutationTable,
   createEdgeOrientationTable,
   createCornerOrientationTable,
-} from './MoveTable';
+} from '../MoveTable';
 
-import Search from './Search';
+import Search from '../Search';
 
 // In phase two, only quarter moves of U and D and double turns of
 // all the other faces are allowed, in order to keep the cube in
