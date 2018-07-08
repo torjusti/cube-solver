@@ -43,5 +43,8 @@
   "dependencies": {
     "codecov": "^3.0.2",
     "rollup-watch": "^4.3.1"
+  },
+  "jest": {
+    "collectCoverageFrom": ["src/**/*.js"]
   }
 }
