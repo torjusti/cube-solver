@@ -15,6 +15,17 @@ export const Edges = {
   BR: 11,
 };
 
+export const Corners = {
+  URF: 0,
+  UFL: 1,
+  ULB: 2,
+  UBR: 3,
+  DFR: 4,
+  DLF: 5,
+  DBL: 6,
+  DBR: 7,
+};
+
 /**
  * We define moves as the four pieces which are
  * rotated in a circular fashion.
