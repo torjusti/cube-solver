@@ -52,17 +52,17 @@ import {
    * Generates a random scramble where all pieces are solved, except
    * for the provided edges and corners, which will be scrambled randomly.
    */
-  export const getScrambleForPieces = (edges, corners) => {
+  export const getScrambleForPieces = (permutationEdges, permutationCorners, orientationEdges = permutationEdges, orientationCorners = permutationCorners) => {
     let eo;
     let ep;
     let co;
     let cp;
   
     do {
-      eo = getOrientationFromEnabled(edges, 2, 12);
-      ep = getPermutationFromEnabled(edges, 12);
-      co = getOrientationFromEnabled(corners, 3, 8);
-      cp = getPermutationFromEnabled(corners, 8);
+      eo = getOrientationFromEnabled(orientationEdges, 2, 12);
+      ep = getPermutationFromEnabled(permutationEdges, 12);
+      co = getOrientationFromEnabled(orientationCorners, 3, 8);
+      cp = getPermutationFromEnabled(permutationCorners, 8);
     } while (getParity(ep) !== getParity(cp));
   
     return solveCoordinates(eo, ep, co, cp);
