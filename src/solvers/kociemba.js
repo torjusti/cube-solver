@@ -1,6 +1,8 @@
 import {
   getIndexFromPermutation,
   getPermutationFromIndex,
+  getIndexFromOrientation,
+  getParity,
 } from '../coordinates';
 
 import {
@@ -239,3 +241,14 @@ const kociemba = (scramble, maxDepth = 22) => {
 };
 
 export default kociemba;
+
+export const solveCoordinates = (eo, ep, co, cp) => kociemba([
+  Math.floor(getIndexFromPermutation(ep, [8, 9, 10, 11], true) / 24),
+  getIndexFromOrientation(co, 3),
+  getIndexFromOrientation(eo, 2),
+  getIndexFromPermutation(ep, [8, 9, 10, 11], true),
+  getParity(cp),
+  getIndexFromPermutation(cp, [0, 1, 2, 3, 4, 5]),
+  getIndexFromPermutation(ep, [0, 1, 2]),
+  getIndexFromPermutation(ep, [3, 4, 5]),
+]);

@@ -73,4 +73,6 @@ export const cartesian = (arg) => {
 };
 
 export const getRandomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min) + 1) + min;
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+export const permute = (n, r) => factorial(n) / factorial(n - r);
