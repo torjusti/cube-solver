@@ -67,7 +67,7 @@ export const getOrientationFromIndex = (index, numPieces, numFlips) => {
   }
 
   // Restore the last piece based on the orientation of the other pieces.
-  orientation[numPieces - 1] = (numFlips - parity % numFlips) % numFlips;
+  orientation[numPieces - 1] = (numFlips - (parity % numFlips)) % numFlips;
 
   return orientation;
 };
@@ -82,7 +82,7 @@ export const getOrientationFromIndex = (index, numPieces, numFlips) => {
  * describe the overall cube permutation using only 10 edges, 6 corners
  * and the parity of either the corners or the edges.
  */
-export const getParity = (pieces) => {
+export const getParity = pieces => {
   let sum = 0;
 
   for (let i = pieces.length - 1; i > 0; i -= 1) {
@@ -162,7 +162,12 @@ export const getIndexFromPermutation = (pieces, affected, reversed = false) => {
  * pieces and the permutation vector size. If reversed is true, the
  * indexes have been assigned right-to-left.
  */
-export const getPermutationFromIndex = (index, affected, size, reversed = false) => {
+export const getPermutationFromIndex = (
+  index,
+  affected,
+  size,
+  reversed = false,
+) => {
   const base = factorial(affected.length);
 
   let position = Math.floor(index / base);

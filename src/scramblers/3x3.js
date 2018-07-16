@@ -26,13 +26,20 @@ const getRandomScramble = () => {
 
     co = getOrientationFromIndex(getRandomInt(0, 2187), 8, 3);
 
-    ep = getPermutationFromIndex(getRandomInt(0, 479001600),
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 12);
+    ep = getPermutationFromIndex(
+      getRandomInt(0, 479001600),
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      12,
+    );
 
-    cp = getPermutationFromIndex(getRandomInt(0, 40320), [0, 1, 2, 3, 4, 5, 6, 7], 8);
+    cp = getPermutationFromIndex(
+      getRandomInt(0, 40320),
+      [0, 1, 2, 3, 4, 5, 6, 7],
+      8,
+    );
   } while (getParity(ep) !== getParity(cp));
 
-  return  solveCoordinates(eo, ep, co, cp);
+  return solveCoordinates(eo, ep, co, cp);
 };
 
 export default getRandomScramble;

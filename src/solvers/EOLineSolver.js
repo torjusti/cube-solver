@@ -1,8 +1,6 @@
 import {
   createEdgePermutationTable,
-  createCornerPermutationTable,
   createEdgeOrientationTable,
-  createCornerOrientationTable,
 } from '../MoveTable';
 
 import Search from '../Search';
@@ -18,15 +16,12 @@ const EOLineSearch = new Search(() => ({
     createEdgePermutationTable({
       name: 'EdgePermutation',
       affected: [5, 7],
-      }),
+    }),
   ],
 
-  pruningTables: [
-    ['EdgeOrientation'],
-    ['EdgePermutation'],
-  ],
+  pruningTables: [['EdgeOrientation'], ['EdgePermutation']],
 }));
-  
+
 const EOLineSolver = scramble => EOLineSearch.solve({ scramble });
 
 export default EOLineSolver;

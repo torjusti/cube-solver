@@ -4,7 +4,7 @@ const factorials = [];
  * Calculates n factorial and attempts to cache
  * as much information as possible.
  */
-export const factorial = (n) => {
+export const factorial = n => {
   if (n === 0 || n === 1) {
     return 1;
   }
@@ -49,7 +49,7 @@ export const choose = (n, k) => {
 /**
  * Cartesian product of a given nested array.
  */
-export const cartesian = (arg) => {
+export const cartesian = arg => {
   const result = [];
   const max = arg.length - 1;
 

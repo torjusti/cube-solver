@@ -1,8 +1,6 @@
 import {
   createEdgePermutationTable,
-  createCornerPermutationTable,
   createEdgeOrientationTable,
-  createCornerOrientationTable,
 } from '../MoveTable';
 
 import Search from '../Search';
@@ -20,10 +18,7 @@ const CrossSearch = new Search(() => ({
     }),
   ],
 
-  pruningTables: [
-    ['EdgePermutation'],
-    ['EdgeOrientation'],
-  ],
+  pruningTables: [['EdgePermutation'], ['EdgeOrientation']],
 }));
 
 const crossSolver = scramble => CrossSearch.solve({ scramble });
