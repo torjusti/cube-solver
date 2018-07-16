@@ -2,8 +2,9 @@ import { doAlgorithm, identity } from '../src/cube';
 import kociemba from '../src/solvers/kociemba';
 
 test('solve a random cube and return a valid algorithm', () => {
-  expect(kociemba("R U R' U' R' F R F"))
-    .toEqual(expect.stringMatching(/^([FRUBLD][2']?\s*)+$/));
+  expect(kociemba("R U R' U' R' F R F")).toEqual(
+    expect.stringMatching(/^([FRUBLD][2']?\s*)+$/),
+  );
 });
 
 test('solve a cube and verify the solution', () => {
