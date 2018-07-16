@@ -1,0 +1,17 @@
+{
+  "extends": ["prettier"],
+
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "sourceType": "module"
+  },
+
+  "plugins": [
+    "jest"
+  ],
+
+  "env": {
+    "jest": true,
+    "es6": true
+  }
+}

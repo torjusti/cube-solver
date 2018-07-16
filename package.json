@@ -18,7 +18,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "lint": "prettier --single-quote --trailing-comma all {src,test}/**/*.js",
+    "lint": "eslint .",
     "test": "jest",
     "codecov": "codecov",
     "precise-commits": "precise-commits"
@@ -28,13 +28,16 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-exponentiation-operator": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-latest": "^6.24.1",
     "codecov": "^3.0.2",
+    "eslint": "^5.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-jest": "^21.17.0",
     "husky": "^0.14.3",
     "jest": "^20.0.4",
     "precise-commits": "^1.0.2",
-    "prettier": "1.13.7",
-    "babel-preset-env": "^1.7.0"
+    "prettier": "1.13.7"
   },
   "jest": {
     "collectCoverageFrom": [
