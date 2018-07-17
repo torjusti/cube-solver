@@ -14,10 +14,12 @@
   "keywords": [
     "rubiks",
     "cube",
-    "solver"
+    "solver",
+    "scrambler"
   ],
   "license": "MIT",
   "scripts": {
+    "build": "rollup -c",
     "lint": "eslint .",
     "test": "jest",
     "codecov": "codecov"
@@ -36,11 +38,19 @@
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-standard": "^3.1.0",
     "jest": "^20.0.4",
-    "prettier": "1.13.7"
+    "prettier": "1.13.7",
+    "rollup": "^0.63.0",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-uglify": "^4.0.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js"
     ]
+  },
+  "dependencies": {
+    "rollup-plugin-node-builtins": "^2.1.2"
   }
 }
