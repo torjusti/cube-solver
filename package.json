@@ -20,8 +20,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
-    "codecov": "codecov",
-    "precise-commits": "precise-commits"
+    "codecov": "codecov"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -36,19 +35,12 @@
     "eslint-plugin-jest": "^21.17.0",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-standard": "^3.1.0",
-    "husky": "^0.14.3",
     "jest": "^20.0.4",
-    "precise-commits": "^1.0.2",
     "prettier": "1.13.7"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "precise-commits"
-    }
   }
 }
