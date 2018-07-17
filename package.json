@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/torjusti/cube-solver"
   },
+  "files": [
+    "lib"
+  ],
   "bugs": {
     "url": "https://github.com/torjusti/cube-solver/issues"
   },
