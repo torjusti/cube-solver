@@ -1,5 +1,5 @@
-import { doAlgorithm, identity } from '../src/cube';
-import kociemba from '../src/solvers/kociemba';
+import { doAlgorithm, identity } from '../../cube';
+import kociemba from '../kociemba';
 
 test('solve a random cube and return a valid algorithm', () => {
   expect(kociemba("R U R' U' R' F R F")).toEqual(
