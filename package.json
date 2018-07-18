@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "description": "Solve Rubiks cubes using the Kociemba algorithm",
   "author": "Torjus Iveland <torjusti@gmail.com>",
-  "main": "lib/index.js",
+  "main": "lib/bundle.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/torjusti/cube-solver"
@@ -22,9 +22,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "babel": "babel src --out-dir lib",
-    "rollup": "rollup -c",
-    "build": "yarn babel && yarn rollup",
+    "build": "rollup -c",
     "lint": "eslint .",
     "test": "jest",
     "codecov": "codecov"
