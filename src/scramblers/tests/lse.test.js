@@ -1,5 +1,5 @@
 import getLSEScramble from '../lse';
-import { doAlgorithm } from '../../cube';
+import { doAlgorithm } from '../../cube';
 import { configureMathMock, checkOriented, checkPermuted } from './utils';
 
 configureMathMock(309248823);
