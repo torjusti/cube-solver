@@ -1,18 +1,18 @@
-import getCMLLScramble from '../cmll';
+import getLSEScramble from '../lse';
 import { doAlgorithm } from '../../cube';
 import { configureMathMock, checkOriented, checkPermuted } from './utils';
 
-configureMathMock(7980909);
+configureMathMock(309248823);
 
-test('cmll scrambler', () => {
-  const scramble = getCMLLScramble();
+test('lse scrambler', () => {
+  const scramble = getLSEScramble();
   const cube = doAlgorithm(scramble);
 
   if (!checkOriented(cube.eo, [4, 6, 8, 9, 10, 11])) {
     fail();
   }
 
-  if (!checkOriented(cube.co, [4, 5, 6, 7])) {
+  if (!checkOriented(cube.co, [0, 1, 2, 3, 4, 5, 6, 7])) {
     fail();
   }
 
@@ -20,7 +20,7 @@ test('cmll scrambler', () => {
     fail();
   }
 
-  if (!checkPermuted(cube.cp, [4, 5, 6, 7])) {
+  if (!checkPermuted(cube.cp, [0, 1, 2, 3, 4, 5, 6, 7])) {
     fail();
   }
 });

@@ -4,7 +4,7 @@ import { configureMathMock, checkOriented, checkPermuted } from './utils';
 
 configureMathMock(4235632);
 
-test('cmll scrambler', () => {
+test('edges-only scrambler', () => {
   const scramble = getEdgesOnlyScramble();
   const cube = doAlgorithm(scramble);
 
