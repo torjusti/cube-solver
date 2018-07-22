@@ -1,5 +1,5 @@
 import get2GLLScramble from '../2gll';
-import { doAlgorithm } from '../../cube';
+import { doAlgorithm } from '../../cube';
 import { configureMathMock, checkOriented, checkPermuted } from './utils';
 
 configureMathMock(879998076);

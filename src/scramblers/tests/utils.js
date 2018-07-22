@@ -1,16 +1,16 @@
 import Chance from 'chance';
 
-export const configureMathMock = (seed) => {
-    const chances = {};
+export const configureMathMock = seed => {
+  const chances = {};
 
-    const math = Object.create(Math);
+  const math = Object.create(Math);
 
-    math.random = (seed) => {
-      chances[seed] = chances[seed] || new Chance(seed);
-      return chances[seed].random();
-    };
+  math.random = seed => {
+    chances[seed] = chances[seed] || new Chance(seed);
+    return chances[seed].random();
+  };
 
-    global.Math = math;
+  global.Math = math;
 };
 
 export const checkOriented = (vector, oriented) =>

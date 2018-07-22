@@ -50,4 +50,4 @@ const XCrossSearch = new Search(() => ({
 
 const XCrossSolver = scramble => XCrossSearch.solve({ scramble });
 
-export default  XCrossSolver;
+export default XCrossSolver;

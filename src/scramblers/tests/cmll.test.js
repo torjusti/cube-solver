@@ -1,6 +1,5 @@
-
 import getCMLLScramble from '../cmll';
-import { doAlgorithm } from '../../cube';
+import { doAlgorithm } from '../../cube';
 import { configureMathMock, checkOriented, checkPermuted } from './utils';
 
 configureMathMock(7980909);

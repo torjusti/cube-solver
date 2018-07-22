@@ -1,9 +1,8 @@
-
 import getCornersOnlyScramble from '../corners';
-import { doAlgorithm } from '../../cube';
+import { doAlgorithm } from '../../cube';
 import { configureMathMock, checkOriented, checkPermuted } from './utils';
 
-configureMathMock(7980909);
+configureMathMock(1223424);
 
 test('cmll scrambler', () => {
   const scramble = getCornersOnlyScramble();
