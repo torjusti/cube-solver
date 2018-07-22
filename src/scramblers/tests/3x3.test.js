@@ -1,4 +1,7 @@
 import getScramble from '../3x3';
+import { configureMathMock } from './utils';
+
+configureMathMock();
 
 test('create a 3x3 scramble', () => {
   expect(getScramble()).toEqual(
