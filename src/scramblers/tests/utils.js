@@ -18,3 +18,13 @@ export const checkOriented = (vector, oriented) =>
 
 export const checkPermuted = (vector, permuted) =>
   permuted.every(piece => vector[piece] === piece);
+
+export const getAllBut = (pieces, size) => {
+  const allPieces = [];
+
+  for (let i = 0; i < size; i += 1) {
+    allPieces.push(i);
+  }
+
+  return allPieces.filter(piece => !pieces.includes(piece));
+};
