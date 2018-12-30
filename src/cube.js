@@ -1,4 +1,5 @@
 import { parseAlgorithm } from './algorithms';
+import { rotateParts } from './tools';
 
 export const Edges = {
   UR: 0,
@@ -51,22 +52,6 @@ const cornerMoves = [
   [2, 1, 5, 6],
   [5, 4, 7, 6],
 ];
-
-/**
- * Rotates the subarray containing the affected pieces
- * to the right by one.
- */
-const rotateParts = (pieces, affected) => {
-  const updatedPieces = pieces.slice(0);
-
-  updatedPieces[affected[0]] = pieces[affected[affected.length - 1]];
-
-  for (let i = 1; i < affected.length; i += 1) {
-    updatedPieces[affected[i]] = pieces[affected[i - 1]];
-  }
-
-  return updatedPieces;
-};
 
 /**
  * Helper function to perform a corner or edge permutation move

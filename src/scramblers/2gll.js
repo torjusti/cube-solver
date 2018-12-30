@@ -10,6 +10,10 @@ const getScramble = () =>
     [],
 
     [Corners.URF, Corners.UFL, Corners.ULB, Corners.UBR],
+
+    false,
+
+    true,
   );
 
 export default getScramble;

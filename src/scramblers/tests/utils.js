@@ -1,4 +1,5 @@
 import Chance from 'chance';
+import { adjustUpperFace } from '../scramblePieces';
 
 export const configureMathMock = seed => {
   const chances = {};
@@ -13,11 +14,29 @@ export const configureMathMock = seed => {
   global.Math = math;
 };
 
-export const checkOriented = (vector, oriented) =>
-  oriented.every(piece => vector[piece] === 0);
+export const checkOriented = (vector, oriented, allowAdjustedUpperFace = false) => {
+  for (let i = 0; i < allowAdjustedUpperFace ? 4 : 1; i += 1) {
+    if (oriented.every(piece => vector[piece] === 0)) {
+      return true;
+    }
 
-export const checkPermuted = (vector, permuted) =>
-  permuted.every(piece => vector[piece] === piece);
+    vector = adjustUpperFace(vector, 1);
+  }
+
+  return false;
+};
+
+export const checkPermuted = (vector, permuted, allowAdjustedUpperFace = false) => {
+  for (let i = 0; i < allowAdjustedUpperFace ? 4 : 1; i += 1) {
+    if (permuted.every(piece => vector[piece] === piece)) {
+      return true;
+    }
+
+    vector = adjustUpperFace(vector, 1);
+  }
+
+  return false;
+};
 
 export const getAllBut = (pieces, size) => {
   const allPieces = [];

@@ -4,9 +4,11 @@ import {
   getParity,
 } from '../coordinates';
 
-import { getRandomInt, factorial } from '../tools';
+import { getRandomInt, factorial, rotateParts } from '../tools';
 
 import { solveCoordinates } from '../solvers/kociemba';
+
+const UPPER_FACE_POSITIONS = [0, 1, 2, 3];
 
 /**
  * Returns an orientation vector where all pieces
@@ -48,6 +50,16 @@ const getPermutationFromEnabled = (enabled, size) => {
   return permutation;
 };
 
+export const adjustUpperFace = (pieces, amount) => {
+  amount = amount || getRandomInt(0, 4);
+
+  for (let i = 0; i < amount; i += 1) {
+    pieces = rotateParts(pieces, UPPER_FACE_POSITIONS);
+  }
+
+  return pieces;
+};
+
 /**
  * Generates a random scramble where all pieces are solved, except
  * for the provided edges and corners, which will be scrambled randomly.
@@ -57,6 +69,8 @@ export const getScrambleForPieces = (
   permutationCorners,
   orientationEdges = permutationEdges,
   orientationCorners = permutationCorners,
+  adjustEdges = false,
+  adjustCorners = false,
 ) => {
   let eo;
   let ep;
@@ -65,9 +79,20 @@ export const getScrambleForPieces = (
 
   do {
     eo = getOrientationFromEnabled(orientationEdges, 2, 12);
+
     ep = getPermutationFromEnabled(permutationEdges, 12);
+
+    if (adjustEdges) {
+      ep = adjustUpperFace(ep);
+    }
+
     co = getOrientationFromEnabled(orientationCorners, 3, 8);
+
     cp = getPermutationFromEnabled(permutationCorners, 8);
+
+    if (adjustCorners) {
+      cp = adjustUpperFace(cp);
+    }
   } while (getParity(ep) !== getParity(cp));
 
   return solveCoordinates(eo, ep, co, cp);

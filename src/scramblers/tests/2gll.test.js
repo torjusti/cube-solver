@@ -20,7 +20,7 @@ test('2gll scrambler', () => {
     fail();
   }
 
-  if (!checkPermuted(cube.cp, [0, 1, 2, 3, 4, 5, 6, 7])) {
+  if (!checkPermuted(cube.cp, [0, 1, 2, 3, 4, 5, 6, 7], true)) {
     fail();
   }
 });
