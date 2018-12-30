@@ -8,7 +8,7 @@ const EDGES = [Edges.UR, Edges.UF, Edges.UL, Edges.UB];
 
 const CORNERS = [Corners.URF, Corners.UFL, Corners.ULB, Corners.UBR];
 
-test('pll scrambler', () => {
+test('zbll scrambler', () => {
   const scramble = getZBLLScramble();
   const cube = doAlgorithm(scramble);
 
