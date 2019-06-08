@@ -4,7 +4,6 @@ import {
 } from '../MoveTable';
 
 import Search from '../Search';
-import { EOL } from 'os';
 
 const EOLineSearch = new Search(() => ({
   moveTables: [

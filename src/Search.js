@@ -57,19 +57,12 @@ class Search {
       let index = indexes[this.pruningTables[i].moveTableIndexes[0]];
       let power = 1;
 
-      for (
-        let j = 1;
-        j < this.pruningTables[i].moveTableIndexes.length;
-        j += 1
-      ) {
-        power *= this.moveTables[this.pruningTables[i].moveTableIndexes[j - 1]]
-          .size;
+      for (let j = 1; j < this.pruningTables[i].moveTableIndexes.length; j += 1) {
+        power *= this.moveTables[this.pruningTables[i].moveTableIndexes[j - 1]].size;
         index += indexes[this.pruningTables[i].moveTableIndexes[j]] * power;
       }
 
-      const distance = this.pruningTables[i].pruningTable.getPruningValue(
-        index,
-      );
+      const distance = this.pruningTables[i].pruningTable.getPruningValue(index);
 
       if (distance > depth) {
         return false;
@@ -92,10 +85,7 @@ class Search {
 
         // Do not use moves that cancels. Note that R L is the same as L R.
         // We therfore also disallow moves which are parallel to the last move.
-        if (
-          Math.floor(move / 3) !== Math.floor(lastMove / 3) &&
-          Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3
-        ) {
+        if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
           const updatedIndexes = [];
 
           for (let j = 0; j < indexes.length; j += 1) {
@@ -124,7 +114,7 @@ class Search {
 
     this.settings = Object.assign(
       {
-        maxDepth: 22, // For the Kociemba solver
+        maxDepth: 22, // For the Kociemba solver.
         lastMove: null,
         format: true,
       },
@@ -151,9 +141,7 @@ class Search {
       const solution = this.search(indexes, depth, this.settings.lastMove, []);
 
       if (solution) {
-        return this.settings.format
-          ? formatAlgorithm(solution.solution)
-          : solution;
+        return this.settings.format ? formatAlgorithm(solution.solution) : solution;
       }
     }
 

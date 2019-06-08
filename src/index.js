@@ -15,24 +15,40 @@ import getZBLLScramble from './scramblers/zbll';
 import getZZLSScramble from './scramblers/zzls';
 
 export default {
-  solvers: {
-    crossSolver,
-    EOLineSolver,
-    firstBlockSolver,
-    kociemba,
-    XCrossSolver,
+  solve: (scramble, solver = 'kociemba') => {
+    const solvers = {
+      'kociemba': kociemba,
+      'cross': crossSolver,
+      'eoline': EOLineSolver,
+      'fb': firstBlockSolver,
+      'xcross': XCrossSolver,
+    };
+
+    if (solvers[solver]) {
+      return solvers[solver](scramble);
+    }
+
+    throw new Error('Specified solver does not exist.');
   },
 
-  scramblers: {
-    get2GLLScramble,
-    get3x3Scramble,
-    getCMLLScramble,
-    getCornersOnlycramble,
-    getEdgesOnlyScramble,
-    getLSEScramble,
-    getLSLLScramble,
-    getPLLscramble,
-    getZBLLScramble,
-    getZZLSScramble,
+  scramble: (scrambler = '3x3') => {
+    const scramblers = {
+      '3x3': get3x3Scramble,
+      '2gll': get2GLLScramble,
+      'cmll': getCMLLScramble,
+      'corners': getCornersOnlycramble,
+      'edges': getEdgesOnlyScramble,
+      'lse': getLSEScramble,
+      'lsll': getLSLLScramble,
+      'pll': getPLLscramble,
+      'zbll': getZBLLScramble,
+      'zzls': getZZLSScramble,
+    };
+
+    if (scramblers[scrambler]) {
+      return scramblers[scrambler]();
+    }
+
+    throw new Error('Specified scrambler does not exist.');
   },
 };
