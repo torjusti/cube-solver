@@ -1,15 +1,15 @@
 {
   "name": "cube-solver",
   "version": "1.1.1",
-  "description": "Solve Rubiks cubes using the Kociemba algorithm",
+  "description": "Solve Rubik's cube using the Kociemba algorithm",
   "author": "Torjus Iveland <torjusti@gmail.com>",
-  "main": "lib/bundle.js",
+  "main": "dist/bundle.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/torjusti/cube-solver"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "bugs": {
     "url": "https://github.com/torjusti/cube-solver/issues"
@@ -25,7 +25,8 @@
     "build": "rollup -c",
     "lint": "eslint .",
     "test": "jest",
-    "codecov": "codecov"
+    "codecov": "codecov",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -47,14 +48,12 @@
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-uglify": "^4.0.0",
     "webpack": "^4.16.1",
-    "webpack-cli": "^3.0.8"
+    "webpack-cli": "^3.0.8",
+    "rollup-plugin-node-builtins": "^2.1.2"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js"
     ]
-  },
-  "dependencies": {
-    "rollup-plugin-node-builtins": "^2.1.2"
   }
 }

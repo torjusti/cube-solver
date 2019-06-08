@@ -33,7 +33,7 @@ node_modules/
 .env
 
 # Generated files
-lib/
+dist/
 
 # Test coverage
 coverage/
