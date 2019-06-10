@@ -17,11 +17,11 @@ import getZZLSScramble from './scramblers/zzls';
 export default {
   solve: (scramble, solver = 'kociemba') => {
     const solvers = {
-      'kociemba': kociemba,
-      'cross': crossSolver,
-      'eoline': EOLineSolver,
-      'fb': firstBlockSolver,
-      'xcross': XCrossSolver,
+      kociemba,
+      cross: crossSolver,
+      eoline: EOLineSolver,
+      fb: firstBlockSolver,
+      xcross: XCrossSolver,
     };
 
     if (solvers[solver]) {
@@ -35,14 +35,14 @@ export default {
     const scramblers = {
       '3x3': get3x3Scramble,
       '2gll': get2GLLScramble,
-      'cmll': getCMLLScramble,
-      'corners': getCornersOnlycramble,
-      'edges': getEdgesOnlyScramble,
-      'lse': getLSEScramble,
-      'lsll': getLSLLScramble,
-      'pll': getPLLscramble,
-      'zbll': getZBLLScramble,
-      'zzls': getZZLSScramble,
+      cmll: getCMLLScramble,
+      corners: getCornersOnlycramble,
+      edges: getEdgesOnlyScramble,
+      lse: getLSEScramble,
+      lsll: getLSLLScramble,
+      pll: getPLLscramble,
+      zbll: getZBLLScramble,
+      zzls: getZZLSScramble,
     };
 
     if (scramblers[scrambler]) {

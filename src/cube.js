@@ -72,14 +72,12 @@ const permutationMove = (pieces, moveIndex, moves) => {
 /**
  * Perform a move to an edge permutaion vector.
  */
-export const edgePermutationMove = (pieces, moveIndex) =>
-  permutationMove(pieces, moveIndex, edgeMoves);
+export const edgePermutationMove = (pieces, moveIndex) => permutationMove(pieces, moveIndex, edgeMoves);
 
 /**
  * Perform a move to a corner permuttaion vector.
  */
-export const cornerPermutationMove = (pieces, moveIndex) =>
-  permutationMove(pieces, moveIndex, cornerMoves);
+export const cornerPermutationMove = (pieces, moveIndex) => permutationMove(pieces, moveIndex, cornerMoves);
 
 /**
  * Perform a move to an edge orientation vector.
@@ -139,14 +137,16 @@ export const doAlgorithm = (algorithm, cube = identity) => {
   let cp = cube.cp.slice();
   let co = cube.co.slice();
 
-  parseAlgorithm(algorithm).forEach(move => {
+  parseAlgorithm(algorithm).forEach((move) => {
     ep = edgePermutationMove(ep, move);
     eo = edgeOrientationMove(eo, move);
     cp = cornerPermutationMove(cp, move);
     co = cornerOrientationMove(co, move);
   });
 
-  return { ep, eo, cp, co };
+  return {
+    ep, eo, cp, co,
+  };
 };
 
 /**

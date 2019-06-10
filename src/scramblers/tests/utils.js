@@ -1,12 +1,12 @@
-import Chance from 'chance';
+import Chance from 'chance'; // eslint-disable-line import/no-extraneous-dependencies
 import { adjustUpperFace } from '../scramblePieces';
 
-export const configureMathMock = seed => {
+export const configureMathMock = (seed) => {
   const chances = {};
 
   const math = Object.create(Math);
 
-  math.random = seed => {
+  math.random = () => {
     chances[seed] = chances[seed] || new Chance(seed);
     return chances[seed].random();
   };
@@ -14,9 +14,11 @@ export const configureMathMock = seed => {
   global.Math = math;
 };
 
+const allOriented = (oriented, vector) => oriented.every(piece => vector[piece] === 0);
+
 export const checkOriented = (vector, oriented, allowAdjustedUpperFace = false) => {
   for (let i = 0; i < allowAdjustedUpperFace ? 4 : 1; i += 1) {
-    if (oriented.every(piece => vector[piece] === 0)) {
+    if (allOriented(oriented, vector)) {
       return true;
     }
 
@@ -26,9 +28,11 @@ export const checkOriented = (vector, oriented, allowAdjustedUpperFace = false) 
   return false;
 };
 
+const allPermuted = (permuted, vector) => permuted.every(piece => vector[piece] === piece);
+
 export const checkPermuted = (vector, permuted, allowAdjustedUpperFace = false) => {
   for (let i = 0; i < allowAdjustedUpperFace ? 4 : 1; i += 1) {
-    if (permuted.every(piece => vector[piece] === piece)) {
+    if (allPermuted(permuted, vector)) {
       return true;
     }
 

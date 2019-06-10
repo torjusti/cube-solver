@@ -82,7 +82,7 @@ export const getOrientationFromIndex = (index, numPieces, numFlips) => {
  * describe the overall cube permutation using only 10 edges, 6 corners
  * and the parity of either the corners or the edges.
  */
-export const getParity = pieces => {
+export const getParity = (pieces) => {
   let sum = 0;
 
   for (let i = pieces.length - 1; i > 0; i -= 1) {

@@ -7,12 +7,12 @@ test('first block solver', () => {
   const solution = solveFirstBlock(SCRAMBLE);
   const solvedCube = doAlgorithm(solution, doAlgorithm(SCRAMBLE));
 
-  [6, 9, 10].forEach(edge => {
+  [6, 9, 10].forEach((edge) => {
     expect(solvedCube.ep[edge]).toEqual(edge);
     expect(solvedCube.eo[edge]).toEqual(0);
   });
 
-  [5, 6].forEach(corner => {
+  [5, 6].forEach((corner) => {
     expect(solvedCube.cp[corner]).toEqual(corner);
     expect(solvedCube.co[corner]).toEqual(0);
   });

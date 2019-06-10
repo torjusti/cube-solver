@@ -9,7 +9,7 @@ test('EOLine solver', () => {
 
   expect(solvedCube.eo).toEqual(Array(12).fill(0));
 
-  [5, 7].forEach(edge => {
+  [5, 7].forEach((edge) => {
     expect(solvedCube.ep[edge]).toEqual(edge);
   });
 });

@@ -4,29 +4,29 @@
 [![codecov](https://codecov.io/gh/torjusti/cube-solver/branch/master/graph/badge.svg)](https://codecov.io/gh/torjusti/cube-solver)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-This module contains a collection of Rubiks cube solvers implemented in JavaScript. It can solve a given cube using the fantastic Kociemba two-phase algorithm, generate random state scrambles and solve the cross, EO-line and first block for any given scramble. The solver attempts to be easily extendable, at the cost of speed.
+This module contains a collection of Rubiks cube solvers and scramblers implemented in JavaScript. It can solve a given cube using the fantastic Kociemba two-phase algorithm, generate random state scrambles for the entire cube or specific scrambles such as PLL scrambles and LSLL scrambles. The solver can also provide optimal solutions for cross, EO line, first block and extended cross.
 
 ## Installation
 
-To install, simply run `yarn install cube-solver`, and require the `cube-solver` module. You can also manually add the bundle file to your webpage, in which case the solver will be available globally as `cubeSolver`.
+To install, simply run `yarn install cube-solver` or similar, and require the `cube-solver` module. You can also manually add the bundle file to your webpage using [this unpkg link](https://unpkg.com/cube-solver/lib/bundle.js), in which case the solver will be available globally as `cubeSolver`.
 
 ## Example
 
-```javascript
-const scramble = "F2 L' B' U R2 F";
+## Notes
 
-// Solve the given scramble using the two-phase algorithm.
-cubeSolver.solve(scramble) // => R F' U' R2 B' R' B2 L F2
+## Documentation
 
-// Find an optimal cross solution.
-cubeSolver.crossSolver(scramble) // => R2 F U' F2 B L
 
-// Find an optimal EOLine solution.
-cubeSolver.EOLineSolver(scramble) // => R F U' F2 R2 B
 
-// Find an optimal first block solution.
-cubeSolver.firstBlockSolver(scramble) // => R2 F' B2 L F'
-```
+
+
+
+
+
+
+
+
+
 
 Speed
 -----

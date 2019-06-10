@@ -73,13 +73,7 @@ class PruningTable {
             let position = 0;
 
             for (let i = powers.length - 1; i >= 0; i -= 1) {
-              position +=
-                powers[i] *
-                moveTables[i].doMove(
-                  Math.floor(currentIndex / powers[i]),
-                  move,
-                );
-
+              position += powers[i] * moveTables[i].doMove(Math.floor(currentIndex / powers[i]), move);
               currentIndex %= powers[i];
             }
 

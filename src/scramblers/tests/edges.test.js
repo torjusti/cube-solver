@@ -10,11 +10,6 @@ test('edges-only scrambler', () => {
 
   const ALL_CORNERS = [0, 1, 2, 3, 4, 5, 6, 7];
 
-  if (!checkOriented(cube.co, ALL_CORNERS)) {
-    fail();
-  }
-
-  if (!checkPermuted(cube.cp, ALL_CORNERS)) {
-    fail();
-  }
+  expect(checkOriented(cube.co, ALL_CORNERS)).toBe(true);
+  expect(checkPermuted(cube.cp, ALL_CORNERS)).toBe(true);
 });

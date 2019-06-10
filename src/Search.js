@@ -21,10 +21,8 @@ class Search {
 
     this.pruningTables = [];
 
-    pruningTables.forEach(moveTableNames => {
-      const moveTableIndexes = moveTableNames.map(name =>
-        this.moveTables.map(table => table.name).indexOf(name),
-      );
+    pruningTables.forEach((moveTableNames) => {
+      const moveTableIndexes = moveTableNames.map(name => this.moveTables.map(table => table.name).indexOf(name));
 
       moveTableIndexes.sort(
         (a, b) => this.moveTables[a].size - this.moveTables[b].size,
@@ -92,12 +90,7 @@ class Search {
             updatedIndexes.push(this.moveTables[j].doMove(indexes[j], move));
           }
 
-          const result = this.search(
-            updatedIndexes,
-            depth - 1,
-            move,
-            solution.concat([move]),
-          );
+          const result = this.search(updatedIndexes, depth - 1, move, solution.concat([move]));
 
           if (result) {
             return result;
@@ -112,14 +105,11 @@ class Search {
   solve(settings) {
     this.initialize();
 
-    this.settings = Object.assign(
-      {
-        maxDepth: 22, // For the Kociemba solver.
-        lastMove: null,
-        format: true,
-      },
-      settings,
-    );
+    this.settings = Object.assign({
+      maxDepth: 22, // For the Kociemba solver.
+      lastMove: null,
+      format: true,
+    }, settings);
 
     const indexes = this.settings.indexes || [];
 
@@ -130,7 +120,7 @@ class Search {
         indexes.push(this.moveTables[i].defaultIndex);
       }
 
-      moves.forEach(move => {
+      moves.forEach((move) => {
         for (let i = 0; i < indexes.length; i += 1) {
           indexes[i] = this.moveTables[i].doMove(indexes[i], move);
         }

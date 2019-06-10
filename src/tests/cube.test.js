@@ -1,4 +1,4 @@
-import * as cube from '..//cube';
+import * as cube from '../cube';
 
 describe('cube', () => {
   it('performs an edge orientation move', () => {

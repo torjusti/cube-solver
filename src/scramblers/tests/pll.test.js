@@ -12,27 +12,10 @@ test('pll scrambler', () => {
   const scramble = getPLLScramble();
   const cube = doAlgorithm(scramble);
 
-  if (!checkOriented(cube.eo, EDGES)) {
-    fail();
-  }
-
-  if (!checkOriented(cube.co, CORNERS)) {
-    fail();
-  }
-
-  if (!checkOriented(cube.eo, getAllBut(EDGES, 12))) {
-    fail();
-  }
-
-  if (!checkOriented(cube.co, getAllBut(CORNERS, 8))) {
-    fail();
-  }
-
-  if (!checkPermuted(cube.ep, getAllBut(EDGES, 12))) {
-    fail();
-  }
-
-  if (!checkPermuted(cube.cp, getAllBut(CORNERS, 8))) {
-    fail();
-  }
+  expect(checkOriented(cube.eo, EDGES)).toBe(true);
+  expect(checkOriented(cube.co, CORNERS)).toBe(true);
+  expect(checkOriented(cube.eo, getAllBut(EDGES, 12))).toBe(true);
+  expect(checkOriented(cube.co, getAllBut(CORNERS, 8))).toBe(true);
+  expect(checkPermuted(cube.ep, getAllBut(EDGES, 12))).toBe(true);
+  expect(checkPermuted(cube.cp, getAllBut(CORNERS, 8))).toBe(true);
 });

@@ -111,7 +111,6 @@ const phaseOneTables = () => {
     ],
   });
 
-  //
   URFToDLF = createCornerPermutationTable({
     name: 'URFToDLF',
     affected: [0, 1, 2, 3, 4, 5],
@@ -143,8 +142,7 @@ const phaseOneTables = () => {
         name: 'slicePosition',
         size: 495,
         table: slice.table,
-        doMove: (table, index, move) =>
-          Math.floor(table[index * 24][move] / 24),
+        doMove: (table, index, move) => Math.floor(table[index * 24][move] / 24),
       }),
 
       createCornerOrientationTable({
@@ -190,9 +188,9 @@ class PhaseOneSearch extends Search {
     // We do not allow solutions which end in a phase two move, as we then
     // would end up duplicating work.
     if (
-      lastMove % 2 === 0 &&
-      Math.floor(lastMove / 3) === 6 &&
-      Math.floor(lastMove / 3) === 15
+      lastMove % 2 === 0
+      && Math.floor(lastMove / 3) === 6
+      && Math.floor(lastMove / 3) === 15
     ) {
       return false;
     }
@@ -247,14 +245,13 @@ const kociemba = (scramble, maxDepth = 22) => {
 
 export default kociemba;
 
-export const solveCoordinates = (eo, ep, co, cp) =>
-  kociemba([
-    Math.floor(getIndexFromPermutation(ep, [8, 9, 10, 11], true) / 24),
-    getIndexFromOrientation(co, 3),
-    getIndexFromOrientation(eo, 2),
-    getIndexFromPermutation(ep, [8, 9, 10, 11], true),
-    getParity(cp),
-    getIndexFromPermutation(cp, [0, 1, 2, 3, 4, 5]),
-    getIndexFromPermutation(ep, [0, 1, 2]),
-    getIndexFromPermutation(ep, [3, 4, 5]),
-  ]);
+export const solveCoordinates = (eo, ep, co, cp) => kociemba([
+  Math.floor(getIndexFromPermutation(ep, [8, 9, 10, 11], true) / 24),
+  getIndexFromOrientation(co, 3),
+  getIndexFromOrientation(eo, 2),
+  getIndexFromPermutation(ep, [8, 9, 10, 11], true),
+  getParity(cp),
+  getIndexFromPermutation(cp, [0, 1, 2, 3, 4, 5]),
+  getIndexFromPermutation(ep, [0, 1, 2]),
+  getIndexFromPermutation(ep, [3, 4, 5]),
+]);

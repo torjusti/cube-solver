@@ -7,7 +7,7 @@ test('cross solver', () => {
   const solution = solveCross(SCRAMBLE);
   const solvedCube = doAlgorithm(solution, doAlgorithm(SCRAMBLE));
 
-  [4, 5, 6, 7].forEach(edge => {
+  [4, 5, 6, 7].forEach((edge) => {
     expect(solvedCube.eo[edge]).toEqual(0);
     expect(solvedCube.ep[edge]).toEqual(edge);
   });
