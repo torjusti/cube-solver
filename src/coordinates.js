@@ -54,7 +54,6 @@ export const getIndexFromOrientation = (pieces, flipCount) => {
  * describes it, the number of pieces in the vector, and the number
  * of ways in which an individual piece may be oriented.
  */
-
 export const getOrientationFromIndex = (index, numPieces, numFlips) => {
   const orientation = [];
 
@@ -68,7 +67,7 @@ export const getOrientationFromIndex = (index, numPieces, numFlips) => {
   }
 
   // Restore the last piece based on the orientation of the other pieces.
-  orientation[numPieces - 1] = (numFlips - parity % numFlips) % numFlips;
+  orientation[numPieces - 1] = (numFlips - (parity % numFlips)) % numFlips;
 
   return orientation;
 };
@@ -163,7 +162,12 @@ export const getIndexFromPermutation = (pieces, affected, reversed = false) => {
  * pieces and the permutation vector size. If reversed is true, the
  * indexes have been assigned right-to-left.
  */
-export const getPermutationFromIndex = (index, affected, size, reversed = false) => {
+export const getPermutationFromIndex = (
+  index,
+  affected,
+  size,
+  reversed = false,
+) => {
   const base = factorial(affected.length);
 
   let position = Math.floor(index / base);

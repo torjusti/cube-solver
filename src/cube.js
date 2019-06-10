@@ -1,7 +1,36 @@
 import { parseAlgorithm } from './algorithms';
+import { rotateParts } from './tools';
 
-// We define moves as the four pieces which are
-// rotated in a circular fashion.
+export const Edges = {
+  UR: 0,
+  UF: 1,
+  UL: 2,
+  UB: 3,
+  DR: 4,
+  DF: 5,
+  DL: 6,
+  DB: 7,
+  FR: 8,
+  FL: 9,
+  BL: 10,
+  BR: 11,
+};
+
+export const Corners = {
+  URF: 0,
+  UFL: 1,
+  ULB: 2,
+  UBR: 3,
+  DFR: 4,
+  DLF: 5,
+  DBL: 6,
+  DBR: 7,
+};
+
+/**
+ * We define moves as the four pieces which are
+ * rotated in a circular fashion.
+ */
 const edgeMoves = [
   [1, 8, 5, 9],
   [0, 11, 4, 8],
@@ -11,8 +40,10 @@ const edgeMoves = [
   [5, 4, 7, 6],
 ];
 
-// Corner moves are defined in the same way as
-// the edge moves are defined.
+/**
+ * Corner moves are defined in the same way as
+ * the edge moves are defined.
+ */
 const cornerMoves = [
   [1, 0, 4, 5],
   [0, 3, 7, 4],
@@ -21,22 +52,6 @@ const cornerMoves = [
   [2, 1, 5, 6],
   [5, 4, 7, 6],
 ];
-
-/**
- * Rotates the subarray containing the affected pieces
- * to the right by one.
- */
-const rotateParts = (pieces, affected) => {
-  const updatedPieces = pieces.slice(0);
-
-  updatedPieces[affected[0]] = pieces[affected[affected.length - 1]];
-
-  for (let i = 1; i < affected.length; i += 1) {
-    updatedPieces[affected[i]] = pieces[affected[i - 1]];
-  }
-
-  return updatedPieces;
-};
 
 /**
  * Helper function to perform a corner or edge permutation move
@@ -57,14 +72,12 @@ const permutationMove = (pieces, moveIndex, moves) => {
 /**
  * Perform a move to an edge permutaion vector.
  */
-export const edgePermutationMove = (pieces, moveIndex) =>
-  permutationMove(pieces, moveIndex, edgeMoves);
+export const edgePermutationMove = (pieces, moveIndex) => permutationMove(pieces, moveIndex, edgeMoves);
 
 /**
  * Perform a move to a corner permuttaion vector.
  */
-export const cornerPermutationMove = (pieces, moveIndex) =>
-  permutationMove(pieces, moveIndex, cornerMoves);
+export const cornerPermutationMove = (pieces, moveIndex) => permutationMove(pieces, moveIndex, cornerMoves);
 
 /**
  * Perform a move to an edge orientation vector.
@@ -131,9 +144,31 @@ export const doAlgorithm = (algorithm, cube = identity) => {
     co = cornerOrientationMove(co, move);
   });
 
-  return { ep, eo, cp, co };
+  return {
+    ep, eo, cp, co,
+  };
 };
 
-
-// All legal moves.
-export const allMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+/**
+ * All the moves which can be performed on a cube.
+ */
+export const allMoves = [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+];

@@ -3,108 +3,52 @@
 ![travis](https://travis-ci.org/torjusti/cube-solver.svg?branch=master)
 [![codecov](https://codecov.io/gh/torjusti/cube-solver/branch/master/graph/badge.svg)](https://codecov.io/gh/torjusti/cube-solver)
 
-This module contains a collection of Rubiks cube solvers implemented in JavaScript. It can solve a given cube using the fantastic Kociemba two-phase algorithm, generate random state scrambles and solve the cross, EO-line and first block for any given scramble. The solver attempts to be easily extendable, at the cost of speed.
+This module contains a collection of Rubik's cube solvers implemented in JavaScript. It can solve a given cube using the fantastic Kociemba two-phase algorithm, generate random state scrambles, solve steps such as the cross or the Roux first block, as well as provide a variety of different scramble types.
 
 ## Installation
 
-To install, simply run `yarn install cube-solver`, and require the `cube-solver` module. You can also manually add the bundle file to your webpage, in which case the solver will be available globally as `cubeSolver`.
+To install, simply run `yarn install cube-solver` or similar, and require the `cube-solver` module. You can also manually add the bundle file to your webpage using [this unpkg link](https://unpkg.com/cube-solver/lib/bundle.js), in which case the solver will be available globally as `cubeSolver`.
 
 ## Example
 
 ```javascript
-const scramble = "F2 L' B' U R2 F";
-
-// Solve the given scramble using the two-phase algorithm.
-cubeSolver.solve(scramble) // => R F' U' R2 B' R' B2 L F2
-
-// Find an optimal cross solution.
-cubeSolver.crossSolver(scramble) // => R2 F U' F2 B L
-
-// Find an optimal EOLine solution.
-cubeSolver.EOLineSolver(scramble) // => R F U' F2 R2 B
-
-// Find an optimal first block solution.
-cubeSolver.firstBlockSolver(scramble) // => R2 F' B2 L F'
+// Get a new random-state scramble.
+const scramble = cubeSolver.scramble();
+// Solve the first block.
+cubeSolver.solve(scramble, 'fb') // => R L2 B' U' L2 D' F'
+// Get a ZBLL scramble.
+cubeSolver.scramble('zbll'); // => R B2 R' U' L U' L U' F2 R2 U' B2 U R2 D' F2 U'
 ```
 
-Speed
------
+## Notes
 
-The solver is pretty slow, as the implementation aims at being pretty modular and extendable. The solver initializes on the first solve, usually in about 2 seconds. It usually uses about 100 ms to generate and solve a random cube, but this number may be a lot higher for specific cubes. For example, the scramble `F U' F2 D' B U R' F' L D' R' U' L U B' D2 R' F U2 D2` takes almost a minute to complete. If speed is your main concern, you should probably be using the GWT compiled versions of Chen Shuang's min2phase solver.
-
+The solver is pretty slow compared to other solvers such as the GWT compiled version of min2phase, but rather aims to be simple and extensible. The solver initializes when solving the first cube, which usually takes around 2 seconds. Generating and solving a random cube takes around 100ms on average, but for some cubes this number can be quite high.
 
 ## Documentation
 
-All the following methods are methods on the exported `cubeSolver` object.
+The solver exposes two methods. The first,`cubeSolver.scramble(type = '3x3')`, allows for scrambling the cube or different subsets of it, and `cubeSolver.solve(scramble, type = 'kociemba')` allows for solving the cube or different subsets of it.
 
-### `solve(scramble, maxDepth = 22)`
+### Available scramble types
 
-Solves the given scramble using the two-phase algorithm. The second parameter, `maxDepth`, is the maximum length of the returned soution. It is intended for internal usage only.
+| Type    | Description                             |
+|---------|-----------------------------------------|
+| 3x3     | A random-state 3x3 scrable.             |
+| 2gll    | A 2-generator last layer scramble.      |
+| cmll    | A Roux CMLL scramble.                   |
+| corners | A corners-only scramble.                |
+| edges   | An edges-only scramble.                 |
+| lse     | A Roux LSE scramble.                    |
+| lsll    | Scramble for last slot + last layer.    |
+| pll     | A PLL scramble.                         |
+| zbll    | A ZBLL scramble.                        |
+| zzls    | Scramble for ZZ last slot + last layer. |
 
-### getRandomScramble()
+### Available solver types
 
-Returns a random state scramble.
-
-### crossSolver(scramble)
-
-Solves theh cross on the given scramble.
-
-### firstBlockSolver(scramble)
-
-Solves the first block on the given scramble.
-
-### EOLineSolver
-
-Solves the EOLine on the given scramble.
-
-## Custom solvers
-
-More internal functionality is also exported for advanced usage, which can be used to create your own custom solvers. For example, one can create a solver for a FL XCross using the following code.
-
-```javascript
-const MoveTable = require('./lib/bundle').MoveTable;
-const Search = require('./lib/bundle').Search;
-
-const XCrossSearch = new Search(() => ({
-  moveTables: [
-    MoveTable.createEdgePermutationTable({
-      name: 'CrossEdgePermutation',
-      affected: [4, 5, 6, 7],
-    }),
-
-    MoveTable.createEdgeOrientationTable({
-      name: 'CrossEdgeOrientation',
-      affected: [4, 5, 6, 7],
-    }),
-
-    MoveTable.createEdgePermutationTable({
-      name: 'BonusEdgePermutation',
-      affected: [9],
-    }),
-
-    MoveTable.createEdgeOrientationTable({
-      name: 'BonusEdgeOrientation',
-      affected: [9],
-    }),
-
-    MoveTable.createCornerPermutationTable({
-      name: 'CornerPermutation',
-      affected: [5],
-    }),
-
-    MoveTable.createCornerOrientationTable({
-      name: 'CornerOrientation',
-      affected: [5],
-    }),
-  ],
-
-  pruningTables: [
-    ['CornerPermutation', 'CornerOrientation'],
-    ['BonusEdgePermutation', 'BonusEdgeOrientation'],
-    ['CrossEdgePermutation'],
-    ['CrossEdgeOrientation'],
-  ],
-}));
-
-const XCrossSolver = scramble => XCrossSearch.solve({ scramble });
-```
+| Type     | Description                                        |
+|----------|----------------------------------------------------|
+| kociemba | Solve the whole cube using the Kociemba algorithm. |
+| cross    | Solve the CFOP cross.                              |
+| eoline   | Solve the ZZ EOLine.                               |
+| fb       | Solve the Roux first block, on the bottom left.    |
+| xcross   | Solve an extended CFOP cross.                      |

@@ -1,51 +1,59 @@
 {
   "name": "cube-solver",
-  "version": "1.1.1",
-  "description": "Solve Rubiks cubes using the Kociemba algorithm",
+  "version": "2.0.0",
+  "description": "Solve Rubik's cube using the Kociemba algorithm.",
   "author": "Torjus Iveland <torjusti@gmail.com>",
-  "main": "lib/bundle.js",
+  "main": "dist/bundle.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/torjusti/cube-solver"
   },
+  "files": [
+    "dist"
+  ],
   "bugs": {
     "url": "https://github.com/torjusti/cube-solver/issues"
   },
   "keywords": [
     "rubiks",
     "cube",
-    "solver"
+    "solver",
+    "scrambler"
   ],
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
     "lint": "eslint .",
     "test": "jest",
-    "codecov": "codecov"
+    "codecov": "codecov",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-exponentiation-operator": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-latest": "^6.24.1",
-    "eslint": "^4.4.0",
-    "eslint-config-airbnb-base": "^11.3.1",
-    "eslint-loader": "^1.9.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jest": "^20.0.3",
+    "chance": "^1.0.16",
+    "codecov": "^3.0.2",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jest": "^22.6.4",
     "jest": "^20.0.4",
-    "rollup": "^0.45.2",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-uglify": "^2.0.1"
+    "rollup": "^0.63.0",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-uglify": "^4.0.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8",
+    "eslint-config-airbnb": "^17.1.0"
   },
   "jest": {
-    "coverageDirectory": "./coverage/",
-    "collectCoverage": true
-  },
-  "dependencies": {
-    "codecov": "^3.0.2",
-    "rollup-watch": "^4.3.1"
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
   }
 }

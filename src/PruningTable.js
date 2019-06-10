@@ -49,7 +49,6 @@ class PruningTable {
       done += 1;
     }
 
-
     // We generate the table using a BFS. Depth 0 contains all positions which
     // are solved, and we loop through the correct indexes and apply all 18 moves
     // to the correct states. Then we visit all positions at depth 2, and apply
@@ -74,9 +73,7 @@ class PruningTable {
             let position = 0;
 
             for (let i = powers.length - 1; i >= 0; i -= 1) {
-              position += powers[i] * moveTables[i]
-                .doMove(Math.floor(currentIndex / powers[i]), move);
-
+              position += powers[i] * moveTables[i].doMove(Math.floor(currentIndex / powers[i]), move);
               currentIndex %= powers[i];
             }
 

@@ -9,6 +9,10 @@ class Search {
   }
 
   initialize() {
+    if (this.initialized) {
+      return;
+    }
+
     this.initialized = true;
 
     const { moveTables, pruningTables } = this.createTables();
@@ -18,11 +22,11 @@ class Search {
     this.pruningTables = [];
 
     pruningTables.forEach((moveTableNames) => {
-      const moveTableIndexes = moveTableNames.map(name =>
-        this.moveTables.map(table => table.name).indexOf(name));
+      const moveTableIndexes = moveTableNames.map(name => this.moveTables.map(table => table.name).indexOf(name));
 
-      moveTableIndexes.sort((a, b) =>
-        this.moveTables[a].size - this.moveTables[b].size);
+      moveTableIndexes.sort(
+        (a, b) => this.moveTables[a].size - this.moveTables[b].size,
+      );
 
       const mappedTables = [];
 
@@ -79,8 +83,7 @@ class Search {
 
         // Do not use moves that cancels. Note that R L is the same as L R.
         // We therfore also disallow moves which are parallel to the last move.
-        if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3)
-            !== Math.floor(lastMove / 3) - 3) {
+        if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
           const updatedIndexes = [];
 
           for (let j = 0; j < indexes.length; j += 1) {
@@ -100,12 +103,10 @@ class Search {
   }
 
   solve(settings) {
-    if (!this.initialized) {
-      this.initialize();
-    }
+    this.initialize();
 
     this.settings = Object.assign({
-      maxDepth: 22, // For the Kociemba solver
+      maxDepth: 22, // For the Kociemba solver.
       lastMove: null,
       format: true,
     }, settings);

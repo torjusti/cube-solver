@@ -1,7 +1,9 @@
 import {
   getIndexFromPermutation,
   getPermutationFromIndex,
-} from './coordinates';
+  getIndexFromOrientation,
+  getParity,
+} from '../coordinates';
 
 import {
   MoveTable,
@@ -9,9 +11,9 @@ import {
   createCornerPermutationTable,
   createEdgeOrientationTable,
   createCornerOrientationTable,
-} from './MoveTable';
+} from '../MoveTable';
 
-import Search from './Search';
+import Search from '../Search';
 
 // In phase two, only quarter moves of U and D and double turns of
 // all the other faces are allowed, in order to keep the cube in
@@ -72,7 +74,8 @@ const phaseTwoTables = () => {
         table: slice.table,
       }),
 
-      parity, URFToDLF,
+      parity,
+      URFToDLF,
 
       createEdgePermutationTable({
         name: 'URToDF',
@@ -108,7 +111,6 @@ const phaseOneTables = () => {
     ],
   });
 
-  //
   URFToDLF = createCornerPermutationTable({
     name: 'URFToDLF',
     affected: [0, 1, 2, 3, 4, 5],
@@ -153,7 +155,9 @@ const phaseOneTables = () => {
         affected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       }),
 
-      slice, parity, URFToDLF,
+      slice,
+      parity,
+      URFToDLF,
 
       createEdgePermutationTable({
         name: 'URToUL',
@@ -166,10 +170,7 @@ const phaseOneTables = () => {
       }),
     ],
 
-    pruningTables: [
-      ['slicePosition', 'flip'],
-      ['slicePosition', 'twist'],
-    ],
+    pruningTables: [['slicePosition', 'flip'], ['slicePosition', 'twist']],
   };
 };
 
@@ -186,7 +187,11 @@ class PhaseOneSearch extends Search {
 
     // We do not allow solutions which end in a phase two move, as we then
     // would end up duplicating work.
-    if (lastMove % 2 === 0 && Math.floor(lastMove / 3) === 6 && Math.floor(lastMove / 3) === 15) {
+    if (
+      lastMove % 2 === 0
+      && Math.floor(lastMove / 3) === 6
+      && Math.floor(lastMove / 3) === 15
+    ) {
       return false;
     }
 
@@ -239,3 +244,14 @@ const kociemba = (scramble, maxDepth = 22) => {
 };
 
 export default kociemba;
+
+export const solveCoordinates = (eo, ep, co, cp) => kociemba([
+  Math.floor(getIndexFromPermutation(ep, [8, 9, 10, 11], true) / 24),
+  getIndexFromOrientation(co, 3),
+  getIndexFromOrientation(eo, 2),
+  getIndexFromPermutation(ep, [8, 9, 10, 11], true),
+  getParity(cp),
+  getIndexFromPermutation(cp, [0, 1, 2, 3, 4, 5]),
+  getIndexFromPermutation(ep, [0, 1, 2]),
+  getIndexFromPermutation(ep, [3, 4, 5]),
+]);

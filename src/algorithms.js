@@ -1,8 +1,10 @@
-// Numeric representations of powers.
+/**
+ * Numeric representation of the different powers of moves.
+ */
 const powers = {
   '': 0,
   2: 1,
-  '\'': 2,
+  "'": 2,
 };
 
 /**
@@ -47,7 +49,7 @@ export const formatAlgorithm = (moves) => {
         break;
 
       case 2:
-        sequence += '\'';
+        sequence += "'";
         break;
 
       default:

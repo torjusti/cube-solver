@@ -1,15 +1,22 @@
 import babel from 'rollup-plugin-babel';
-import uglify from 'rollup-plugin-uglify';
+import { uglify } from 'rollup-plugin-uglify';
+import builtins from 'rollup-plugin-node-builtins';
 
 export default {
-  entry: 'src/index.js',
-  format: 'umd',
-  moduleName: 'cubeSolver',
-  dest: 'lib/bundle.js',
+  input: 'src/index.js',
+
+  output: {
+    file: 'dist/bundle.js',
+    name: 'cubeSolver',
+    format: 'umd',
+  },
+
   plugins: [
     babel({
       exclude: 'node_modules/**',
     }),
+
     uglify(),
+    builtins(),
   ],
 };

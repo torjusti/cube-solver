@@ -93,11 +93,18 @@ export class MoveTable {
 export const createCornerPermutationTable = settings => new MoveTable({
   name: settings.name,
   moves: settings.moves,
-  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7],
-    settings.affected, settings.reversed),
+  defaultIndex: getIndexFromPermutation(
+    [0, 1, 2, 3, 4, 5, 6, 7],
+    settings.affected,
+    settings.reversed,
+  ),
   size: settings.size || factorial(8) / factorial(8 - settings.affected.length),
-  getVector: index => getPermutationFromIndex(index, settings.affected.slice(),
-    8, settings.reversed),
+  getVector: index => getPermutationFromIndex(
+    index,
+    settings.affected.slice(),
+    8,
+    settings.reversed,
+  ),
   cubieMove: cornerPermutationMove,
   getIndex: pieces => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
 });
@@ -105,11 +112,18 @@ export const createCornerPermutationTable = settings => new MoveTable({
 export const createEdgePermutationTable = settings => new MoveTable({
   name: settings.name,
   moves: settings.moves,
-  defaultIndex: getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    settings.affected, settings.reversed),
+  defaultIndex: getIndexFromPermutation(
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    settings.affected,
+    settings.reversed,
+  ),
   size: settings.size || factorial(12) / factorial(12 - settings.affected.length),
-  getVector: index => getPermutationFromIndex(index, settings.affected.slice(), 12,
-    settings.reversed),
+  getVector: index => getPermutationFromIndex(
+    index,
+    settings.affected.slice(),
+    12,
+    settings.reversed,
+  ),
   cubieMove: edgePermutationMove,
   getIndex: pieces => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
 });
