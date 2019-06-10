@@ -3,7 +3,7 @@
 ![travis](https://travis-ci.org/torjusti/cube-solver.svg?branch=master)
 [![codecov](https://codecov.io/gh/torjusti/cube-solver/branch/master/graph/badge.svg)](https://codecov.io/gh/torjusti/cube-solver)
 
-This module contains a collection of Rubiks cube solvers implemented in JavaScript. It can solve a given cube using the fantastic Kociemba two-phase algorithm, generate random state scrambles, solve steps such as the cross or the Roux first block, as well as provide a variety of different scramble types.
+This module contains a collection of Rubik's cube solvers implemented in JavaScript. It can solve a given cube using the fantastic Kociemba two-phase algorithm, generate random state scrambles, solve steps such as the cross or the Roux first block, as well as provide a variety of different scramble types.
 
 ## Installation
 
