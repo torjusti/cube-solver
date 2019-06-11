@@ -7,7 +7,7 @@ This module contains a collection of Rubik's cube solvers implemented in JavaScr
 
 ## Installation
 
-To install, simply run `yarn install cube-solver` or similar, and require the `cube-solver` module. You can also manually add the bundle file to your webpage using [this unpkg link](https://unpkg.com/cube-solver/lib/bundle.js), in which case the solver will be available globally as `cubeSolver`.
+To install, simply run `yarn install cube-solver` or similar, and require the `cube-solver` module. You can also manually add the bundle file to your webpage using [this unpkg link](https://unpkg.com/cube-solver/dist/bundle.js), in which case the solver will be available globally as `cubeSolver`.
 
 ## Example
 
