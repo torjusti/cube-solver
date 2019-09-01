@@ -54,6 +54,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js"
-    ]
+    ],
+    "coverageDirectory": "./coverage"
   }
 }
