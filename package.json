@@ -1,15 +1,17 @@
 {
   "name": "cube-solver",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Solve Rubik's cube using the Kociemba algorithm.",
   "author": "Torjus Iveland <torjusti@gmail.com>",
   "main": "dist/bundle.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/torjusti/cube-solver"
   },
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "bugs": {
     "url": "https://github.com/torjusti/cube-solver/issues"
