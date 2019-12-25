@@ -22,7 +22,7 @@ cubeSolver.scramble('zbll'); // => R B2 R' U' L U' L U' F2 R2 U' B2 U R2 D' F2 U
 
 ## Notes
 
-The solver is pretty slow compared to other solvers such as the GWT compiled version of min2phase, but rather aims to be simple and extensible. The solver initializes when solving the first cube, which usually takes around 2 seconds. Generating and solving a random cube takes around 100ms on average, but for some cubes this number can be quite high.
+The solver is pretty slow compared to other solvers such as the GWT compiled version of min2phase, but rather aims to be simple and extensible. The Kociemba solver initializes when solving the first cube, which usually takes around 2 seconds. Generating and solving a random cube takes around 100ms on average, but for some cubes this number can be quite high. The optimal EOLine, FB, Cross and XCross solvers initialize pretty quickly, with the exception of the XCross solver.
 
 ## Documentation
 

@@ -10,23 +10,13 @@ import Search from '../Search';
 const XCrossSearch = new Search(() => ({
   moveTables: [
     createEdgePermutationTable({
-      name: 'CrossEdgePermutation',
-      affected: [4, 5, 6, 7],
+      name: 'EdgePermutation',
+      affected: [4, 5, 6, 7, 9],
     }),
 
     createEdgeOrientationTable({
-      name: 'CrossEdgeOrientation',
-      affected: [4, 5, 6, 7],
-    }),
-
-    createEdgePermutationTable({
-      name: 'BonusEdgePermutation',
-      affected: [9],
-    }),
-
-    createEdgeOrientationTable({
-      name: 'BonusEdgeOrientation',
-      affected: [9],
+      name: 'EdgeOrientation',
+      affected: [4, 5, 6, 7, 9],
     }),
 
     createCornerPermutationTable({
@@ -41,10 +31,8 @@ const XCrossSearch = new Search(() => ({
   ],
 
   pruningTables: [
-    ['CornerPermutation', 'CornerOrientation'],
-    ['BonusEdgePermutation', 'BonusEdgeOrientation'],
-    ['CrossEdgePermutation'],
-    ['CrossEdgeOrientation'],
+    ['EdgePermutation', 'CornerPermutation'],
+    ['EdgeOrientation', 'CornerOrientation'],
   ],
 }));
 
