@@ -7,7 +7,7 @@ import {
 
 import Search from '../Search';
 
-const FirstBlockSearch = new Search(() => ({
+export const FirstBlockSearch = new Search(() => ({
   moveTables: [
     createEdgeOrientationTable({
       name: 'EdgeOrientation',

@@ -1,8 +1,8 @@
-import crossSolver from './solvers/crossSolver';
-import EOLineSolver from './solvers/EOLineSolver';
-import firstBlockSolver from './solvers/firstBlockSolver';
-import kociemba from './solvers/kociemba';
-import XCrossSolver from './solvers/XCrossSolver';
+import crossSolver, { CrossSearch } from './solvers/crossSolver';
+import EOLineSolver, { EOLineSearch } from './solvers/EOLineSolver';
+import firstBlockSolver, { FirstBlockSearch } from './solvers/firstBlockSolver';
+import kociemba, { phaseOne, phaseTwo } from './solvers/kociemba';
+import XCrossSolver, { XCrossSearch } from './solvers/XCrossSolver';
 import get2GLLScramble from './scramblers/2gll';
 import get3x3Scramble from './scramblers/3x3';
 import getCMLLScramble from './scramblers/cmll';
@@ -50,5 +50,23 @@ export default {
     }
 
     throw new Error('Specified scrambler does not exist.');
+  },
+
+  initialize: (solver) => {
+    const search = {
+      cross: CrossSearch,
+      eoline: EOLineSearch,
+      fb: FirstBlockSearch,
+      xcross: XCrossSearch,
+    };
+
+    if (solver === 'kociemba') {
+      phaseOne.initialize();
+      phaseTwo.initialize();
+    } else if (search[solver]) {
+      search[solver].initialize();
+    } else {
+      throw new Error('Specified solver does not exist.');
+    }
   },
 };

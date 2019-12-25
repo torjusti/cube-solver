@@ -92,7 +92,7 @@ const phaseTwoTables = () => {
   };
 };
 
-const phaseTwo = new Search(phaseTwoTables, phaseTwoMoves);
+export const phaseTwo = new Search(phaseTwoTables, phaseTwoMoves);
 
 const phaseOneTables = () => {
   // The parity move table is so small that we inline it. It
@@ -227,7 +227,7 @@ class PhaseOneSearch extends Search {
   }
 }
 
-const phaseOne = new PhaseOneSearch(phaseOneTables);
+export const phaseOne = new PhaseOneSearch(phaseOneTables);
 
 const kociemba = (scramble, maxDepth = 22) => {
   if (Array.isArray(scramble)) {

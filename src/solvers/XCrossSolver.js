@@ -7,7 +7,7 @@ import {
 
 import Search from '../Search';
 
-const XCrossSearch = new Search(() => ({
+export const XCrossSearch = new Search(() => ({
   moveTables: [
     createEdgePermutationTable({
       name: 'EdgePermutation',

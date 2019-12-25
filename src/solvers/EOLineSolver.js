@@ -5,7 +5,7 @@ import {
 
 import Search from '../Search';
 
-const EOLineSearch = new Search(() => ({
+export const EOLineSearch = new Search(() => ({
   moveTables: [
     createEdgeOrientationTable({
       name: 'EdgeOrientation',

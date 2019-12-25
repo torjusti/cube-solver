@@ -26,7 +26,7 @@ The solver is pretty slow compared to other solvers such as the GWT compiled ver
 
 ## Documentation
 
-The solver exposes two methods. The first,`cubeSolver.scramble(type = '3x3')`, allows for scrambling the cube or different subsets of it, and `cubeSolver.solve(scramble, type = 'kociemba')` allows for solving the cube or different subsets of it.
+The solver exposes three methods. The first,`cubeSolver.scramble(type = '3x3')`, allows for scrambling the cube or different subsets of it, and `cubeSolver.solve(scramble, type = 'kociemba')` allows for solving the cube or different subsets of it. Solvers are initialized on the first solve, but you can manually initialize them by calling `cubeSolver.initialize(solver)`. See below for a list of available solver types.
 
 ### Available scramble types
 
