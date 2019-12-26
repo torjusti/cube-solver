@@ -113,8 +113,12 @@ class Search {
 
     const indexes = this.settings.indexes || [];
 
+    let solutionRotation;
+
     if (this.settings.scramble) {
-      const moves = parseAlgorithm(this.settings.scramble);
+      const [moves, totalRotation] = parseAlgorithm(this.settings.scramble, true);
+
+      solutionRotation = totalRotation.join(' ');
 
       for (let i = 0; i < this.moveTables.length; i += 1) {
         indexes.push(this.moveTables[i].defaultIndex);
@@ -131,7 +135,20 @@ class Search {
       const solution = this.search(indexes, depth, this.settings.lastMove, []);
 
       if (solution) {
-        return this.settings.format ? formatAlgorithm(solution.solution) : solution;
+        if (this.settings.format) {
+          const formatted = formatAlgorithm(solution.solution);
+
+          if (solutionRotation) {
+            // If we have rotations in the scramble, apply them to the solution
+            // and then parse again to remove the rotations. This results in a
+            // solution that can be applied from the result scramble orientation.
+            return formatAlgorithm(parseAlgorithm(`${solutionRotation} ${formatted}`));
+          }
+
+          return formatted;
+        }
+
+        return solution;
       }
     }
 
