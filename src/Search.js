@@ -1,4 +1,4 @@
-import { parseAlgorithm, formatAlgorithm } from './algorithms';
+import { parseAlgorithm, formatAlgorithm, invertAlgorithm } from './algorithms';
 import PruningTable from './PruningTable';
 import { allMoves } from './cube';
 
@@ -118,7 +118,9 @@ class Search {
     if (this.settings.scramble) {
       const [moves, totalRotation] = parseAlgorithm(this.settings.scramble, true);
 
-      solutionRotation = totalRotation.join(' ');
+      if (totalRotation.length > 0) {
+        solutionRotation = invertAlgorithm(totalRotation.join(' '));
+      }
 
       for (let i = 0; i < this.moveTables.length; i += 1) {
         indexes.push(this.moveTables[i].defaultIndex);

@@ -100,6 +100,35 @@ export const parseAlgorithm = (algorithm, returnTotalRotation = false) => {
 };
 
 /**
+ * Computes the inverse of a given algorithm. Rotations are supported.
+ */
+export const invertAlgorithm = (algorithm) => {
+  if (!validateAlgorithm(algorithm)) {
+    throw new Error('Invalid algorithm provided to algorithm parser');
+  }
+
+  const moves = algorithm.match(/[FRUBLDfrubldxyzMSE][2']?/g);
+
+  const inverted = moves.reverse().map((move) => {
+    const axis = move.charAt(0);
+    const pow = powers[move.charAt(1)];
+    const inv = pow - 2 * (pow % 3) + 2;
+
+    if (inv === 1) {
+      return `${axis}2`;
+    }
+
+    if (inv === 2) {
+      return `${axis}'`;
+    }
+    
+    return axis;
+  });
+
+  return inverted.join(' ');
+};
+
+/**
  * Convert an array of integers to a human-readable representation.
  */
 export const formatAlgorithm = (moves) => {
