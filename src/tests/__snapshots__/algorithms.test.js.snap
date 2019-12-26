@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`algorithms should strip rotations from algorithms correctly 1`] = `
+Array [
+  3,
+  9,
+  8,
+  11,
+  8,
+  3,
+  9,
+  5,
+]
+`;
