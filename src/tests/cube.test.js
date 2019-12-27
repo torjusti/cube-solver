@@ -16,7 +16,7 @@ describe('cube', () => {
   });
 
   it('performs a corner orientation move', () => {
-    expect(cube.cornerOrientationMove(Array(8).fill(0)), 0).toMatchSnapshot();
+    expect(cube.cornerOrientationMove(Array(8).fill(0), 0)).toMatchSnapshot();
   });
 
   it('performs an edge permutation move', () => {
