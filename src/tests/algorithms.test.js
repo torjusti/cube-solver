@@ -3,7 +3,7 @@ import * as algorithms from '../algorithms';
 describe('algorithms', () => {
   it('allow parsing invalid algorithms', () => {
     expect(() => {
-      algorithms.parseAlgorithm("R U R' U' 1337 R' F R F'")
+      algorithms.parseAlgorithm("R U R' U' 1337 R' F R F'");
     }).toThrowError();
   });
 

@@ -14,7 +14,7 @@ export const configureMathMock = (seed) => {
   global.Math = math;
 };
 
-const allOriented = (oriented, vector) => oriented.every(piece => vector[piece] === 0);
+const allOriented = (oriented, vector) => oriented.every((piece) => vector[piece] === 0);
 
 export const checkOriented = (vector, oriented, allowAdjustedUpperFace = false) => {
   for (let i = 0; i < allowAdjustedUpperFace ? 4 : 1; i += 1) {
@@ -28,7 +28,7 @@ export const checkOriented = (vector, oriented, allowAdjustedUpperFace = false) 
   return false;
 };
 
-const allPermuted = (permuted, vector) => permuted.every(piece => vector[piece] === piece);
+const allPermuted = (permuted, vector) => permuted.every((piece) => vector[piece] === piece);
 
 export const checkPermuted = (vector, permuted, allowAdjustedUpperFace = false) => {
   for (let i = 0; i < allowAdjustedUpperFace ? 4 : 1; i += 1) {
@@ -49,5 +49,5 @@ export const getAllBut = (pieces, size) => {
     allPieces.push(i);
   }
 
-  return allPieces.filter(piece => !pieces.includes(piece));
+  return allPieces.filter((piece) => !pieces.includes(piece));
 };

@@ -22,7 +22,7 @@ class Search {
     this.pruningTables = [];
 
     pruningTables.forEach((moveTableNames) => {
-      const moveTableIndexes = moveTableNames.map(name => this.moveTables.map(table => table.name).indexOf(name));
+      const moveTableIndexes = moveTableNames.map((name) => this.moveTables.map((table) => table.name).indexOf(name));
 
       moveTableIndexes.sort(
         (a, b) => this.moveTables[a].size - this.moveTables[b].size,
@@ -30,7 +30,7 @@ class Search {
 
       const mappedTables = [];
 
-      moveTableIndexes.forEach(i => mappedTables.push(this.moveTables[i]));
+      moveTableIndexes.forEach((i) => mappedTables.push(this.moveTables[i]));
 
       const pruningTable = new PruningTable(mappedTables, this.moves);
 
@@ -103,11 +103,10 @@ class Search {
   solve(settings) {
     this.initialize();
 
-    this.settings = Object.assign({
-      maxDepth: 22, // For the Kociemba solver.
+    this.settings = { maxDepth: 22, // For the Kociemba solver.
       lastMove: null,
       format: true,
-    }, settings);
+      ...settings };
 
     const indexes = this.settings.indexes || [];
 

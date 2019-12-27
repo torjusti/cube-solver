@@ -35,7 +35,7 @@ class PruningTable {
       powers.push(moveTables[i - 1].size * powers[i - 1]);
     }
 
-    const permutations = cartesian(moveTables.map(data => data.solvedIndexes));
+    const permutations = cartesian(moveTables.map((data) => data.solvedIndexes));
 
     for (let i = 0; i < permutations.length; i += 1) {
       let index = 0;

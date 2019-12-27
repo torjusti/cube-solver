@@ -8,7 +8,7 @@ const powers = {
 /**
  * Check whether or not we are able to parse the given algorithm string.
  */
-const validateAlgorithm = algorithm => /^([FRUBLDfrubldxyzMSE][2']?\s*)+$/.test(algorithm);
+const validateAlgorithm = (algorithm) => /^([FRUBLDfrubldxyzMSE][2']?\s*)+$/.test(algorithm);
 
 // Map single-power wide moves to a rotation + moves.
 const wideMoves = {
@@ -41,7 +41,7 @@ const normalize = (moves) => {
     const pow = move.charAt(1);
 
     if (wideMoves[axis]) {
-      return acc.concat(wideMoves[axis].map(m => m + pow));
+      return acc.concat(wideMoves[axis].map((m) => m + pow));
     }
 
     return acc.concat(move);
@@ -62,7 +62,7 @@ const normalize = (moves) => {
       totalRotation.unshift(moves[i]);
 
       for (let j = 0; j <= pow; j += 1) {
-        output = output.map(outputMove => rotations[axis]['FRUBLD'.indexOf(outputMove[0])] + outputMove.charAt(1));
+        output = output.map((outputMove) => rotations[axis]['FRUBLD'.indexOf(outputMove[0])] + outputMove.charAt(1));
       }
     } else {
       output.unshift(moves[i]);
@@ -121,7 +121,7 @@ export const invertAlgorithm = (algorithm) => {
     if (inv === 2) {
       return `${axis}'`;
     }
-    
+
     return axis;
   });
 

@@ -36,6 +36,6 @@ export const XCrossSearch = new Search(() => ({
   ],
 }));
 
-const XCrossSolver = scramble => XCrossSearch.solve({ scramble });
+const XCrossSolver = (scramble) => XCrossSearch.solve({ scramble });
 
 export default XCrossSolver;
