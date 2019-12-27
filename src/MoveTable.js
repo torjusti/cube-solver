@@ -40,13 +40,9 @@ export class MoveTable {
     // We allow defining a custom function that returns the updated
     // index. This is useful for helper tables which are subsets
     // of already generated tables.
-    this.doMove = (index, move) => {
-      if (settings.doMove) {
-        return settings.doMove(this.table, index, move);
-      }
-
-      return this.table[index][move];
-    };
+    if (settings.doMove) {
+      this.doMove = (index, move) => settings.doMove(this.table, index, move);
+    }
 
     if (settings.table) {
       this.table = settings.table;
@@ -62,6 +58,10 @@ export class MoveTable {
     );
 
     this.createMoveTable(settings.size, cubieMove, settings.moves);
+  }
+
+  doMove(index, move) {
+    return this.table[index][move];
   }
 
   createMoveTable(size, cubieMove, moves = allMoves) {

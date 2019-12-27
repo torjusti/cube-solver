@@ -81,8 +81,6 @@ class Search {
       for (let i = 0; i < this.moves.length; i += 1) {
         const move = this.moves[i];
 
-        // Do not use moves that cancels. Note that R L is the same as L R.
-        // We therfore also disallow moves which are parallel to the last move.
         if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
           const updatedIndexes = [];
 

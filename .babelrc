@@ -1,21 +1,20 @@
 {
   "env": {
     "development": {
-        "presets": [
-          [
-            "env",
-            
-            {
-              "modules": false
-            }
-          ]
-        ],
-
-        "plugins": ["external-helpers"]
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "modules": false,
+            "targets": "defaults"
+          }
+        ]
+      ]
     },
-
     "test": {
-      "presets": ["env"]
+      "presets": [
+        "@babel/preset-env"
+      ]
     }
   }
 }
