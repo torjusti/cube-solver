@@ -138,7 +138,7 @@ class Search {
           const formatted = formatAlgorithm(solution.solution);
 
           if (solutionRotation) {
-            // If we have rotations in the scramble, apply them to the solution
+            // If we have rotations in the scramble, apply the inverse to the solution
             // and then parse again to remove the rotations. This results in a
             // solution that can be applied from the result scramble orientation.
             return formatAlgorithm(parseAlgorithm(`${solutionRotation} ${formatted}`));

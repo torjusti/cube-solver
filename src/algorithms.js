@@ -38,10 +38,14 @@ const normalize = (moves) => {
   // Replace wide moves with rotations + moves.
   moves = moves.reduce((acc, move) => {
     const axis = move.charAt(0);
-    const pow = move.charAt(1);
+    const pow = powers[move.charAt(1)];
 
     if (wideMoves[axis]) {
-      return acc.concat(wideMoves[axis].map((m) => m + pow));
+      for (let i = 0; i <= pow; i += 1) {
+        acc = acc.concat(wideMoves[axis]);
+      }
+ 
+      return acc;
     }
 
     return acc.concat(move);
