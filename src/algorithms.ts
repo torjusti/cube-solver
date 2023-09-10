@@ -8,7 +8,7 @@ const powers = {
 /**
  * Check whether or not we are able to parse the given algorithm string.
  */
-const validateAlgorithm = (algorithm) => /^([FRUBLDfrubldxyzMSE][2']?\s*)+$/.test(algorithm);
+const validateAlgorithm = (algorithm: string) => /^([FRUBLDfrubldxyzMSE][2']?\s*)+$/.test(algorithm);
 
 // Map single-power wide moves to a rotation + moves.
 const wideMoves = {
@@ -34,9 +34,9 @@ const rotations = {
  * Strip rotations and wide moves from an algorithm. Returns
  * an array of moves as strings.
  */
-const normalize = (moves) => {
+const normalize = (moves: string[]) => {
   // Replace wide moves with rotations + moves.
-  moves = moves.reduce((acc, move) => {
+  moves = moves.reduce((acc: string[], move) => {
     const axis = move.charAt(0);
     const pow = powers[move.charAt(1)];
 
@@ -51,11 +51,11 @@ const normalize = (moves) => {
     return acc.concat(move);
   }, []);
 
-  let output = [];
+  let output: string[] = [];
 
   // We store all rotations that were encountered, to map the
   // solution to the same final rotation as the scramble.
-  const totalRotation = [];
+  const totalRotation: string[] = [];
 
   // Remove rotations by mapping all moves to the right of the rotation.
   for (let i = moves.length - 1; i >= 0; i -= 1) {
@@ -76,19 +76,25 @@ const normalize = (moves) => {
   return [output, totalRotation];
 };
 
-/**
- * Parses a scramble, returning an array of integers describing the moves.
- */
-export const parseAlgorithm = (algorithm, returnTotalRotation = false) => {
-  if (!validateAlgorithm(algorithm)) {
+export const getChunks = (algorithm: string): string[] => {
+  const result = algorithm.match(/[FRUBLDfrubldxyzMSE][2']?/g);
+
+  if (!validateAlgorithm(algorithm) || !result) {
     throw new Error('Invalid algorithm provided to algorithm parser');
   }
 
-  const result = [];
+  return result;
+};
 
+/**
+ * Parses a scramble, returning an array of integers describing the moves.
+ */
+export const parseAlgorithm = (algorithm: string, returnTotalRotation = false) => {
   const [moves, totalRotation] = normalize(
-    algorithm.match(/[FRUBLDfrubldxyzMSE][2']?/g),
+    getChunks(algorithm)
   );
+
+  const result: number[] = [];
 
   moves.forEach((move) => {
     const moveNum = 'FRUBLD'.indexOf(move.charAt(0));
@@ -106,12 +112,8 @@ export const parseAlgorithm = (algorithm, returnTotalRotation = false) => {
 /**
  * Computes the inverse of a given algorithm. Rotations are supported.
  */
-export const invertAlgorithm = (algorithm) => {
-  if (!validateAlgorithm(algorithm)) {
-    throw new Error('Invalid algorithm provided to algorithm parser');
-  }
-
-  const moves = algorithm.match(/[FRUBLDfrubldxyzMSE][2']?/g);
+export const invertAlgorithm = (algorithm: string) => {
+  const moves = getChunks(algorithm);
 
   const inverted = moves.reverse().map((move) => {
     const axis = move.charAt(0);
@@ -135,7 +137,7 @@ export const invertAlgorithm = (algorithm) => {
 /**
  * Convert an array of integers to a human-readable representation.
  */
-export const formatAlgorithm = (moves) => {
+export const formatAlgorithm = (moves: number[]) => {
   let sequence = '';
 
   moves.forEach((move) => {
