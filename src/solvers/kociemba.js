@@ -229,23 +229,23 @@ class PhaseOneSearch extends Search {
 
 export const phaseOne = new PhaseOneSearch(phaseOneTables);
 
-const kociemba = (scramble, maxDepth = 22) => {
+const kociemba = (scramble, settings) => {
   if (Array.isArray(scramble)) {
     return phaseOne.solve({
       indexes: scramble,
-      maxDepth,
+      ...settings,
     });
   }
 
   return phaseOne.solve({
     scramble,
-    maxDepth,
+    ...settings
   });
 };
 
 export default kociemba;
 
-export const solveCoordinates = (eo, ep, co, cp) => kociemba([
+export const solveCoordinates = (eo, ep, co, cp, settings) => kociemba([
   Math.floor(getIndexFromPermutation(ep, [8, 9, 10, 11], true) / 24),
   getIndexFromOrientation(co, 3),
   getIndexFromOrientation(eo, 2),
@@ -254,4 +254,4 @@ export const solveCoordinates = (eo, ep, co, cp) => kociemba([
   getIndexFromPermutation(cp, [0, 1, 2, 3, 4, 5]),
   getIndexFromPermutation(ep, [0, 1, 2]),
   getIndexFromPermutation(ep, [3, 4, 5]),
-]);
+], settings);

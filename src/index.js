@@ -15,7 +15,7 @@ import getZBLLScramble from './scramblers/zbll';
 import getZZLSScramble from './scramblers/zzls';
 
 export default {
-  solve: (scramble, solver = 'kociemba') => {
+  solve: (scramble, solver = 'kociemba', settings) => {
     const solvers = {
       kociemba,
       cross: crossSolver,
@@ -25,13 +25,13 @@ export default {
     };
 
     if (solvers[solver]) {
-      return solvers[solver](scramble);
+      return solvers[solver](scramble, settings);
     }
 
     throw new Error('Specified solver does not exist.');
   },
 
-  scramble: (scrambler = '3x3') => {
+  scramble: (scrambler = '3x3', settings) => {
     const scramblers = {
       '3x3': get3x3Scramble,
       '2gll': get2GLLScramble,
@@ -46,7 +46,7 @@ export default {
     };
 
     if (scramblers[scrambler]) {
-      return scramblers[scrambler]();
+      return scramblers[scrambler](settings);
     }
 
     throw new Error('Specified scrambler does not exist.');
