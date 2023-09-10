@@ -1,9 +1,23 @@
-import { parseAlgorithm, formatAlgorithm, invertAlgorithm } from './algorithms';
+import { parseAlgorithm, formatAlgorithm, invertAlgorithm, getTotalRotation } from './algorithms';
 import PruningTable from './PruningTable';
 import { allMoves } from './cube';
+import { MoveTable } from './MoveTable';
 
 class Search {
-  constructor(createTables, moves = allMoves) {
+  private createTables: () => { moveTables: MoveTable[], pruningTables: string[][] };
+  private moves: number[];
+  private initialized: boolean;
+  private moveTables: MoveTable[];
+  private pruningTables: { moveTableIndexes: number[], pruningTable: PruningTable }[];
+  private settings: { 
+    lastMove: number; 
+    indexes: number[]; 
+    scramble: string; 
+    format: boolean; 
+    maxDepth: number;
+  };
+
+  constructor(createTables: () => { moveTables: MoveTable[], pruningTables: string[][] }, moves = allMoves) {
     this.createTables = createTables;
     this.moves = moves;
   }
@@ -28,7 +42,7 @@ class Search {
         (a, b) => this.moveTables[a].size - this.moveTables[b].size,
       );
 
-      const mappedTables = [];
+      const mappedTables: MoveTable[] = [];
 
       moveTableIndexes.forEach((i) => mappedTables.push(this.moveTables[i]));
 
@@ -41,7 +55,7 @@ class Search {
     });
   }
 
-  handleSolution(solution, indexes) {
+  handleSolution(solution: number[], indexes: number[]) {
     return {
       solution,
       indexes,
@@ -82,7 +96,7 @@ class Search {
         const move = this.moves[i];
 
         if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
-          const updatedIndexes = [];
+          const updatedIndexes: number[] = [];
 
           for (let j = 0; j < indexes.length; j += 1) {
             updatedIndexes.push(this.moveTables[j].doMove(indexes[j], move));
@@ -113,7 +127,8 @@ class Search {
     let solutionRotation;
 
     if (this.settings.scramble) {
-      const [moves, totalRotation] = parseAlgorithm(this.settings.scramble, true);
+      const moves = parseAlgorithm(this.settings.scramble);
+      const totalRotation = getTotalRotation(this.settings.scramble);
 
       if (totalRotation.length > 0) {
         solutionRotation = invertAlgorithm(totalRotation.join(' '));

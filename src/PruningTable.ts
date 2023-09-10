@@ -1,3 +1,4 @@
+import { MoveTable } from './MoveTable';
 import { cartesian } from './tools';
 
 /**
@@ -5,19 +6,21 @@ import { cartesian } from './tools';
  * required to reach a target state.
  */
 class PruningTable {
-  constructor(moveTables, moves) {
+  private table: number[];
+
+  constructor(moveTables: MoveTable[], moves: number[]) {
     this.computePruningTable(moveTables, moves);
   }
 
-  setPruningValue(index, value) {
+  setPruningValue(index: number, value: number) {
     this.table[index >> 3] ^= (0xf ^ value) << ((index & 7) << 2);
   }
 
-  getPruningValue(index) {
+  getPruningValue(index: number) {
     return (this.table[index >> 3] >> ((index & 7) << 2)) & 0xf;
   }
 
-  computePruningTable(moveTables, moves) {
+  computePruningTable(moveTables: MoveTable[], moves: number[]) {
     const size = moveTables.reduce((acc, obj) => acc * obj.size, 1);
 
     this.table = [];

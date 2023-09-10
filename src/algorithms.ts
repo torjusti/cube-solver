@@ -89,7 +89,7 @@ export const getChunks = (algorithm: string): string[] => {
 /**
  * Parses a scramble, returning an array of integers describing the moves.
  */
-export const parseAlgorithm = (algorithm: string, returnTotalRotation = false) => {
+export const parseAlgorithm = (algorithm: string) => {
   const [moves, totalRotation] = normalize(
     getChunks(algorithm)
   );
@@ -102,12 +102,10 @@ export const parseAlgorithm = (algorithm: string, returnTotalRotation = false) =
     result.push(moveNum * 3 + pow);
   });
 
-  if (returnTotalRotation) {
-    return [result, totalRotation];
-  }
-
   return result;
 };
+
+export const getTotalRotation = (algorithm: string) => normalize(getChunks(algorithm))[1];
 
 /**
  * Computes the inverse of a given algorithm. Rotations are supported.

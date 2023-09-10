@@ -43,10 +43,10 @@ export interface MoveTableCreatorSettings extends MoveTableSettings {
 }
 
 export class MoveTable {
-  private name: string;
-  private size: number;
-  private defaultIndex: number;
-  private solvedIndexes: number[];
+  public name: string;
+  public size: number;
+  public defaultIndex: number;
+  public solvedIndexes: number[];
   private table: number[][]
 
   constructor(settings: MoveTableSettings) {

@@ -49,11 +49,11 @@ export const choose = (n: number, k: number) => {
 /**
  * Cartesian product of a given nested array.
  */
-export const cartesian = (arg: number[][]) => {
-  const result: number[] = [];
+export const cartesian = (arg: number[][]): number[][] => {
+  const result: number[][] = [];
   const max = arg.length - 1;
 
-  const helper = (arr, i) => {
+  const helper = (arr: number[], i: number) => {
     for (let j = 0; j < arg[i].length; j += 1) {
       const copy = arr.slice(0);
 
