@@ -9,4 +9,4 @@ declare module 'cube-solver' {
   export const solve: (scramble: string, type: Solver) => string;
   // Initialize given solver.
   export const initialize: (solver: Solver) => void;
-};
+}
