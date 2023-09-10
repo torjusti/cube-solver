@@ -1,4 +1,4 @@
-import Chance from 'chance'; // eslint-disable-line import/no-extraneous-dependencies
+import Chance from 'chance';
 import { adjustUpperFace } from '../scramblePieces';
 
 export const configureMathMock = (seed) => {

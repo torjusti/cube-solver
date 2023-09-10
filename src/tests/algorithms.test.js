@@ -4,7 +4,7 @@ describe('algorithms', () => {
   it('should not allow parsing invalid algorithms', () => {
     expect(() => {
       algorithms.parseAlgorithm("R U R' U' 1337 R' F R F'");
-    }).toThrowError();
+    }).toThrow();
   });
 
   it('should correctly invert a given algorithm', () => {
@@ -17,7 +17,7 @@ describe('algorithms', () => {
       .toMatchSnapshot();
 
     // Regression: Wide moves described using inverted rotations would
-    // add powers multiple times to a single move, crashing the parser. 
+    // add powers multiple times to a single move, crashing the parser.
     expect(algorithms.parseAlgorithm("f' r' u' b' l' d'")).toMatchSnapshot();
   });
 });
