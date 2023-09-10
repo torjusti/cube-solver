@@ -44,7 +44,7 @@ const normalize = (moves) => {
       for (let i = 0; i <= pow; i += 1) {
         acc = acc.concat(wideMoves[axis]);
       }
- 
+
       return acc;
     }
 

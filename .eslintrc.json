@@ -1,16 +1,9 @@
 {
-  "extends": "airbnb-base",
-  "parser": "babel-eslint",
+  "extends": "eslint:recommended",
+  "parser": "@babel/eslint-parser",
   "env": {
-    "jest": true
-  },
-  "rules": {
-    "no-bitwise": "off",
-    "no-mixed-operators": "off",
-    "no-param-reassign": "off",
-    "class-methods-use-this": ["error", { "exceptMethods": ["handleSolution"] }],
-    "import/no-named-as-default": "off",
-    "max-len": ["error", 125],
-    "object-curly-newline": "off"
+    "jest": true,
+    "browser": true,
+    "node": true
   }
 }

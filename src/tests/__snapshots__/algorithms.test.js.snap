@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`algorithms should strip rotations from algorithms correctly 1`] = `
-Array [
+[
   3,
   9,
   8,
@@ -18,7 +18,7 @@ Array [
 `;
 
 exports[`algorithms should strip rotations from algorithms correctly 2`] = `
-Array [
+[
   9,
   9,
   9,
