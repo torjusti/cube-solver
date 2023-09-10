@@ -4,7 +4,7 @@ import { factorial, choose } from './tools';
  * In-place rotation of the subarray determined by the two
  * indexes left and right to the left by one.
  */
-const rotateLeft = (pieces, left, right) => {
+const rotateLeft = (pieces: number[], left: number, right: number) => {
   const original = pieces[left];
 
   for (let i = left; i < right; i += 1) {
@@ -18,7 +18,7 @@ const rotateLeft = (pieces, left, right) => {
  * In-place rotation of the subarray determined by the two
  * indexes left and right to the right by one.
  */
-const rotateRight = (pieces, left, right) => {
+const rotateRight = (pieces: number[], left: number, right: number) => {
   const original = pieces[right];
 
   for (let i = right; i > left; i -= 1) {
@@ -35,7 +35,7 @@ const rotateRight = (pieces, left, right) => {
  * and for corners there are 3 possible twists. Thus, edges are encoded
  * using a binary number system, and corners using a trinary number system.
  */
-export const getIndexFromOrientation = (pieces, flipCount) => {
+export const getIndexFromOrientation = (pieces: number[], flipCount: number) => {
   let sum = 0;
 
   // Note that we do not include the last element in the vector here.
@@ -54,8 +54,8 @@ export const getIndexFromOrientation = (pieces, flipCount) => {
  * describes it, the number of pieces in the vector, and the number
  * of ways in which an individual piece may be oriented.
  */
-export const getOrientationFromIndex = (index, numPieces, numFlips) => {
-  const orientation = [];
+export const getOrientationFromIndex = (index: number, numPieces: number, numFlips: number) => {
+  const orientation: number[] = [];
 
   let parity = 0;
 
@@ -82,7 +82,7 @@ export const getOrientationFromIndex = (index, numPieces, numFlips) => {
  * describe the overall cube permutation using only 10 edges, 6 corners
  * and the parity of either the corners or the edges.
  */
-export const getParity = (pieces) => {
+export const getParity = (pieces: number[]) => {
   let sum = 0;
 
   for (let i = pieces.length - 1; i > 0; i -= 1) {
@@ -105,14 +105,14 @@ export const getParity = (pieces) => {
  * solver, so that 0 is used as the solved coordinate for the move
  * table describing the UD-slice edges.
  */
-export const getIndexFromPermutation = (pieces, affected, reversed = false) => {
+export const getIndexFromPermutation = (pieces: number[], affected: number[], reversed = false) => {
   let offset = pieces.length - 1;
   let position = 0;
   let k = 1;
 
   // Store the permutation of the subarray containing
   // only the affected pieces.
-  const edges = [];
+  const edges: number[] = [];
 
   // Encode the position of the affected pieces in a number
   // from 0 up to n choose k, where n is the number of pieces
@@ -163,9 +163,9 @@ export const getIndexFromPermutation = (pieces, affected, reversed = false) => {
  * indexes have been assigned right-to-left.
  */
 export const getPermutationFromIndex = (
-  index,
-  affected,
-  size,
+  index: number,
+  affected: number[],
+  size: number,
   reversed = false,
 ) => {
   const base = factorial(affected.length);
@@ -173,7 +173,7 @@ export const getPermutationFromIndex = (
   let position = Math.floor(index / base);
   let permutation = index % base;
 
-  const pieces = [];
+  const pieces: number[] = [];
 
   for (let i = 0; i < size; i += 1) {
     pieces.push(-1);
