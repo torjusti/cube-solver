@@ -1,10 +1,10 @@
-const factorials = [];
+const factorials: number[] = [];
 
 /**
  * Calculates n factorial and attempts to cache
  * as much information as possible.
  */
-export const factorial = (n) => {
+export const factorial = (n: number) => {
   if (n === 0 || n === 1) {
     return 1;
   }
@@ -18,19 +18,19 @@ export const factorial = (n) => {
   return factorials[n];
 };
 
-const binomials = [];
+const binomials: number[][] = [];
 
 /**
  * Calculates n choose k using cached binomial numbers.
  */
-export const choose = (n, k) => {
+export const choose = (n: number, k: number) => {
   if (k > n) {
     return 0;
   }
 
   while (n >= binomials.length) {
     const s = binomials.length;
-    const nextRow = [];
+    const nextRow: number[] = [];
 
     nextRow[0] = 1;
 
@@ -49,8 +49,8 @@ export const choose = (n, k) => {
 /**
  * Cartesian product of a given nested array.
  */
-export const cartesian = (arg) => {
-  const result = [];
+export const cartesian = (arg: number[][]) => {
+  const result: number[] = [];
   const max = arg.length - 1;
 
   const helper = (arr, i) => {
@@ -73,15 +73,15 @@ export const cartesian = (arg) => {
 };
 
 // Ger a random integer in the provided range, inclusive.
-export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+export const getRandomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-export const permute = (n, r) => factorial(n) / factorial(n - r);
+export const permute = (n: number, r: number) => factorial(n) / factorial(n - r);
 
 /**
  * Rotates the subarray containing the affected pieces
  * to the right by one.
  */
-export const rotateParts = (pieces, affected) => {
+export const rotateParts = (pieces: number[], affected: number[]) => {
   const updatedPieces = pieces.slice(0);
 
   updatedPieces[affected[0]] = pieces[affected[affected.length - 1]];

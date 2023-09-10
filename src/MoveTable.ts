@@ -24,8 +24,32 @@ const createMoveHandler = (getVector, doMove, getIndex) => (index, move) => {
   return getIndex(vector);
 };
 
+export interface MoveTableSettings {
+  name: string;
+  size: number;
+  defaultIndex?: number;
+  solvedIndexes?: number[];
+  doMove?: (table: number[][], index: number, move: number) => number;
+  table?: number[][];
+  moves?: number[];
+  getVector: (index: number) => number[];
+  cubieMove: (pieces: number[], move: number) => number[];
+  getIndex: (pieces: number[]) => number;
+}
+
+export interface MoveTableCreatorSettings extends MoveTableSettings {
+  affected: number[];
+  reversed?: boolean;
+}
+
 export class MoveTable {
-  constructor(settings) {
+  private name: string;
+  private size: number;
+  private defaultIndex: number;
+  private solvedIndexes: number[];
+  private table: number[][]
+
+  constructor(settings: MoveTableSettings) {
     // A name must be provided if the generic solver is being used, as
     // we use them to create the pruning tables.
     this.name = settings.name;
@@ -41,7 +65,7 @@ export class MoveTable {
     // index. This is useful for helper tables which are subsets
     // of already generated tables.
     if (settings.doMove) {
-      this.doMove = (index, move) => settings.doMove(this.table, index, move);
+      this.doMove = (index, move) => settings.doMove!(this.table, index, move);
     }
 
     if (settings.table) {
@@ -60,11 +84,11 @@ export class MoveTable {
     this.createMoveTable(settings.size, cubieMove, settings.moves);
   }
 
-  doMove(index, move) {
+  doMove(index: number, move: number) {
     return this.table[index][move];
   }
 
-  createMoveTable(size, cubieMove, moves = allMoves) {
+  createMoveTable(size: number, cubieMove: (index: number, move: number) => number, moves = allMoves) {
     this.table = [];
 
     for (let i = 0; i < size; i += 1) {
@@ -90,7 +114,7 @@ export class MoveTable {
   }
 }
 
-export const createCornerPermutationTable = (settings) => new MoveTable({
+export const createCornerPermutationTable = (settings: MoveTableCreatorSettings) => new MoveTable({
   name: settings.name,
   moves: settings.moves,
   defaultIndex: getIndexFromPermutation(
@@ -109,7 +133,7 @@ export const createCornerPermutationTable = (settings) => new MoveTable({
   getIndex: (pieces) => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
 });
 
-export const createEdgePermutationTable = (settings) => new MoveTable({
+export const createEdgePermutationTable = (settings: MoveTableCreatorSettings) => new MoveTable({
   name: settings.name,
   moves: settings.moves,
   defaultIndex: getIndexFromPermutation(
@@ -128,8 +152,8 @@ export const createEdgePermutationTable = (settings) => new MoveTable({
   getIndex: (pieces) => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
 });
 
-const getCorrectOrientations = (affected, numPieces, numStates) => {
-  const indexes = [];
+const getCorrectOrientations = (affected: number[], numPieces: number, numStates: number) => {
+  const indexes: number[] = [];
 
   const size = numStates ** (numPieces - 1);
 
@@ -146,7 +170,7 @@ const getCorrectOrientations = (affected, numPieces, numStates) => {
   return indexes;
 };
 
-export const createEdgeOrientationTable = (settings) => new MoveTable({
+export const createEdgeOrientationTable = (settings: MoveTableCreatorSettings) => new MoveTable({
   name: settings.name,
   size: 2048,
   solvedIndexes: getCorrectOrientations(settings.affected, 12, 2),
@@ -155,7 +179,7 @@ export const createEdgeOrientationTable = (settings) => new MoveTable({
   getIndex: (pieces) => getIndexFromOrientation(pieces, 2),
 });
 
-export const createCornerOrientationTable = (settings) => new MoveTable({
+export const createCornerOrientationTable = (settings: MoveTableCreatorSettings) => new MoveTable({
   name: settings.name,
   size: 2187,
   solvedIndexes: getCorrectOrientations(settings.affected, 8, 3),

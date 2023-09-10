@@ -106,6 +106,8 @@ export const getParity = (pieces: number[]) => {
  * table describing the UD-slice edges.
  */
 export const getIndexFromPermutation = (pieces: number[], affected: number[], reversed = false) => {
+  affected = affected.slice(0);
+
   let offset = pieces.length - 1;
   let position = 0;
   let k = 1;
@@ -168,6 +170,8 @@ export const getPermutationFromIndex = (
   size: number,
   reversed = false,
 ) => {
+  affected = affected.slice(0);
+
   const base = factorial(affected.length);
 
   let position = Math.floor(index / base);
