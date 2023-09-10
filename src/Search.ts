@@ -4,12 +4,12 @@ import { allMoves } from './cube';
 import { MoveTable } from './MoveTable';
 
 class Search {
-  private createTables: () => { moveTables: MoveTable[], pruningTables: string[][] };
-  private moves: number[];
-  private initialized: boolean;
-  private moveTables: MoveTable[];
-  private pruningTables: { moveTableIndexes: number[], pruningTable: PruningTable }[];
-  private settings: { 
+  public createTables: () => { moveTables: MoveTable[], pruningTables: string[][] };
+  public moves: number[];
+  public initialized: boolean;
+  public moveTables: MoveTable[];
+  public pruningTables: { moveTableIndexes: number[], pruningTable: PruningTable }[];
+  public settings: { 
     lastMove: number; 
     indexes: number[]; 
     scramble: string; 
@@ -55,14 +55,14 @@ class Search {
     });
   }
 
-  handleSolution(solution: number[], indexes: number[]) {
+  handleSolution(solution: number[], indexes: number[]): { solution: number[]; indexes: number[] } | false {
     return {
       solution,
       indexes,
     };
   }
 
-  search(indexes, depth, lastMove, solution) {
+  search(indexes: number[], depth: number, lastMove: number, solution: number[]): { solution: number[]; indexes: number[] } | false {
     let minimumDistance = 0;
 
     for (let i = 0; i < this.pruningTables.length; i += 1) {
@@ -114,7 +114,7 @@ class Search {
     return false;
   }
 
-  solve(settings) {
+  solve(settings: any): any {
     this.initialize();
 
     this.settings = { maxDepth: 22, // For the Kociemba solver.

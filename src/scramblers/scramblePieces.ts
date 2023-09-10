@@ -14,7 +14,7 @@ const UPPER_FACE_POSITIONS = [0, 1, 2, 3];
  * Returns an orientation vector where all pieces
  * are solved, except for the given enabled pieces.
  */
-const getOrientationFromEnabled = (enabled, flipCount, size) => {
+const getOrientationFromEnabled = (enabled: number[], flipCount: number, size: number) => {
   const pieces = getOrientationFromIndex(
     getRandomInt(0, flipCount ** (enabled.length - 1)),
     enabled.length,
@@ -34,7 +34,7 @@ const getOrientationFromEnabled = (enabled, flipCount, size) => {
  * Returns a permutation vector where all pieces are
  * solved, except for the given enabled pieces.
  */
-const getPermutationFromEnabled = (enabled, size) => {
+const getPermutationFromEnabled = (enabled: number[], size: number) => {
   const pieces = getPermutationFromIndex(
     getRandomInt(0, factorial(enabled.length)),
     enabled.slice(0),
@@ -50,7 +50,7 @@ const getPermutationFromEnabled = (enabled, size) => {
   return permutation;
 };
 
-export const adjustUpperFace = (pieces, amount) => {
+export const adjustUpperFace = (pieces: number[], amount?: number) => {
   amount = amount || getRandomInt(0, 4);
 
   for (let i = 0; i < amount; i += 1) {
@@ -65,8 +65,8 @@ export const adjustUpperFace = (pieces, amount) => {
  * for the provided edges and corners, which will be scrambled randomly.
  */
 export const getScrambleForPieces = (
-  permutationEdges,
-  permutationCorners,
+  permutationEdges: number[],
+  permutationCorners: number[],
   orientationEdges = permutationEdges,
   orientationCorners = permutationCorners,
   adjustEdges = false,

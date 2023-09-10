@@ -37,8 +37,8 @@ const rotations = {
 const normalize = (moves: string[]) => {
   // Replace wide moves with rotations + moves.
   moves = moves.reduce((acc: string[], move) => {
-    const axis = move.charAt(0);
-    const pow = powers[move.charAt(1)];
+    const axis = move.charAt(0) as keyof typeof wideMoves;
+    const pow = powers[move.charAt(1) as keyof typeof powers];
 
     if (wideMoves[axis]) {
       for (let i = 0; i <= pow; i += 1) {
@@ -59,8 +59,8 @@ const normalize = (moves: string[]) => {
 
   // Remove rotations by mapping all moves to the right of the rotation.
   for (let i = moves.length - 1; i >= 0; i -= 1) {
-    const axis = moves[i].charAt(0);
-    const pow = powers[moves[i].charAt(1)];
+    const axis = moves[i].charAt(0) as keyof typeof rotations;
+    const pow = powers[moves[i].charAt(1) as keyof typeof powers];
 
     if ('xyz'.includes(axis)) {
       totalRotation.unshift(moves[i]);
@@ -98,7 +98,7 @@ export const parseAlgorithm = (algorithm: string) => {
 
   moves.forEach((move) => {
     const moveNum = 'FRUBLD'.indexOf(move.charAt(0));
-    const pow = powers[move.charAt(1)];
+    const pow = powers[move.charAt(1) as keyof typeof powers];
     result.push(moveNum * 3 + pow);
   });
 
@@ -115,7 +115,7 @@ export const invertAlgorithm = (algorithm: string) => {
 
   const inverted = moves.reverse().map((move) => {
     const axis = move.charAt(0);
-    const pow = powers[move.charAt(1)];
+    const pow = powers[move.charAt(1) as keyof typeof powers];
     const inv = pow - 2 * (pow % 3) + 2;
 
     if (inv === 1) {

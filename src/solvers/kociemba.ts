@@ -4,6 +4,7 @@ import {
   getIndexFromOrientation,
   getParity,
 } from '../coordinates';
+import { allMoves } from '../cube';
 
 import {
   MoveTable,
@@ -21,10 +22,10 @@ import Search from '../Search';
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
 
 // The following tables are being used in both phases.
-let parity;
-let URFToDLF;
-let slice;
-let merge;
+let parity: MoveTable;
+let URFToDLF: MoveTable;
+let slice: MoveTable;
+let merge: number[][];
 
 /**
  * Initialize the tables used in phase one of the solver.
@@ -35,7 +36,7 @@ const phaseTwoTables = () => {
   // Since returning to the cubie level to perform the solution
   // would be slow, we use two helper tables in phase one which
   // later are merged into the final phase two coordinate.
-  const getMergeCoord = (x, y) => {
+  const getMergeCoord = (x: number, y: number) => {
     const a = getPermutationFromIndex(x, [0, 1, 2], 12);
     const b = getPermutationFromIndex(y, [3, 4, 5], 12);
 
@@ -142,7 +143,7 @@ const phaseOneTables = () => {
         name: 'slicePosition',
         size: 495,
         table: slice.table,
-        doMove: (table, index, move) => Math.floor(table[index * 24][move] / 24),
+        doMove: (table: number[][], index: number, move: number) => Math.floor(table[index * 24][move] / 24),
       }),
 
       createCornerOrientationTable({
@@ -175,14 +176,16 @@ const phaseOneTables = () => {
 };
 
 class PhaseOneSearch extends Search {
-  constructor(...args) {
-    super(...args);
+  private solution: any;
+  private maxDepth = 22;
 
-    this.maxDepth = 22;
+  constructor(createTables: () => { moveTables: MoveTable[], pruningTables: string[][] }, moves = allMoves) {
+    super(createTables, moves);
+
     this.solution = null;
   }
 
-  handleSolution(solution, indexes) {
+  handleSolution(solution: number[], indexes: number[]) {
     const lastMove = solution.slice(-1)[0];
 
     // We do not allow solutions which end in a phase two move, as we then
@@ -229,7 +232,7 @@ class PhaseOneSearch extends Search {
 
 export const phaseOne = new PhaseOneSearch(phaseOneTables);
 
-const kociemba = (scramble, maxDepth = 22) => {
+const kociemba = (scramble: number[] | string, maxDepth = 22) => {
   if (Array.isArray(scramble)) {
     return phaseOne.solve({
       indexes: scramble,
@@ -245,7 +248,7 @@ const kociemba = (scramble, maxDepth = 22) => {
 
 export default kociemba;
 
-export const solveCoordinates = (eo, ep, co, cp) => kociemba([
+export const solveCoordinates = (eo: number[], ep: number[], co: number[], cp: number[]) => kociemba([
   Math.floor(getIndexFromPermutation(ep, [8, 9, 10, 11], true) / 24),
   getIndexFromOrientation(co, 3),
   getIndexFromOrientation(eo, 2),
