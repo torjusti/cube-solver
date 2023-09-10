@@ -3,7 +3,9 @@ import { Edges } from '../cube';
 
 const LSE_EDGES = [Edges.UR, Edges.UF, Edges.UL, Edges.UB, Edges.DF, Edges.DB];
 
-const getScramble = () => getScrambleForPieces(
+const getScramble = (settings) => getScrambleForPieces(
+  settings,
+
   LSE_EDGES,
 
   [],
