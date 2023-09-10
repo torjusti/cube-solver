@@ -1,6 +1,8 @@
 import { parseAlgorithm, formatAlgorithm, invertAlgorithm } from './algorithms';
 import PruningTable from './PruningTable';
 import { allMoves } from './cube';
+import { getPermutationFromIndex } from './coordinates';
+import { factorial, getRandomInt } from './tools';
 
 class Search {
   constructor(createTables, moves = allMoves) {
@@ -78,8 +80,14 @@ class Search {
     }
 
     if (depth > 0) {
-      for (let i = 0; i < this.moves.length; i += 1) {
-        const move = this.moves[i];
+      const moves = getPermutationFromIndex(
+        getRandomInt(0, factorial(this.moves.length)),
+        this.moves.slice(0),
+        this.moves.length,
+      );
+
+      for (let i = 0; i < moves.length; i += 1) {
+        const move = moves[i];
 
         if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
           const updatedIndexes = [];
