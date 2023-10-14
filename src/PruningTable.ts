@@ -6,18 +6,11 @@ import { cartesian } from './tools';
  * required to reach a target state.
  */
 class PruningTable {
-  private moveTables: MoveTable[];
   private powers: number[];
   private table: number[];
 
   constructor(moveTables: MoveTable[], moves: number[]) {
-    this.moveTables = moveTables;
-
     this.computePruningTable(moveTables, moves);
-  }
-
-  getMoveTables() {
-    return this.moveTables;
   }
 
   setPruningValue(index: number, value: number) {
