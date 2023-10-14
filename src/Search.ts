@@ -3,19 +3,20 @@ import PruningTable from './PruningTable';
 import { allMoves } from './cube';
 import { MoveTable } from './MoveTable';
 
+interface Settings {
+  lastMove: number; 
+  indexes?: number[]; 
+  scramble?: string; 
+  maxDepth: number;
+}
+
 class Search {
   public createTables: () => { moveTables: MoveTable[], pruningTables: string[][] };
   public moves: number[];
   public initialized: boolean;
   public moveTables: MoveTable[];
   public pruningTables: { moveTableIndexes: number[], pruningTable: PruningTable }[];
-  public settings: { 
-    lastMove: number; 
-    indexes: number[]; 
-    scramble: string; 
-    format: boolean; 
-    maxDepth: number;
-  };
+  public settings: Settings;
 
   constructor(createTables: () => { moveTables: MoveTable[], pruningTables: string[][] }, moves = allMoves) {
     this.createTables = createTables;
@@ -114,13 +115,17 @@ class Search {
     return false;
   }
 
-  solve(settings: any): any {
+  solve(settings: Partial<Settings>): { solution: number[], formatted: string };
+  solve(settings: Partial<Settings>, maxDepth: number): { solution: number[], formatted: string } | null;
+
+  solve(settings: Partial<Settings>, maxDepth: number = 22): { solution: number[], formatted: string } | null {
     this.initialize();
 
-    this.settings = { maxDepth: 22, // For the Kociemba solver.
+    this.settings = { 
+      maxDepth, // For the Kociemba solver.
       lastMove: null,
-      format: true,
-      ...settings };
+      ...settings,
+    };
 
     const indexes = this.settings.indexes || [];
 
@@ -149,24 +154,23 @@ class Search {
       const solution = this.search(indexes, depth, this.settings.lastMove, []);
 
       if (solution) {
-        if (this.settings.format) {
-          const formatted = formatAlgorithm(solution.solution);
+        let formatted = formatAlgorithm(solution.solution);
 
-          if (solutionRotation) {
-            // If we have rotations in the scramble, apply the inverse to the solution
-            // and then parse again to remove the rotations. This results in a
-            // solution that can be applied from the result scramble orientation.
-            return formatAlgorithm(parseAlgorithm(`${solutionRotation} ${formatted}`));
-          }
-
-          return formatted;
+        if (solutionRotation) {
+          // If we have rotations in the scramble, apply the inverse to the solution
+          // and then parse again to remove the rotations. This results in a
+          // solution that can be applied from the result scramble orientation.
+          formatted = formatAlgorithm(parseAlgorithm(`${solutionRotation} ${formatted}`));
         }
 
-        return solution;
+        return {
+          solution: solution.solution,
+          formatted,
+        };
       }
     }
 
-    return false;
+    return null;
   }
 }
 

@@ -19,7 +19,7 @@ type Scrambler = '3x3' | '2gll' | 'cmll' | 'corners' | 'edges' | 'lse' | 'lsll' 
 type Solver = 'kociemba' | 'cross' | 'eoline' | 'fb' | 'xcross';
 
 export default {
-  solve: (scramble: string, solver: Solver = 'kociemba') => {
+  solve: (scramble: string, solver: Solver = 'kociemba'): string => {
     const solvers = {
       kociemba,
       cross: crossSolver,
@@ -35,7 +35,7 @@ export default {
     throw new Error('Specified solver does not exist.');
   },
 
-  scramble: (scrambler: Scrambler = '3x3') => {
+  scramble: (scrambler: Scrambler = '3x3'): string => {
     const scramblers = {
       '3x3': get3x3Scramble,
       '2gll': get2GLLScramble,
@@ -56,7 +56,7 @@ export default {
     throw new Error('Specified scrambler does not exist.');
   },
 
-  initialize: (solver: Solver) => {
+  initialize: (solver: Solver): void => {
     const search = {
       cross: CrossSearch,
       eoline: EOLineSearch,

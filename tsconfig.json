@@ -3,6 +3,7 @@
       "module": "ES6",
       "types": ["jest", "node"],
       "lib": ["ES2016"],
+      "moduleResolution": "node",
       "esModuleInterop": true,
       "noImplicitAny": true
   }

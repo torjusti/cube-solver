@@ -37,6 +37,6 @@ export const FirstBlockSearch = new Search(() => ({
   ],
 }));
 
-const firstBlockSolver = (scramble: string) => FirstBlockSearch.solve({ scramble });
+const firstBlockSolver = (scramble: string) => FirstBlockSearch.solve({ scramble }).formatted;
 
 export default firstBlockSolver;

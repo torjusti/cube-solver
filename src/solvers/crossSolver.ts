@@ -21,6 +21,6 @@ export const CrossSearch = new Search(() => ({
   pruningTables: [['EdgePermutation'], ['EdgeOrientation']],
 }));
 
-const crossSolver = (scramble: string) => CrossSearch.solve({ scramble });
+const crossSolver = (scramble: string) => CrossSearch.solve({ scramble }).formatted;
 
 export default crossSolver;

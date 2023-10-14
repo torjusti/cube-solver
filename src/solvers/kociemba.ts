@@ -206,12 +206,8 @@ class PhaseOneSearch extends Search {
         merge[indexes[6]][indexes[7]],
       ],
 
-      maxDepth: this.maxDepth - solution.length,
-
       lastMove,
-
-      format: false,
-    });
+    }, this.maxDepth - solution.length);
 
     if (phaseTwoSolution) {
       this.solution = solution.concat(phaseTwoSolution.solution);
@@ -232,18 +228,16 @@ class PhaseOneSearch extends Search {
 
 export const phaseOne = new PhaseOneSearch(phaseOneTables);
 
-const kociemba = (scramble: number[] | string, maxDepth = 22) => {
+const kociemba = (scramble: number[] | string) => {
   if (Array.isArray(scramble)) {
     return phaseOne.solve({
       indexes: scramble,
-      maxDepth,
-    });
+    }).formatted;
   }
 
   return phaseOne.solve({
     scramble,
-    maxDepth,
-  });
+  }).formatted;
 };
 
 export default kociemba;
