@@ -1,21 +1,10 @@
-import {
-  createEdgePermutationTable,
-  createEdgeOrientationTable,
-} from '../MoveTable';
-
+import { EdgeOrientationTable, EdgePermutationTable } from '../MoveTable';
 import Search from '../Search';
 
 export const CrossSearch = new Search(() => ({
   moveTables: [
-    createEdgePermutationTable({
-      name: 'EdgePermutation',
-      affected: [4, 5, 6, 7],
-    }),
-
-    createEdgeOrientationTable({
-      name: 'EdgeOrientation',
-      affected: [4, 5, 6, 7],
-    }),
+    new EdgePermutationTable('EdgePermutation', [4, 5, 6, 7]),
+    new EdgeOrientationTable('EdgeOrientation', [4, 5, 6, 7]),
   ],
 
   pruningTables: [['EdgePermutation'], ['EdgeOrientation']],

@@ -37,10 +37,10 @@ class Search {
     this.pruningTables = [];
 
     pruningTables.forEach((moveTableNames) => {
-      const moveTableIndexes = moveTableNames.map((name) => this.moveTables.map((table) => table.name).indexOf(name));
+      const moveTableIndexes = moveTableNames.map((name) => this.moveTables.map((table) => table.getName()).indexOf(name));
 
       moveTableIndexes.sort(
-        (a, b) => this.moveTables[a].size - this.moveTables[b].size,
+        (a, b) => this.moveTables[a].getSize() - this.moveTables[b].getSize(),
       );
 
       const mappedTables: MoveTable[] = [];
@@ -71,7 +71,7 @@ class Search {
       let power = 1;
 
       for (let j = 1; j < pruningTable.moveTableIndexes.length; j += 1) {
-        power *= this.moveTables[pruningTable.moveTableIndexes[j - 1]].size;
+        power *= this.moveTables[pruningTable.moveTableIndexes[j - 1]].getSize();
         index += indexes[pruningTable.moveTableIndexes[j]] * power;
       }
 
@@ -138,7 +138,7 @@ class Search {
       }
 
       for (const moveTable of this.moveTables) {
-        indexes.push(moveTable.defaultIndex);
+        indexes.push(moveTable.getDefaultIndex());
       }
 
       moves.forEach((move) => {

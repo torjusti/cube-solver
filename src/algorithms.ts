@@ -107,6 +107,8 @@ export const parseAlgorithm = (algorithm: string) => {
 
 export const getTotalRotation = (algorithm: string) => normalize(getChunks(algorithm))[1];
 
+export const getInverseMove = (move: number): number => move - 2 * (move % 3) + 2;
+
 /**
  * Computes the inverse of a given algorithm. Rotations are supported.
  */

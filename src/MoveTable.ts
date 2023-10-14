@@ -1,3 +1,5 @@
+import { getInverseMove } from './algorithms';
+
 import {
   getPermutationFromIndex,
   getIndexFromPermutation,
@@ -15,149 +17,165 @@ import {
 
 import { factorial } from './tools';
 
-/**
- * Create a function which performs a move on a coordinate.
- */
-const createMoveHandler = (getVector: (index: number) => number[], 
-                          doMove: (vector: number[], move: number) => number[],
-                          getIndex: (pieces: number[]) => number) => (index: number, move: number) => {
-  let vector = getVector(index);
-  vector = doMove(vector, move);
-  return getIndex(vector);
-};
+export interface MoveTable {
+  getName(): string;
 
-interface MoveTableSettings {
-  name: string;
-  size: number;
-  defaultIndex?: number;
-  solvedIndexes?: number[];
-  doMove?: (table: number[][], index: number, move: number) => number;
-  table?: number[][];
-  getVector?: (index: number) => number[];
-  cubieMove?: (pieces: number[], moveIndex: number) => number[];
-  getIndex?: (pieces: number[]) => number;
-  moves?: number[];  
+  getSize(): number;
+
+  doMove(index: number, move: number): number;
+
+  getDefaultIndex(): number;
+
+  getSolvedIndices(): number[];
 }
 
-export class MoveTable {
-  public name: string;
-  public size: number;
-  public defaultIndex: number;
-  public solvedIndexes: number[];
-  public table: number[][]
+export abstract class AbstractMoveTable implements MoveTable {
+  private name: string;
 
-  constructor(settings: MoveTableSettings) {
-    // A name must be provided if the generic solver is being used, as
-    // we use them to create the pruning tables.
-    this.name = settings.name;
+  public table: number[][];
 
-    // Some tables in the Kociemba solver define their own size, as
-    // they are a subset of another already generated helper table.
-    this.size = settings.size;
+  private initialized = false;
 
-    this.defaultIndex = settings.defaultIndex || 0;
-    this.solvedIndexes = settings.solvedIndexes || [this.defaultIndex];
-
-    // We allow defining a custom function that returns the updated
-    // index. This is useful for helper tables which are subsets
-    // of already generated tables.
-    if (settings.doMove) {
-      this.doMove = (index, move) => settings.doMove!(this.table, index, move);
-    }
-
-    if (settings.table) {
-      this.table = settings.table;
-
-      // If a pre-generated table is provide, do not generate another one.
-      return;
-    }
-
-    const cubieMove = createMoveHandler(
-      settings.getVector,
-      settings.cubieMove,
-      settings.getIndex,
-    );
-
-    this.createMoveTable(settings.size, cubieMove, settings.moves);
+  constructor(name: string) {
+    this.name = name;
   }
 
-  doMove(index: number, move: number) {
-    return this.table[index][move];
+  abstract getSize(): number;
+
+  abstract getMoves(): number[];
+
+  abstract getIndex(pieces: number[]): number;
+
+  abstract getPieces(index: number): number[];
+
+  abstract doCubieMove(pieces: number[], move: number): number[];
+
+  abstract getDefaultIndex(): number;
+
+  abstract getSolvedIndices(): number[];
+    
+  getName(): string {
+    return this.name;
   }
 
-  createMoveTable(size: number, cubieMove: (index: number, move: number) => number, moves = allMoves) {
+  doMove(index: number, move: number): number {
+    if (this.initialized) {
+      return this.table[index][move];
+    }
+
+    throw new Error(`Move table ${this.name} not initialized`);
+  }
+
+  protected initialize() {
     this.table = [];
 
-    for (let i = 0; i < size; i += 1) {
+    for (let i = 0; i < this.getSize(); i += 1) {
       this.table.push([]);
     }
 
-    // Create a matrix which stores the result after
-    // applying a move to a coordinate.
-    for (let i = 0; i < size; i += 1) {
-      for (const move of moves) {
+    for (let i = 0; i < this.getSize(); i += 1) {
+      for (const move of this.getMoves()) {
         if (!this.table[i][move]) {
-          // Assign both the value and its inverse at once
-          // to avoid exess computing on the cubie level.
-          const result = cubieMove(i, move);
-          const inverse = move - 2 * (move % 3) + 2;
+          // Assign both the value and its inverse at once to avoid excess computation on the cubie level.
+          const result = this.getIndex(this.doCubieMove(this.getPieces(i), move));
+          const inverse = getInverseMove(move);
           this.table[i][move] = result;
           this.table[result][inverse] = i;
         }
       }
     }
+
+    this.initialized = true;
   }
 }
 
-interface CreateMoveTableSettings {
-  name?: string;
-  moves?: number[];
-  defaultIndex?: number;
-  size?: number;
-  getVector?: (index: number) => number[];
-  cubieMove?: (pieces: number[], moveIndex: number) => number[];
-  getIndex?: (pieces: number[]) => number;
-  affected?: number[];
-  reversed?: boolean;
+export class EdgePermutationTable extends AbstractMoveTable {
+  private affected: number[];
+  private reversed: boolean;
+  private moves: number[];
+
+  constructor(name: string, affected: number[], moves = allMoves, reversed = false) {
+    super(name);
+
+    this.affected = affected;
+    this.moves = moves;
+    this.reversed = reversed;
+
+    this.initialize();
+  }
+
+  getSize(): number {
+    return factorial(12) / factorial(12 - this.affected.length);
+  }
+
+  getMoves(): number[] {
+    return this.moves;
+  }
+
+  getIndex(pieces: number[]): number {
+    return getIndexFromPermutation(pieces, this.affected, this.reversed);
+  }
+
+  getPieces(index: number): number[] {
+    return getPermutationFromIndex(index, this.affected, 12, this.reversed);
+  }
+
+  doCubieMove(pieces: number[], move: number): number[] {
+    return edgePermutationMove(pieces, move);
+  }
+
+  getDefaultIndex(): number {
+    return getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], this.affected, this.reversed);
+  }
+
+  getSolvedIndices(): number[] {
+    return [this.getDefaultIndex()];
+  }
 }
 
-export const createCornerPermutationTable = (settings: CreateMoveTableSettings) => new MoveTable({
-  name: settings.name,
-  moves: settings.moves,
-  defaultIndex: getIndexFromPermutation(
-    [0, 1, 2, 3, 4, 5, 6, 7],
-    settings.affected,
-    settings.reversed,
-  ),
-  size: settings.size || factorial(8) / factorial(8 - settings.affected.length),
-  getVector: (index: number) => getPermutationFromIndex(
-    index,
-    settings.affected.slice(),
-    8,
-    settings.reversed,
-  ),
-  cubieMove: cornerPermutationMove,
-  getIndex: (pieces: number[]) => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
-});
+export class CornerPermutationTable extends AbstractMoveTable {
+  private affected: number[];
+  private reversed: boolean;
+  private moves: number[];
 
-export const createEdgePermutationTable = (settings: CreateMoveTableSettings) => new MoveTable({
-  name: settings.name,
-  moves: settings.moves,
-  defaultIndex: getIndexFromPermutation(
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    settings.affected,
-    settings.reversed,
-  ),
-  size: settings.size || factorial(12) / factorial(12 - settings.affected.length),
-  getVector: (index: number) => getPermutationFromIndex(
-    index,
-    settings.affected.slice(),
-    12,
-    settings.reversed,
-  ),
-  cubieMove: edgePermutationMove,
-  getIndex: (pieces: number[]) => getIndexFromPermutation(pieces, settings.affected, settings.reversed),
-});
+  constructor(name: string, affected: number[], moves = allMoves, reversed = false) {
+    super(name);
+
+    this.affected = affected;
+    this.moves = moves;
+    this.reversed = reversed;
+
+    this.initialize();
+  }
+
+  getSize(): number {
+    return factorial(8) / factorial(8 - this.affected.length);
+  }
+
+  getMoves(): number[] {
+    return this.moves;
+  }
+
+  getIndex(pieces: number[]): number {
+    return getIndexFromPermutation(pieces, this.affected, this.reversed);
+  }
+
+  getPieces(index: number): number[] {
+    return getPermutationFromIndex(index, this.affected, 8, this.reversed);
+  }
+
+  doCubieMove(pieces: number[], move: number): number[] {
+    return cornerPermutationMove(pieces, move);
+  }
+
+  getDefaultIndex(): number {
+    return getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7], this.affected, this.reversed);
+  }
+
+  getSolvedIndices(): number[] {
+    return [this.getDefaultIndex()];
+  }
+}
 
 const getCorrectOrientations = (affected: number[], numPieces: number, numStates: number) => {
   const indexes: number[] = [];
@@ -177,20 +195,82 @@ const getCorrectOrientations = (affected: number[], numPieces: number, numStates
   return indexes;
 };
 
-export const createEdgeOrientationTable = (settings: CreateMoveTableSettings) => new MoveTable({
-  name: settings.name,
-  size: 2048,
-  solvedIndexes: getCorrectOrientations(settings.affected, 12, 2),
-  getVector: (index: number) => getOrientationFromIndex(index, 12, 2),
-  cubieMove: edgeOrientationMove,
-  getIndex: (pieces: number[]) => getIndexFromOrientation(pieces, 2),
-});
+export class EdgeOrientationTable extends AbstractMoveTable {
+  private affected: number[];
 
-export const createCornerOrientationTable = (settings: CreateMoveTableSettings) => new MoveTable({
-  name: settings.name,
-  size: 2187,
-  solvedIndexes: getCorrectOrientations(settings.affected, 8, 3),
-  getVector: (index: number) => getOrientationFromIndex(index, 8, 3),
-  cubieMove: cornerOrientationMove,
-  getIndex: (pieces: number[]) => getIndexFromOrientation(pieces, 3),
-});
+  constructor(name: string, affected: number[]) {
+    super(name);
+
+    this.affected = affected;
+
+    this.initialize();
+  }
+
+  getSize(): number {
+    return 2048;
+  }
+
+  getMoves(): number[] {
+    return allMoves;
+  }
+
+  getIndex(pieces: number[]): number {
+    return getIndexFromOrientation(pieces, 2);
+  }
+
+  getPieces(index: number): number[] {
+    return getOrientationFromIndex(index, 12, 2);
+  }
+
+  doCubieMove(pieces: number[], move: number): number[] {
+    return edgeOrientationMove(pieces, move);
+  }
+
+  getDefaultIndex(): number {
+    return 0;
+  }
+
+  getSolvedIndices(): number[] {
+    return getCorrectOrientations(this.affected, 12, 2);
+  }
+}
+
+export class CornerOrientationTable extends AbstractMoveTable {
+  private affected: number[];
+
+  constructor(name: string, affected: number[]) {
+    super(name);
+
+    this.affected = affected;
+
+    this.initialize();
+  }
+
+  getSize(): number {
+    return 2187;
+  }
+
+  getMoves(): number[] {
+    return allMoves;
+  }
+
+  getIndex(pieces: number[]): number {
+    return getIndexFromOrientation(pieces, 3);
+  }
+
+  getPieces(index: number): number[] {
+    return getOrientationFromIndex(index, 8, 3);
+  }
+
+  doCubieMove(pieces: number[], move: number): number[] {
+    return cornerOrientationMove(pieces, move);
+  }
+
+  getDefaultIndex(): number {
+    return 0;
+  }
+
+  getSolvedIndices(): number[] {
+    return getCorrectOrientations(this.affected, 8, 3);
+  }
+}
