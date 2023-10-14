@@ -66,16 +66,16 @@ class Search {
   search(indexes: number[], depth: number, lastMove: number, solution: number[]): { solution: number[]; indexes: number[] } | false {
     let minimumDistance = 0;
 
-    for (let i = 0; i < this.pruningTables.length; i += 1) {
-      let index = indexes[this.pruningTables[i].moveTableIndexes[0]];
+    for (const pruningTable of this.pruningTables) {
+      let index = indexes[pruningTable.moveTableIndexes[0]];
       let power = 1;
 
-      for (let j = 1; j < this.pruningTables[i].moveTableIndexes.length; j += 1) {
-        power *= this.moveTables[this.pruningTables[i].moveTableIndexes[j - 1]].size;
-        index += indexes[this.pruningTables[i].moveTableIndexes[j]] * power;
+      for (let j = 1; j < pruningTable.moveTableIndexes.length; j += 1) {
+        power *= this.moveTables[pruningTable.moveTableIndexes[j - 1]].size;
+        index += indexes[pruningTable.moveTableIndexes[j]] * power;
       }
 
-      const distance = this.pruningTables[i].pruningTable.getPruningValue(index);
+      const distance = pruningTable.pruningTable.getPruningValue(index);
 
       if (distance > depth) {
         return false;
@@ -93,9 +93,7 @@ class Search {
     }
 
     if (depth > 0) {
-      for (let i = 0; i < this.moves.length; i += 1) {
-        const move = this.moves[i];
-
+      for (const move of this.moves) {
         if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
           const updatedIndexes: number[] = [];
 
@@ -118,7 +116,7 @@ class Search {
   solve(settings: Partial<Settings>): { solution: number[], formatted: string };
   solve(settings: Partial<Settings>, maxDepth: number): { solution: number[], formatted: string } | null;
 
-  solve(settings: Partial<Settings>, maxDepth: number = 22): { solution: number[], formatted: string } | null {
+  solve(settings: Partial<Settings>, maxDepth = 22): { solution: number[], formatted: string } | null {
     this.initialize();
 
     this.settings = { 
@@ -139,8 +137,8 @@ class Search {
         solutionRotation = invertAlgorithm(totalRotation.join(' '));
       }
 
-      for (let i = 0; i < this.moveTables.length; i += 1) {
-        indexes.push(this.moveTables[i].defaultIndex);
+      for (const moveTable of this.moveTables) {
+        indexes.push(moveTable.defaultIndex);
       }
 
       moves.forEach((move) => {

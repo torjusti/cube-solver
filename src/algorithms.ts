@@ -90,7 +90,7 @@ export const getChunks = (algorithm: string): string[] => {
  * Parses a scramble, returning an array of integers describing the moves.
  */
 export const parseAlgorithm = (algorithm: string) => {
-  const [moves, totalRotation] = normalize(
+  const [moves] = normalize(
     getChunks(algorithm)
   );
 

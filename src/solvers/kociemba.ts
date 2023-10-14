@@ -176,7 +176,7 @@ const phaseOneTables = () => {
 };
 
 class PhaseOneSearch extends Search {
-  private solution: any;
+  private solution: number[];
   private maxDepth = 22;
 
   constructor(createTables: () => { moveTables: MoveTable[], pruningTables: string[][] }, moves = allMoves) {

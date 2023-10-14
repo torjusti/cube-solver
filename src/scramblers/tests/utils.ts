@@ -2,7 +2,8 @@ import Chance from 'chance';
 import { adjustUpperFace } from '../scramblePieces';
 
 export const configureMathMock = (seed: number) => {
-  const chances: { [key: number]: any } = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const chances: Record<number, any> = {};
 
   const math = Object.create(Math);
 

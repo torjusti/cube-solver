@@ -40,11 +40,11 @@ class PruningTable {
 
     const permutations = cartesian(moveTables.map((data) => data.solvedIndexes));
 
-    for (let i = 0; i < permutations.length; i += 1) {
+    for (const permutation of permutations) {
       let index = 0;
 
-      for (let j = 0; j < permutations[i].length; j += 1) {
-        index += powers[j] * permutations[i][j];
+      for (let j = 0; j < permutation.length; j += 1) {
+        index += powers[j] * permutation[j];
       }
 
       this.setPruningValue(index, 0);
@@ -69,9 +69,7 @@ class PruningTable {
 
       for (let index = 0; index < size; index += 1) {
         if (this.getPruningValue(index) === find) {
-          for (let moveIndex = 0; moveIndex < moves.length; moveIndex += 1) {
-            const move = moves[moveIndex];
-
+          for (const move of moves) {
             let currentIndex = index;
             let position = 0;
 

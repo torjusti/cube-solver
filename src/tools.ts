@@ -54,10 +54,10 @@ export const cartesian = (arg: number[][]): number[][] => {
   const max = arg.length - 1;
 
   const helper = (arr: number[], i: number) => {
-    for (let j = 0; j < arg[i].length; j += 1) {
+    for (const entry of arg[i]) {
       const copy = arr.slice(0);
 
-      copy.push(arg[i][j]);
+      copy.push(entry);
 
       if (i === max) {
         result.push(copy);
