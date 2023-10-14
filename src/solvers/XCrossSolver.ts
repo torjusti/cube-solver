@@ -15,6 +15,6 @@ export const XCrossSearch = new Search(() => ({
   ],
 }));
 
-const XCrossSolver = (scramble: string) => XCrossSearch.solve({ scramble }).formatted;
+const XCrossSolver = (scramble: string) => XCrossSearch.solve(scramble).formatted;
 
 export default XCrossSolver;

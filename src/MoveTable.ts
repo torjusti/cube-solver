@@ -178,21 +178,21 @@ export class CornerPermutationTable extends AbstractMoveTable {
 }
 
 const getCorrectOrientations = (affected: number[], numPieces: number, numStates: number) => {
-  const indexes: number[] = [];
+  const indices: number[] = [];
 
   const size = numStates ** (numPieces - 1);
 
   const target = numStates ** (numPieces - affected.length - 1);
 
-  for (let i = 0; i < size && indexes.length < target; i += 1) {
+  for (let i = 0; i < size && indices.length < target; i += 1) {
     const orientation = getOrientationFromIndex(i, numPieces, numStates);
 
     if (affected.every((piece) => orientation[piece] === 0)) {
-      indexes.push(i);
+      indices.push(i);
     }
   }
 
-  return indexes;
+  return indices;
 };
 
 export class EdgeOrientationTable extends AbstractMoveTable {

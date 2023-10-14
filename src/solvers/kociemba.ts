@@ -29,7 +29,6 @@ class URToDFTable extends EdgePermutationTable {
   getSize(): number {
     return 20160;
   }
-
 }
 
 /**
@@ -184,6 +183,7 @@ const phaseOneTables = () => {
 class PhaseOneSearch extends Search {
   private solution: number[];
   private maxDepth = 22;
+  private depth = 22;
 
   constructor(createTables: () => { moveTables: MoveTable[], pruningTables: string[][] }, moves = allMoves) {
     super(createTables, moves);
@@ -191,7 +191,7 @@ class PhaseOneSearch extends Search {
     this.solution = null;
   }
 
-  handleSolution(solution: number[], indexes: number[]) {
+  handleSolution(solution: number[], indices: number[]) {
     const lastMove = solution.slice(-1)[0];
 
     // We do not allow solutions which end in a phase two move, as we then
@@ -204,28 +204,30 @@ class PhaseOneSearch extends Search {
       return false;
     }
 
-    const phaseTwoSolution = phaseTwo.solve({
-      indexes: [
-        indexes[3],
-        indexes[4],
-        indexes[5],
-        merge[indexes[6]][indexes[7]],
+    const phaseTwoSolution = phaseTwo.solve(
+      [
+        indices[3],
+        indices[4],
+        indices[5],
+        merge[indices[6]][indices[7]],
       ],
 
+      this.depth - solution.length,
+
       lastMove,
-    }, this.maxDepth - solution.length);
+    );
 
     if (phaseTwoSolution) {
       this.solution = solution.concat(phaseTwoSolution.solution);
 
-      if (this.maxDepth <= this.settings.maxDepth) {
+      if (this.depth <= this.maxDepth) {
         return {
           solution: this.solution,
-          indexes,
+          indices,
         };
       }
 
-      this.maxDepth = this.solution.length - 1;
+      this.depth = this.solution.length - 1;
     }
 
     return false;
@@ -236,14 +238,10 @@ export const phaseOne = new PhaseOneSearch(phaseOneTables);
 
 const kociemba = (scramble: number[] | string) => {
   if (Array.isArray(scramble)) {
-    return phaseOne.solve({
-      indexes: scramble,
-    }).formatted;
+    return phaseOne.solve(scramble).formatted;
   }
 
-  return phaseOne.solve({
-    scramble,
-  }).formatted;
+  return phaseOne.solve(scramble).formatted;
 };
 
 export default kociemba;

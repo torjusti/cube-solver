@@ -3,20 +3,18 @@ import PruningTable from './PruningTable';
 import { allMoves } from './cube';
 import { MoveTable } from './MoveTable';
 
-interface Settings {
-  lastMove: number; 
-  indexes?: number[]; 
-  scramble?: string; 
-  maxDepth: number;
+interface PruningTableData {
+  moveTableIndices: number[];
+  pruningTable: PruningTable;
 }
 
 class Search {
   public createTables: () => { moveTables: MoveTable[], pruningTables: string[][] };
+
   public moves: number[];
-  public initialized: boolean;
   public moveTables: MoveTable[];
-  public pruningTables: { moveTableIndexes: number[], pruningTable: PruningTable }[];
-  public settings: Settings;
+  public pruningTableData: PruningTableData[];
+  public initialized: boolean;
 
   constructor(createTables: () => { moveTables: MoveTable[], pruningTables: string[][] }, moves = allMoves) {
     this.createTables = createTables;
@@ -34,74 +32,60 @@ class Search {
 
     this.moveTables = moveTables;
 
-    this.pruningTables = [];
+    this.pruningTableData = [];
 
     pruningTables.forEach((moveTableNames) => {
-      const moveTableIndexes = moveTableNames.map((name) => this.moveTables.map((table) => table.getName()).indexOf(name));
-
-      moveTableIndexes.sort(
-        (a, b) => this.moveTables[a].getSize() - this.moveTables[b].getSize(),
-      );
+      const moveTableIndices = moveTableNames.map((name) => this.moveTables.map((table) => table.getName()).indexOf(name));
 
       const mappedTables: MoveTable[] = [];
 
-      moveTableIndexes.forEach((i) => mappedTables.push(this.moveTables[i]));
+      moveTableIndices.forEach((i) => mappedTables.push(this.moveTables[i]));
 
       const pruningTable = new PruningTable(mappedTables, this.moves);
 
-      this.pruningTables.push({
+      this.pruningTableData.push({
         pruningTable,
-        moveTableIndexes,
+        moveTableIndices,
       });
     });
   }
 
-  handleSolution(solution: number[], indexes: number[]): { solution: number[]; indexes: number[] } | false {
+  handleSolution(solution: number[], indices: number[]): { solution: number[]; indices: number[] } | false {
     return {
       solution,
-      indexes,
+      indices,
     };
   }
 
-  search(indexes: number[], depth: number, lastMove: number, solution: number[]): { solution: number[]; indexes: number[] } | false {
+  search(indices: number[], depth: number, lastMove: number, solution: number[]): { solution: number[]; indices: number[] } | false {
     let minimumDistance = 0;
 
-    for (const pruningTable of this.pruningTables) {
-      let index = indexes[pruningTable.moveTableIndexes[0]];
-      let power = 1;
-
-      for (let j = 1; j < pruningTable.moveTableIndexes.length; j += 1) {
-        power *= this.moveTables[pruningTable.moveTableIndexes[j - 1]].getSize();
-        index += indexes[pruningTable.moveTableIndexes[j]] * power;
-      }
-
-      const distance = pruningTable.pruningTable.getPruningValue(index);
+    for (const entry of this.pruningTableData) {
+      const distance = entry.pruningTable.getPruningValueForCoordinates(entry.moveTableIndices.map(i => indices[i]));
 
       if (distance > depth) {
         return false;
       }
 
-      // The true minimum distance to the solved indexes is
-      // given by the pruning table with the largest distance.
       if (distance > minimumDistance) {
         minimumDistance = distance;
       }
     }
 
     if (minimumDistance === 0) {
-      return this.handleSolution(solution, indexes);
+      return this.handleSolution(solution, indices);
     }
 
     if (depth > 0) {
       for (const move of this.moves) {
         if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
-          const updatedIndexes: number[] = [];
+          const updatedIndices: number[] = [];
 
-          for (let j = 0; j < indexes.length; j += 1) {
-            updatedIndexes.push(this.moveTables[j].doMove(indexes[j], move));
+          for (let j = 0; j < indices.length; j += 1) {
+            updatedIndices.push(this.moveTables[j].doMove(indices[j], move));
           }
 
-          const result = this.search(updatedIndexes, depth - 1, move, solution.concat([move]));
+          const result = this.search(updatedIndices, depth - 1, move, solution.concat([move]));
 
           if (result) {
             return result;
@@ -113,43 +97,38 @@ class Search {
     return false;
   }
 
-  solve(settings: Partial<Settings>): { solution: number[], formatted: string };
-  solve(settings: Partial<Settings>, maxDepth: number): { solution: number[], formatted: string } | null;
+  solve(scramble: string | number[]): { solution: number[], formatted: string };
 
-  solve(settings: Partial<Settings>, maxDepth = 22): { solution: number[], formatted: string } | null {
+  solve(scramble: string | number[], maxDepth?: number, lastMove?: number): { solution: number[], formatted: string } | null;
+
+  solve(scramble: number[] | string = [], maxDepth = 22, lastMove?: number): { solution: number[], formatted: string } | null {
     this.initialize();
-
-    this.settings = { 
-      maxDepth, // For the Kociemba solver.
-      lastMove: null,
-      ...settings,
-    };
-
-    const indexes = this.settings.indexes || [];
 
     let solutionRotation;
 
-    if (this.settings.scramble) {
-      const moves = parseAlgorithm(this.settings.scramble);
-      const totalRotation = getTotalRotation(this.settings.scramble);
+    const indices = typeof scramble === 'string' ? [] : scramble;
+
+    if (typeof scramble === 'string') {
+      const moves = parseAlgorithm(scramble);
+      const totalRotation = getTotalRotation(scramble);
 
       if (totalRotation.length > 0) {
         solutionRotation = invertAlgorithm(totalRotation.join(' '));
       }
 
       for (const moveTable of this.moveTables) {
-        indexes.push(moveTable.getDefaultIndex());
+        indices.push(moveTable.getDefaultIndex());
       }
 
       moves.forEach((move) => {
-        for (let i = 0; i < indexes.length; i += 1) {
-          indexes[i] = this.moveTables[i].doMove(indexes[i], move);
+        for (let i = 0; i < indices.length; i += 1) {
+          indices[i] = this.moveTables[i].doMove(indices[i], move);
         }
       });
     }
 
-    for (let depth = 0; depth <= this.settings.maxDepth; depth += 1) {
-      const solution = this.search(indexes, depth, this.settings.lastMove, []);
+    for (let depth = 0; depth <= maxDepth; depth += 1) {
+      const solution = this.search(indices, depth, lastMove, []);
 
       if (solution) {
         let formatted = formatAlgorithm(solution.solution);

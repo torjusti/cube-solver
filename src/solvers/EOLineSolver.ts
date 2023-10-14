@@ -10,6 +10,6 @@ export const EOLineSearch = new Search(() => ({
   pruningTables: [['EdgeOrientation'], ['EdgePermutation']],
 }));
 
-const EOLineSolver = (scramble: string) => EOLineSearch.solve({ scramble }).formatted;
+const EOLineSolver = (scramble: string) => EOLineSearch.solve(scramble).formatted;
 
 export default EOLineSolver;

@@ -2,7 +2,7 @@ import { factorial, choose } from './tools';
 
 /**
  * In-place rotation of the subarray determined by the two
- * indexes left and right to the left by one.
+ * indices left and right to the left by one.
  */
 const rotateLeft = (pieces: number[], left: number, right: number) => {
   const original = pieces[left];
@@ -16,7 +16,7 @@ const rotateLeft = (pieces: number[], left: number, right: number) => {
 
 /**
  * In-place rotation of the subarray determined by the two
- * indexes left and right to the right by one.
+ * indices left and right to the right by one.
  */
 const rotateRight = (pieces: number[], left: number, right: number) => {
   const original = pieces[right];
@@ -162,7 +162,7 @@ export const getIndexFromPermutation = (pieces: number[], affected: number[], re
 /**
  * Restores the permutation described by an index, number of affected
  * pieces and the permutation vector size. If reversed is true, the
- * indexes have been assigned right-to-left.
+ * indices have been assigned right-to-left.
  */
 export const getPermutationFromIndex = (
   index: number,
