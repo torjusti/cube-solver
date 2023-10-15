@@ -18,3 +18,10 @@ export const XCrossSearch = new Search(() => ({
 const XCrossSolver = (scramble: string) => XCrossSearch.solve(scramble).formatted;
 
 export default XCrossSolver;
+
+
+console.time()
+for (let i = 0; i < 10000; i++) {
+  console.log(XCrossSolver("R' D R D2 L F2 L B2 L2 F2 L D2 U2 F L' F L U B2 U"))
+}
+console.timeEnd()

@@ -7,7 +7,7 @@ export const EOLineSearch = new Search(() => ({
     new EdgePermutationTable('EdgePermutation', [5, 7]),
   ],
 
-  pruningTables: [['EdgeOrientation'], ['EdgePermutation']],
+  pruningTables: [['EdgeOrientation', 'EdgePermutation']],
 }));
 
 const EOLineSolver = (scramble: string) => EOLineSearch.solve(scramble).formatted;

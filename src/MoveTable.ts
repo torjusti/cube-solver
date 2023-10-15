@@ -41,11 +41,7 @@ export abstract class AbstractMoveTable implements MoveTable {
 
   abstract getMoves(): number[];
 
-  abstract getIndex(pieces: number[]): number;
-
-  abstract getPieces(index: number): number[];
-
-  abstract doCubieMove(pieces: number[], move: number): number[];
+  abstract doCubieMove(index: number, move: number): number;
 
   abstract getDefaultIndex(): number;
 
@@ -74,7 +70,7 @@ export abstract class AbstractMoveTable implements MoveTable {
       for (const move of this.getMoves()) {
         if (!this.table[i][move]) {
           // Assign both the value and its inverse at once to avoid excess computation on the cubie level.
-          const result = this.getIndex(this.doCubieMove(this.getPieces(i), move));
+          const result = this.doCubieMove(i, move);
           const inverse = getInverseMove(move);
           this.table[i][move] = result;
           this.table[result][inverse] = i;
@@ -83,6 +79,56 @@ export abstract class AbstractMoveTable implements MoveTable {
     }
 
     this.initialized = true;
+  }
+}
+
+export class JointEdgeTable extends AbstractMoveTable {
+  private affectedPermutation: number[];
+  private affectedOrientation: number[];
+  private moves: number[];
+
+  constructor(name: string, affectedPermutation: number[], affectedOrientation: number[], moves = allMoves) {
+    super(name);
+
+    this.affectedPermutation = affectedPermutation;
+    this.affectedOrientation = affectedOrientation;
+    this.moves = moves;
+
+    this.initialize();
+  }
+
+  getSize(): number {
+    return factorial(12) / factorial(12 - this.affectedPermutation.length) * (2 ** this.affectedOrientation.length);
+  }
+
+  getMoves(): number[] {
+    return this.moves;
+  }
+
+  doCubieMove(index: number, move: number): number {
+    const base = 2 ** (this.affectedOrientation.length - 1);
+
+    const permutation = getPermutationFromIndex(Math.floor(index / base), this.affectedPermutation, 12);
+    const newPermutation = edgePermutationMove(permutation, move);
+
+    const affected = getOrientationFromIndex(index % base, this.affectedOrientation.length, 2);
+    const orientation = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (let i = 0; i < this.affectedOrientation.length; i += 1) {
+      orientation[permutation.indexOf(this.affectedOrientation[i])] = affected[i];
+    }
+    const newOrientation = edgeOrientationMove(orientation, move);
+    const newAffected = this.affectedOrientation.map(piece => newOrientation[newPermutation.indexOf(piece)]);
+
+    return base * getIndexFromPermutation(newPermutation, this.affectedPermutation) 
+      + getIndexFromOrientation(newAffected, 2);
+  }
+
+  getDefaultIndex(): number {
+    return (2 ** (this.affectedOrientation.length - 1)) * getIndexFromPermutation([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], this.affectedPermutation) + 0;
+  }
+
+  getSolvedIndices(): number[] {
+    return [this.getDefaultIndex()];
   }
 }
 
@@ -117,8 +163,8 @@ export class EdgePermutationTable extends AbstractMoveTable {
     return getPermutationFromIndex(index, this.affected, 12, this.reversed);
   }
 
-  doCubieMove(pieces: number[], move: number): number[] {
-    return edgePermutationMove(pieces, move);
+  doCubieMove(index: number, move: number): number {
+    return this.getIndex(edgePermutationMove(this.getPieces(index), move));
   }
 
   getDefaultIndex(): number {
@@ -161,8 +207,8 @@ export class CornerPermutationTable extends AbstractMoveTable {
     return getPermutationFromIndex(index, this.affected, 8, this.reversed);
   }
 
-  doCubieMove(pieces: number[], move: number): number[] {
-    return cornerPermutationMove(pieces, move);
+  doCubieMove(index: number, move: number): number {
+    return this.getIndex(cornerPermutationMove(this.getPieces(index), move));
   }
 
   getDefaultIndex(): number {
@@ -219,8 +265,8 @@ export class EdgeOrientationTable extends AbstractMoveTable {
     return getOrientationFromIndex(index, 12, 2);
   }
 
-  doCubieMove(pieces: number[], move: number): number[] {
-    return edgeOrientationMove(pieces, move);
+  doCubieMove(index: number, move: number): number {
+    return this.getIndex(edgeOrientationMove(this.getPieces(index), move));
   }
 
   getDefaultIndex(): number {
@@ -259,8 +305,8 @@ export class CornerOrientationTable extends AbstractMoveTable {
     return getOrientationFromIndex(index, 8, 3);
   }
 
-  doCubieMove(pieces: number[], move: number): number[] {
-    return cornerOrientationMove(pieces, move);
+  doCubieMove(index: number, move: number): number {
+    return this.getIndex(cornerOrientationMove(this.getPieces(index), move));
   }
 
   getDefaultIndex(): number {
