@@ -3,9 +3,7 @@ import {
   getOrientationFromIndex,
   getParity,
 } from '../coordinates';
-
 import { getRandomInt, factorial, rotateParts } from '../tools';
-
 import { solveCoordinates } from '../solvers/kociemba';
 
 const UPPER_FACE_POSITIONS = [0, 1, 2, 3];

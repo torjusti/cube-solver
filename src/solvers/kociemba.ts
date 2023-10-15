@@ -4,10 +4,8 @@ import {
   getIndexFromOrientation,
   getParity,
 } from '../coordinates';
-
 import { allMoves } from '../cube';
 import { CornerOrientationTable, CornerPermutationTable, EdgeOrientationTable, EdgePermutationTable, MoveTable } from '../MoveTable';
-
 import Search from '../Search';
 
 // In phase two, only quarter moves of U and D and double turns of

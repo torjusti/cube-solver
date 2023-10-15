@@ -1,12 +1,10 @@
 import { getInverseMove } from './algorithms';
-
 import {
   getPermutationFromIndex,
   getIndexFromPermutation,
   getOrientationFromIndex,
   getIndexFromOrientation,
 } from './coordinates';
-
 import {
   edgePermutationMove,
   cornerPermutationMove,
@@ -14,7 +12,6 @@ import {
   cornerOrientationMove,
   allMoves,
 } from './cube';
-
 import { factorial } from './tools';
 
 export interface MoveTable {

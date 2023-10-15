@@ -1,10 +1,6 @@
 import { MoveTable } from './MoveTable';
 import { cartesian } from './tools';
 
-/**
- * A pruning table gives a lower bound on the number of moves
- * required to reach a target state.
- */
 class PruningTable {
   private powers: number[];
   private table: number[];
