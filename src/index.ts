@@ -14,8 +14,12 @@ import getPLLscramble from './scramblers/pll';
 import getZBLLScramble from './scramblers/zbll';
 import getZZLSScramble from './scramblers/zzls';
 
+type Scrambler = '3x3' | '2gll' | 'cmll' | 'corners' | 'edges' | 'lse' | 'lsll' | 'pll' | 'zbll' | 'zzls';
+
+type Solver = 'kociemba' | 'cross' | 'eoline' | 'fb' | 'xcross';
+
 export default {
-  solve: (scramble, solver = 'kociemba') => {
+  solve: (scramble: string, solver: Solver = 'kociemba'): string => {
     const solvers = {
       kociemba,
       cross: crossSolver,
@@ -31,7 +35,7 @@ export default {
     throw new Error('Specified solver does not exist.');
   },
 
-  scramble: (scrambler = '3x3') => {
+  scramble: (scrambler: Scrambler = '3x3'): string => {
     const scramblers = {
       '3x3': get3x3Scramble,
       '2gll': get2GLLScramble,
@@ -52,7 +56,7 @@ export default {
     throw new Error('Specified scrambler does not exist.');
   },
 
-  initialize: (solver) => {
+  initialize: (solver: Solver): void => {
     const search = {
       cross: CrossSearch,
       eoline: EOLineSearch,

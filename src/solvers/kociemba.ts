@@ -4,15 +4,8 @@ import {
   getIndexFromOrientation,
   getParity,
 } from '../coordinates';
-
-import {
-  MoveTable,
-  createEdgePermutationTable,
-  createCornerPermutationTable,
-  createEdgeOrientationTable,
-  createCornerOrientationTable,
-} from '../MoveTable';
-
+import { allMoves } from '../cube';
+import { CornerOrientationTable, CornerPermutationTable, EdgeOrientationTable, EdgePermutationTable, MoveTable } from '../MoveTable';
 import Search from '../Search';
 
 // In phase two, only quarter moves of U and D and double turns of
@@ -21,10 +14,20 @@ import Search from '../Search';
 const phaseTwoMoves = [1, 10, 4, 13, 6, 7, 8, 15, 16, 17];
 
 // The following tables are being used in both phases.
-let parity;
-let URFToDLF;
-let slice;
-let merge;
+let parity: MoveTable;
+let URFToDLF: MoveTable;
+let slice: EdgePermutationTable;
+let merge: number[][];
+
+class URToDFTable extends EdgePermutationTable {
+  constructor(name: string) {
+    super(name, [0, 1, 2, 3, 4, 5], phaseTwoMoves);
+  }
+
+  getSize(): number {
+    return 20160;
+  }
+}
 
 /**
  * Initialize the tables used in phase one of the solver.
@@ -35,7 +38,7 @@ const phaseTwoTables = () => {
   // Since returning to the cubie level to perform the solution
   // would be slow, we use two helper tables in phase one which
   // later are merged into the final phase two coordinate.
-  const getMergeCoord = (x, y) => {
+  const getMergeCoord = (x: number, y: number) => {
     const a = getPermutationFromIndex(x, [0, 1, 2], 12);
     const b = getPermutationFromIndex(y, [3, 4, 5], 12);
 
@@ -68,21 +71,12 @@ const phaseTwoTables = () => {
     moveTables: [
       // The permutation of the slice pices, which already
       // are in the correct positions on the cube.
-      new MoveTable({
-        name: 'slicePermutation',
-        size: 24,
-        table: slice.table,
-      }),
+      new InlineMoveTable('slicePermutation', slice.table.slice(0, 24)),
 
       parity,
       URFToDLF,
 
-      createEdgePermutationTable({
-        name: 'URToDF',
-        size: 20160,
-        moves: phaseTwoMoves,
-        affected: [0, 1, 2, 3, 4, 5],
-      }),
+      new URToDFTable('URToDF'),
     ],
 
     pruningTables: [
@@ -94,27 +88,58 @@ const phaseTwoTables = () => {
 
 export const phaseTwo = new Search(phaseTwoTables, phaseTwoMoves);
 
+class InlineMoveTable implements MoveTable {
+  protected table: number[][];
+  private name: string;
+
+  constructor(name: string, table: number[][]) {
+    this.name = name;
+    this.table = table;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getSize(): number {
+    return this.table.length;
+  }
+
+  doMove(index: number, move: number): number {
+    return this.table[index][move];
+  }
+
+  getDefaultIndex(): number {
+    return 0;
+  }
+
+  getSolvedIndices(): number[] {
+    return [0];
+  }
+}
+
+class SlicePositionTable extends InlineMoveTable {
+  getSize(): number {
+    return 495;
+  }
+
+  doMove(index: number, move: number): number {
+    return Math.floor(this.table[index * 24][move] / 24)
+  }
+}
+
 const phaseOneTables = () => {
   // The parity move table is so small that we inline it. It
   // describes the parity of both the edge and corner pieces,
   // which must be equal for the cube to be solvable. The
   // coordinate is included in both phases, but only used
   // in phase two.
-  parity = new MoveTable({
-    name: 'parity',
+  parity = new InlineMoveTable('parity', [
+    [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
+    [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
+  ]);
 
-    size: 2,
-
-    table: [
-      [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
-      [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
-    ],
-  });
-
-  URFToDLF = createCornerPermutationTable({
-    name: 'URFToDLF',
-    affected: [0, 1, 2, 3, 4, 5],
-  });
+  URFToDLF = new CornerPermutationTable('URFToDLF', [0, 1, 2, 3, 4, 5]);
 
   // This table is not used directly. This coordinate modulo 24 gives the
   // permutation of the subarray containing the UD-slice pieces, while this
@@ -123,11 +148,7 @@ const phaseOneTables = () => {
   // position of the UD-slice pieces in phase one, and one to solve the
   // pieces in phase two. Due to the reduced move set in phase two, the pruning
   // table for this coordinate is smaller than it would normally be.
-  slice = createEdgePermutationTable({
-    name: 'slice',
-    affected: [8, 9, 10, 11],
-    reversed: true,
-  });
+  slice = new EdgePermutationTable('slice', [8, 9, 10, 11], allMoves, true);
 
   // Initialize phase two, since it now is guaranteed that the
   // heper move tables have finished generating.
@@ -135,39 +156,22 @@ const phaseOneTables = () => {
 
   return {
     moveTables: [
-      new MoveTable({
-        // The position of the slice edges. When this coordinate is
-        // solved, the UD-slice pieces are in the UD-slice, but they
-        // are not necessarily permuted.
-        name: 'slicePosition',
-        size: 495,
-        table: slice.table,
-        doMove: (table, index, move) => Math.floor(table[index * 24][move] / 24),
-      }),
+      // The position of the slice edges. When this coordinate is
+      // solved, the UD-slice pieces are in the UD-slice, but they
+      // are not necessarily permuted.
+      new SlicePositionTable('slicePosition', slice.table),
 
-      createCornerOrientationTable({
-        name: 'twist',
-        affected: [0, 1, 2, 3, 4, 5, 6, 7],
-      }),
+      new CornerOrientationTable('twist', [0, 1, 2, 3, 4, 5, 6, 7]),
 
-      createEdgeOrientationTable({
-        name: 'flip',
-        affected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-      }),
+      new EdgeOrientationTable('flip', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
 
       slice,
       parity,
       URFToDLF,
 
-      createEdgePermutationTable({
-        name: 'URToUL',
-        affected: [0, 1, 2],
-      }),
+      new EdgePermutationTable('URToUL', [0, 1, 2]),
 
-      createEdgePermutationTable({
-        name: 'UBToDF',
-        affected: [3, 4, 5],
-      }),
+      new EdgePermutationTable('UBToDF', [3, 4, 5]),
     ],
 
     pruningTables: [['slicePosition', 'flip'], ['slicePosition', 'twist']],
@@ -175,14 +179,17 @@ const phaseOneTables = () => {
 };
 
 class PhaseOneSearch extends Search {
-  constructor(...args) {
-    super(...args);
+  private solution: number[];
+  private maxDepth = 22;
+  private depth = 22;
 
-    this.maxDepth = 22;
+  constructor(createTables: () => { moveTables: MoveTable[], pruningTables: string[][] }, moves = allMoves) {
+    super(createTables, moves);
+
     this.solution = null;
   }
 
-  handleSolution(solution, indexes) {
+  handleSolution(solution: number[], indices: number[]) {
     const lastMove = solution.slice(-1)[0];
 
     // We do not allow solutions which end in a phase two move, as we then
@@ -195,32 +202,30 @@ class PhaseOneSearch extends Search {
       return false;
     }
 
-    const phaseTwoSolution = phaseTwo.solve({
-      indexes: [
-        indexes[3],
-        indexes[4],
-        indexes[5],
-        merge[indexes[6]][indexes[7]],
+    const phaseTwoSolution = phaseTwo.solve(
+      [
+        indices[3],
+        indices[4],
+        indices[5],
+        merge[indices[6]][indices[7]],
       ],
 
-      maxDepth: this.maxDepth - solution.length,
+      this.depth - solution.length,
 
       lastMove,
-
-      format: false,
-    });
+    );
 
     if (phaseTwoSolution) {
       this.solution = solution.concat(phaseTwoSolution.solution);
 
-      if (this.maxDepth <= this.settings.maxDepth) {
+      if (this.depth <= this.maxDepth) {
         return {
           solution: this.solution,
-          indexes,
+          indices,
         };
       }
 
-      this.maxDepth = this.solution.length - 1;
+      this.depth = this.solution.length - 1;
     }
 
     return false;
@@ -229,23 +234,17 @@ class PhaseOneSearch extends Search {
 
 export const phaseOne = new PhaseOneSearch(phaseOneTables);
 
-const kociemba = (scramble, maxDepth = 22) => {
+const kociemba = (scramble: number[] | string) => {
   if (Array.isArray(scramble)) {
-    return phaseOne.solve({
-      indexes: scramble,
-      maxDepth,
-    });
+    return phaseOne.solve(scramble).formatted;
   }
 
-  return phaseOne.solve({
-    scramble,
-    maxDepth,
-  });
+  return phaseOne.solve(scramble).formatted;
 };
 
 export default kociemba;
 
-export const solveCoordinates = (eo, ep, co, cp) => kociemba([
+export const solveCoordinates = (eo: number[], ep: number[], co: number[], cp: number[]) => kociemba([
   Math.floor(getIndexFromPermutation(ep, [8, 9, 10, 11], true) / 24),
   getIndexFromOrientation(co, 3),
   getIndexFromOrientation(eo, 2),

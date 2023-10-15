@@ -9,7 +9,7 @@ describe('cube', () => {
     let eo = Array(12).fill(0);
 
     for (let i = 0; i < 2; i += 1) {
-      eo = cube.edgeOrientationMove(eo);
+      eo = cube.edgeOrientationMove(eo, 0);
     }
 
     expect(eo).toMatchSnapshot();

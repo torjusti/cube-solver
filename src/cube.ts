@@ -57,7 +57,7 @@ const cornerMoves = [
  * Helper function to perform a corner or edge permutation move
  * to the given permutation vector.
  */
-const permutationMove = (pieces, moveIndex, moves) => {
+const permutationMove = (pieces: number[], moveIndex: number, moves: number[][]) => {
   let updated = pieces;
   const move = moves[Math.floor(moveIndex / 3)];
   const pow = moveIndex % 3;
@@ -72,17 +72,17 @@ const permutationMove = (pieces, moveIndex, moves) => {
 /**
  * Perform a move to an edge permutaion vector.
  */
-export const edgePermutationMove = (pieces, moveIndex) => permutationMove(pieces, moveIndex, edgeMoves);
+export const edgePermutationMove = (pieces: number[], moveIndex: number) => permutationMove(pieces, moveIndex, edgeMoves);
 
 /**
  * Perform a move to a corner permuttaion vector.
  */
-export const cornerPermutationMove = (pieces, moveIndex) => permutationMove(pieces, moveIndex, cornerMoves);
+export const cornerPermutationMove = (pieces: number[], moveIndex: number) => permutationMove(pieces, moveIndex, cornerMoves);
 
 /**
  * Perform a move to an edge orientation vector.
  */
-export const edgeOrientationMove = (pieces, moveIndex) => {
+export const edgeOrientationMove = (pieces: number[], moveIndex: number) => {
   const moveNumber = Math.floor(moveIndex / 3);
   const move = edgeMoves[moveNumber];
   const pow = moveIndex % 3;
@@ -102,7 +102,7 @@ export const edgeOrientationMove = (pieces, moveIndex) => {
 /**
  * Perform a move to a corner orientation vector.
  */
-export const cornerOrientationMove = (pieces, moveIndex) => {
+export const cornerOrientationMove = (pieces: number[], moveIndex: number) => {
   const moveNumber = Math.floor(moveIndex / 3);
   const move = cornerMoves[moveNumber];
   const pow = moveIndex % 3;
@@ -131,7 +131,7 @@ export const identity = {
 /**
  * Performs an algorithm to a cube on the cubie level.
  */
-export const doAlgorithm = (algorithm, cube = identity) => {
+export const doAlgorithm = (algorithm: string, cube = identity) => {
   let ep = cube.ep.slice();
   let eo = cube.eo.slice();
   let cp = cube.cp.slice();
