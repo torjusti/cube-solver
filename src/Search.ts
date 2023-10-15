@@ -122,6 +122,10 @@ class Search {
 
       moves.forEach((move) => {
         for (let i = 0; i < indices.length; i += 1) {
+          if (!this.moves.includes(move)) {
+            throw new Error('Scramble contains move not in set of allowed moves');
+          }
+
           indices[i] = this.moveTables[i].doMove(indices[i], move);
         }
       });
