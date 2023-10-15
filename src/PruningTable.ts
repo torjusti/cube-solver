@@ -67,7 +67,7 @@ class PruningTable {
     // are solved, and we loop through the correct indices and apply all 18 moves
     // to the correct states. Then we visit all positions at depth 2, and apply
     // the 18 moves, and so on.
-    while (done !== size) {
+    while (done < size && depth <= 20) {
       // When half the table is generated, we switch to a backward search
       // where we apply the 18 moves to all empty entries. If the result
       // is a position which corresponds to the previous depth, we set the
@@ -86,7 +86,7 @@ class PruningTable {
 
             for (let i = this.powers.length - 1; i >= 0; i -= 1) {
               position += this.powers[i] * moveTables[i].doMove(Math.floor(currentIndex / this.powers[i]), move);
-              currentIndex %=this. powers[i];
+              currentIndex %= this.powers[i];
             }
 
             if (this.getPruningValueForIndex(position) === check) {
