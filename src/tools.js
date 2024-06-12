@@ -75,8 +75,6 @@ export const cartesian = (arg) => {
 // Ger a random integer in the provided range, inclusive.
 export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-export const permute = (n, r) => factorial(n) / factorial(n - r);
-
 /**
  * Rotates the subarray containing the affected pieces
  * to the right by one.

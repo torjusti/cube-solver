@@ -15,7 +15,7 @@ import { solveCoordinates } from '../solvers/kociemba';
  * of the cube. This guarantees valid orientations, but we have to
  * ensure the parity of the generated cube is valid.
  */
-const getRandomScramble = () => {
+const getRandomScramble = (settings) => {
   let eo;
   let ep;
   let co;
@@ -39,7 +39,7 @@ const getRandomScramble = () => {
     );
   } while (getParity(ep) !== getParity(cp));
 
-  return solveCoordinates(eo, ep, co, cp);
+  return solveCoordinates(eo, ep, co, cp, settings);
 };
 
 export default getRandomScramble;

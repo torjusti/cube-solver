@@ -9,7 +9,9 @@ const CORNERS = [
   Corners.DFR,
 ];
 
-const getScramble = () => getScrambleForPieces(
+const getScramble = (settings) => getScrambleForPieces(
+  settings,
+
   [Edges.UR, Edges.UF, Edges.UL, Edges.UB, Edges.FR],
 
   CORNERS,

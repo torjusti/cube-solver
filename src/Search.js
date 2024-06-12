@@ -1,6 +1,8 @@
 import { parseAlgorithm, formatAlgorithm, invertAlgorithm } from './algorithms';
 import PruningTable from './PruningTable';
 import { allMoves } from './cube';
+import { getPermutationFromIndex } from './coordinates';
+import { factorial, getRandomInt } from './tools';
 
 class Search {
   constructor(createTables, moves = allMoves) {
@@ -48,7 +50,7 @@ class Search {
     };
   }
 
-  search(indexes, depth, lastMove, solution) {
+  search(indexes, depth, lastMove, solution, randomize) {
     let minimumDistance = 0;
 
     for (let i = 0; i < this.pruningTables.length; i += 1) {
@@ -78,8 +80,14 @@ class Search {
     }
 
     if (depth > 0) {
-      for (let i = 0; i < this.moves.length; i += 1) {
-        const move = this.moves[i];
+      const moves = randomize ? getPermutationFromIndex(
+        getRandomInt(0, factorial(this.moves.length)),
+        this.moves.slice(0),
+        this.moves.length,
+      ) : this.moves;
+
+      for (let i = 0; i < moves.length; i += 1) {
+        const move = moves[i];
 
         if (Math.floor(move / 3) !== Math.floor(lastMove / 3) && Math.floor(move / 3) !== Math.floor(lastMove / 3) - 3) {
           const updatedIndexes = [];
@@ -103,10 +111,13 @@ class Search {
   solve(settings) {
     this.initialize();
 
-    this.settings = { maxDepth: 22, // For the Kociemba solver.
+    this.settings = { 
+      maxDepth: 22, // For the Kociemba solver.
       lastMove: null,
       format: true,
-      ...settings };
+      randomize: false,
+      ...settings,
+    };
 
     const indexes = this.settings.indexes || [];
 
@@ -131,7 +142,7 @@ class Search {
     }
 
     for (let depth = 0; depth <= this.settings.maxDepth; depth += 1) {
-      const solution = this.search(indexes, depth, this.settings.lastMove, []);
+      const solution = this.search(indexes, depth, this.settings.lastMove, [], this.settings.randomize);
 
       if (solution) {
         if (this.settings.format) {

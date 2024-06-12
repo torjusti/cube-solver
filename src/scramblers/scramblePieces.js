@@ -65,6 +65,7 @@ export const adjustUpperFace = (pieces, amount) => {
  * for the provided edges and corners, which will be scrambled randomly.
  */
 export const getScrambleForPieces = (
+  settings,
   permutationEdges,
   permutationCorners,
   orientationEdges = permutationEdges,
@@ -95,7 +96,7 @@ export const getScrambleForPieces = (
     }
   } while (getParity(ep) !== getParity(cp));
 
-  return solveCoordinates(eo, ep, co, cp);
+  return solveCoordinates(eo, ep, co, cp, settings);
 };
 
 export default getScrambleForPieces;
